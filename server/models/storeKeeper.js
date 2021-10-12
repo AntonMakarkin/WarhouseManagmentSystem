@@ -17,7 +17,7 @@ const storeKeeperSchema = new mongoose.Schema({
         lowercase: true,
         validate(value) {
             if(!validator.isEmail(value)){
-                throw new Error('Email некорректен')
+                throw new Error('Email некорректен');
             }
         }
     },
@@ -30,9 +30,24 @@ const storeKeeperSchema = new mongoose.Schema({
             if (value.toLowerCase().includes('password') || 
                 value.toLowerCase().includes('пароль')) 
             {
-                throw new Error('Пароль не может содержать слово "пароль"')
+                throw new Error('Пароль не может содержать слово "пароль"');
             }
         }
+    },
+    phone: {
+        type: String,
+        required: true,
+        minlength: 11,
+        trim: true,
+        validate(value) {
+            if (!validator.isMobilePhone(value, ['ru-RU'])) {
+                throw new Error('Неккоректный номер телефона');
+            }
+        }
+    },
+    role: {
+        type: String,
+        default: 'storekeeper'
     },
     tokens: [{
         token: {
@@ -72,13 +87,13 @@ storeKeeperSchema.statics.findByCredentials = async (email, password) => {
     const user = await StoreKeeper.findOne({ email });
 
     if (!user) {
-        throw new Error('Неверный логин или пароль')
+        throw new Error('Неверный логин или пароль');
     };
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-        throw new Error('Неверный логин или пароль')
+        throw new Error('Неверный логин или пароль');
     };
 
     return user;
@@ -89,12 +104,12 @@ storeKeeperSchema.pre('save', async function (next) {
     const user = this;
 
     if (user.isModified('password')) {
-        user.password = await bcrypt.hash(user.password, 8)
+        user.password = await bcrypt.hash(user.password, 8);
     }
 
     next() //middleware function is finished
 })
 
-const StoreKeeper = mongoose.model('StoreKeeper', storeKeeperSchema)
+const StoreKeeper = mongoose.model('StoreKeeper', storeKeeperSchema);
 
-export default StoreKeeper;
+module.exports = StoreKeeper;

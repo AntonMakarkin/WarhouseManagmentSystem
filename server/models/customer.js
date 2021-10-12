@@ -3,7 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 
-const courierSchema = new mongoose.Schema({
+const customerSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -14,9 +14,10 @@ const courierSchema = new mongoose.Schema({
         unique: true,
         required: true,
         trim: true,
+        lowercase: true,
         validate(value) {
-            if (!validator.isEmail(value)) {
-                throw new Error('Неккоректный email');
+            if(!validator.isEmail(value)){
+                throw new Error('Email некорректен');
             }
         }
     },
@@ -27,7 +28,7 @@ const courierSchema = new mongoose.Schema({
         trim: true,
         validate(value) {
             if (value.toLowerCase().includes('password') || 
-                value.toLowerCase().includes('пароль'))
+                value.toLowerCase().includes('пароль')) 
             {
                 throw new Error('Пароль не может содержать слово "пароль"');
             }
@@ -46,7 +47,7 @@ const courierSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: 'courier'
+        default: 'customer'
     },
     tokens: [{
         token: {
@@ -61,7 +62,7 @@ const courierSchema = new mongoose.Schema({
     timestamps: true
 });
 
-courierSchema.methods.toJSON = function () {
+customerSchema.methods.toJSON = function () {
     const user = this;
     const userObject = user.toObject();
 
@@ -70,9 +71,9 @@ courierSchema.methods.toJSON = function () {
     delete userObject.avatar;
 
     return userObject;
-}
+};
 
-courierSchema.methods.generateAuthToken = async function () {
+customerSchema.methods.generateAuthToken = async function () {
     const user = this;
     const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
 
@@ -80,10 +81,10 @@ courierSchema.methods.generateAuthToken = async function () {
     await user.save();
 
     return token;
-}
+};
 
-courierSchema.statics.findByCredentials = async (email, password) => {
-    const user = await Courier.findOne({ email });
+customerSchema.statics.findByCredentials = async (email, password) => {
+    const user = await StoreKeeper.findOne({ email });
 
     if (!user) {
         throw new Error('Неверный логин или пароль');
@@ -92,23 +93,12 @@ courierSchema.statics.findByCredentials = async (email, password) => {
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-        throw new Error('Неверный логин или пароль'); 
+        throw new Error('Неверный логин или пароль');
     };
 
     return user;
 };
 
-// Hash the plain text password before saving
-courierSchema.pre('save', async function(next) {
-    const user = this;
+const Customer = mongoose.model('Customer', customerSchema);
 
-    if (user.isModified('password')) {
-        user.password = await bcrypt.hash(user.password, 8);
-    }
-
-    next() //middleware function is finished
-});
-
-const Courier = mongoose.model('Courier', courierSchema);
-
-module.exports = Courier;
+module.exports = Customer;
