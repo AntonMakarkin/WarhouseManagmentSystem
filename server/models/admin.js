@@ -36,11 +36,11 @@ const adminSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
-        required: false,
+        default: '84992027450',
         minlength: 11,
         trim: true,
         validate(value) {
-            if (!validator.isMobilePhone(value, ['ru-RU'])) {
+            if (!validator.isMobilePhone(value)) {
                 throw new Error('Неккоректный номер телефона');
             }
         }
@@ -52,7 +52,7 @@ const adminSchema = new mongoose.Schema({
     position: {
         type: String,
         trim: true,
-        required: false
+        default: ''
     },
     tokens: [{
         token: {
@@ -89,7 +89,7 @@ adminSchema.methods.generateAuthToken = async function () {
 };
 
 adminSchema.statics.findByCredentials = async (email, password) => {
-    const user = await StoreKeeper.findOne({ email });
+    const user = await Admin.findOne({ email });
 
     if (!user) {
         throw new Error('Пользователь не найден');
