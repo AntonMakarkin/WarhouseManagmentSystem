@@ -37,6 +37,7 @@ const adminSchema = new mongoose.Schema({
     phone: {
         type: String,
         default: '84992027450',
+        unique: true,
         minlength: 11,
         trim: true,
         validate(value) {
@@ -47,6 +48,8 @@ const adminSchema = new mongoose.Schema({
     },
     role: {
         type: String,
+        trim: true,
+        minlength: 5,
         defailt: 'admin'
     },
     position: {

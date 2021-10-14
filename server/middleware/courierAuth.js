@@ -15,7 +15,7 @@ const courierAuth = async (req, res, next) => {
         req.user = user; //send information to the root handler
         next();
     } catch (e) {
-        res.status(401).send({ error: 'Пожалуйста авторизуйтесь' });
+        res.status(401).send({ error: 'Пожалуйста авторизуйтесь в качестве курьера' });
     }
 };
 

@@ -14,6 +14,7 @@ const courierSchema = new mongoose.Schema({
         unique: true,
         required: true,
         trim: true,
+        lowercase: true,
         validate(value) {
             if (!validator.isEmail(value)) {
                 throw new Error('Неккоректный email');
@@ -35,18 +36,21 @@ const courierSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
+        default: '84992027550',
+        unique: true,
         required: true,
         minlength: 11,
         trim: true,
         validate(value) {
-            if (!validator.isMobilePhone(value, ['ru-RU'])) {
+            if (!validator.isMobilePhone(value)) {
                 throw new Error('Неккоректный номер телефона');
             }
         }
     },
     role: {
         type: String,
-        default: 'courier'
+        default: 'courier',
+        minlength: 5
     },
     tokens: [{
         token: {

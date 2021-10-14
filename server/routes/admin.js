@@ -23,14 +23,14 @@ const upload = multer({
 
 //users routes
 router.post('/admin', async (req, res) => {
-    const { name, email, password, phone, role, position } = req.body; 
+    const { name, email, password, phone, position } = req.body;
+    const role = 'admin' 
 
     const user = new Admin({ name, email, password, phone, role, position });
 
     try {
         await user.save();
-        const token = await user.generateAuthToken();
-        res.status(201).send({ user, token });
+        res.status(201).send(user);
     } catch (e) {
         res.status(400).send(e);
     }
@@ -104,6 +104,31 @@ router.post('/admin/me/avatar', adminAuth, upload.single('avatar'), async (req, 
     res.send();
 }, (error, req, res, next) => {
     res.status(400).send({ error: error.message });
+});
+
+router.delete('/admin/me/avatar', adminAuth, async (req, res) => {
+    try {
+        req.user.avatar = undefined;
+        await req.user.save();
+        res.send();
+    } catch (e) {
+        res.status(500).send();
+    }
+});
+
+router.get('/admin/:id/avatar', async (req, res) => {
+    try {
+        const user = await Admin.findById(req.params.id);
+
+        if (!user || !user.avatar) {
+            throw new Error();
+        }
+
+        res.set('Content-Type', 'image/png');
+        res.send(user.avatar);
+    } catch (e) {
+        res.status(404).send();
+    }
 })
 
 module.exports = router;
