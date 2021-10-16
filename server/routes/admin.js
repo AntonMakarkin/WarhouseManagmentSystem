@@ -1,7 +1,8 @@
 const express = require('express');
 const Admin = require('../models/admin');
-const adminAuth = require('../middleware/adminAuth');
-const courierAuth = require('../middleware/courierAuth')
+const auth = require('../middleware/auth');
+//const adminAuth = require('../middleware/adminAuth');
+//const courierAuth = require('../middleware/courierAuth')
 const multer = require('multer');
 const sharp = require('sharp');
 
@@ -47,7 +48,7 @@ router.post('/admin/login', async (req, res) => {
     }
 });
 
-router.post('/admin/logout', adminAuth, async (req, res) => {
+router.post('/admin/logout', auth(Admin), async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter(token => {
             return token.token !== req.token; //to remove token which we used for authentication
@@ -60,7 +61,7 @@ router.post('/admin/logout', adminAuth, async (req, res) => {
     }
 });
 
-router.post('/admin/logoutAll', adminAuth, async (req, res) => {
+router.post('/admin/logoutAll', auth(Admin), async (req, res) => {
     try {
         req.user.tokens = [];
         await req.user.save();
@@ -71,7 +72,7 @@ router.post('/admin/logoutAll', adminAuth, async (req, res) => {
     }
 });
 
-router.get('/admin/me', adminAuth, async (req, res) => {
+router.get('/admin/me', auth(Admin), async (req, res) => {
     try {
         res.send(req.user);
     } catch (e) {
@@ -79,7 +80,7 @@ router.get('/admin/me', adminAuth, async (req, res) => {
     }
 });
 
-router.patch('/admin/me', adminAuth, async (req, res) => {
+router.patch('/admin/me', auth(Admin), async (req, res) => {
     const updates = Object.keys(req.body); //return array of properties
     const allowedUpdates = ['name', 'email', 'password', 'phone', 'position'];
     const isValidOperation = updates.every(update => allowedUpdates.includes(update));
@@ -97,7 +98,7 @@ router.patch('/admin/me', adminAuth, async (req, res) => {
     }
 });
 
-router.post('/admin/me/avatar', adminAuth, upload.single('avatar'), async (req, res) => {
+router.post('/admin/me/avatar', auth(Admin), upload.single('avatar'), async (req, res) => {
     const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
     req.user.avatar = buffer;
     await req.user.save();
@@ -106,7 +107,7 @@ router.post('/admin/me/avatar', adminAuth, upload.single('avatar'), async (req, 
     res.status(400).send({ error: error.message });
 });
 
-router.delete('/admin/me/avatar', adminAuth, async (req, res) => {
+router.delete('/admin/me/avatar', auth(Admin), async (req, res) => {
     try {
         req.user.avatar = undefined;
         await req.user.save();

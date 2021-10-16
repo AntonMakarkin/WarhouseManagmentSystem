@@ -55,7 +55,15 @@ router.post('/couriers/logoutAll', courierAuth, async (req, res) => {
 });
 
 router.get('/couriers/me', courierAuth, async (req, res) => {
-    res.send(req.user)
+    res.send(req.user);
+});
+
+router.get('/couriers', adminAuth, async (req, res) => {
+    try {
+
+    } catch (e) {
+        
+    }
 })
 
 
