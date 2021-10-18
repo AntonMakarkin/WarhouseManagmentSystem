@@ -1,7 +1,9 @@
 const express = require('express');
 const Courier = require('../models/courier');
+const Admin = require('../models/admin');
 const adminAuth = require('../middleware/adminAuth');
 const courierAuth = require('../middleware/courierAuth');
+const auth = require('../middleware/auth');
 const multer = require('multer');
 const sharp = require('sharp');
 
@@ -30,7 +32,7 @@ router.post('/couriers/login', async (req, res) => {
     }
 });
 
-router.post('/couriers/logout', courierAuth, async (req, res) => {
+router.post('/couriers/logout', auth([Courier]), async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter(token => {
             return token.token !== req.token //to remove current token           
@@ -43,7 +45,7 @@ router.post('/couriers/logout', courierAuth, async (req, res) => {
     }
 });
 
-router.post('/couriers/logoutAll', courierAuth, async (req, res) => {
+router.post('/couriers/logoutAll', auth([Courier]), async (req, res) => {
     try {
         req.user.tokens = [];
         await req.user.save();
@@ -54,15 +56,21 @@ router.post('/couriers/logoutAll', courierAuth, async (req, res) => {
     }
 });
 
-router.get('/couriers/me', courierAuth, async (req, res) => {
+router.get('/couriers/me', auth([Courier]), async (req, res) => {
     res.send(req.user);
 });
 
-router.get('/couriers', adminAuth, async (req, res) => {
+router.get('/couriers/:id', auth([Admin, Courier]), async (req, res) => {
     try {
+        const user = await Courier.findById(req.params.id);
 
+        if (!user) {
+            throw new Error('Пользователь с данным id не найден!')
+        }
+
+        res.send(user)
     } catch (e) {
-        
+        res.status(404).send();
     }
 })
 

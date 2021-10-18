@@ -48,7 +48,7 @@ router.post('/admin/login', async (req, res) => {
     }
 });
 
-router.post('/admin/logout', auth(Admin), async (req, res) => {
+router.post('/admin/logout', auth([Admin]), async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter(token => {
             return token.token !== req.token; //to remove token which we used for authentication
@@ -61,7 +61,7 @@ router.post('/admin/logout', auth(Admin), async (req, res) => {
     }
 });
 
-router.post('/admin/logoutAll', auth(Admin), async (req, res) => {
+router.post('/admin/logoutAll', auth([Admin]), async (req, res) => {
     try {
         req.user.tokens = [];
         await req.user.save();
