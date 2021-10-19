@@ -1,8 +1,8 @@
 const express = require('express');
-const Courier = require('../models/courier');
-const Admin = require('../models/admin');
-const adminAuth = require('../middleware/adminAuth');
-const courierAuth = require('../middleware/courierAuth');
+const mongoose = require('mongoose');
+const Courier = require('../models/users/courier');
+const Admin = require('../models/users/admin');
+const StoreKeeper = require('../models/users/storeKeeper');
 const auth = require('../middleware/auth');
 const multer = require('multer');
 const sharp = require('sharp');
@@ -10,7 +10,7 @@ const sharp = require('sharp');
 const router = new express.Router();
 
 //user routes
-router.post('/couriers', adminAuth, async (req, res) => {
+router.post('/couriers', auth([Admin]), async (req, res) => {
     const courier = new Courier(req.body);
 
     try {
@@ -60,19 +60,103 @@ router.get('/couriers/me', auth([Courier]), async (req, res) => {
     res.send(req.user);
 });
 
-router.get('/couriers/:id', auth([Admin, Courier]), async (req, res) => {
+router.patch('/couriers/me', auth([Courier]), async (req, res) => {
+    const updates = Object.keys(req.body); //return array of properties
+    const allowedUpdates = ['name', 'email', 'password', 'phone'];
+    const isValidOperation = updates.every(update => allowedUpdates.includes(update));
+
+    if (!isValidOperation) {
+        return res.status(400).send({ error: 'Невозможно обновить данные параметры учетной записи!' });
+    }
+
+    try {
+        updates.forEach((update) => req.user[update] = req.body[update]); //updating the user
+        await req.user.save();
+        res.send(req.user);
+    } catch (e) {
+        res.status(400).send(e);
+    }
+});
+
+router.get('/couriers/:id', auth([Admin, StoreKeeper]), async (req, res) => {
     try {
         const user = await Courier.findById(req.params.id);
 
         if (!user) {
-            throw new Error('Пользователь с данным id не найден!')
+            throw new Error('Пользователь с данным id не найден!');
         }
 
-        res.send(user)
+        res.send(user);
     } catch (e) {
         res.status(404).send();
     }
-})
+});
+
+router.patch('/couriers/:id', auth([Admin, StoreKeeper]), async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({ error: 'Неккоректный id' })
+    }
+
+    const user = await Courier.findById(id);
+
+    if (!user) {
+        return res.status(400).send({ error: 'Пользователь с данным id не найден!' });
+    }
+
+    const updates = Object.keys(req.body); //return array of properties
+    const allowedUpdates = ['name', 'email', 'password', 'phone'];
+    const isValidOperation = updates.every(update => allowedUpdates.includes(update));
+
+    if (!isValidOperation) {
+        return res.status(400).send({ error: 'Невозможно обновить данные параметры учетной записи!' });
+    }
+
+    try {
+        updates.forEach((update) => user[update] = req.body[update]); //updating the user
+        await user.save();
+        res.send(user);
+    } catch (e) {
+        res.status(404).send({ error: 'Пользователь не не найден!' });
+    }
+});
+
+router.delete('/couriers/:id', auth([Admin]), async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({ error: 'Неккоректный id' })
+    }
+
+    try {
+        const user = await Courier.findById(id);
+
+        if (!user) {
+            throw new Error('Пользователь не не найден!');
+        }
+
+        await Courier.deleteOne(user);
+        res.status(200).send({ message: 'Пользователь успешно удален' })
+    } catch(e) {
+        res.status(404).send({ error: 'Пользователь не не найден!' })
+    }
+
+});
+
+router.get('/couriers', auth([Admin, StoreKeeper]), async (req, res) => {
+    try {
+        const users = await Courier.find({});
+
+        if (!users) {
+            throw new Error('Пользователи данной группы отсутсвуют!');
+        }
+
+        res.send(users);
+    } catch (e) {
+        res.status(404).send(e);
+    }
+});
 
 
 module.exports = router;
