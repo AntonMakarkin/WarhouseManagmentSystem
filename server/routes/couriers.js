@@ -79,8 +79,14 @@ router.patch('/couriers/me', auth([Courier]), async (req, res) => {
 });
 
 router.get('/couriers/:id', auth([Admin, StoreKeeper]), async (req, res) => {
+    const { id } = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).send({ error: 'Неккоректный id'});
+    }
+
     try {
-        const user = await Courier.findById(req.params.id);
+        const user = await Courier.findById(id);
 
         if (!user) {
             throw new Error('Пользователь с данным id не найден!');
@@ -96,7 +102,7 @@ router.patch('/couriers/:id', auth([Admin, StoreKeeper]), async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).send({ error: 'Неккоректный id' })
+        return res.status(400).send({ error: 'Неккоректный id' });
     }
 
     const user = await Courier.findById(id);
@@ -126,7 +132,7 @@ router.delete('/couriers/:id', auth([Admin]), async (req, res) => {
     const { id } = req.params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).send({ error: 'Неккоректный id' })
+        return res.status(400).send({ error: 'Неккоректный id' });
     }
 
     try {
@@ -137,9 +143,9 @@ router.delete('/couriers/:id', auth([Admin]), async (req, res) => {
         }
 
         await Courier.deleteOne(user);
-        res.status(200).send({ message: 'Пользователь успешно удален' })
+        res.status(200).send({ message: 'Пользователь успешно удален' });
     } catch(e) {
-        res.status(404).send({ error: 'Пользователь не не найден!' })
+        res.status(404).send({ error: 'Пользователь не не найден!' });
     }
 
 });
@@ -154,7 +160,7 @@ router.get('/couriers', auth([Admin, StoreKeeper]), async (req, res) => {
 
         res.send(users);
     } catch (e) {
-        res.status(404).send(e);
+        res.status(404).send({ error: 'Пользователи данной группы отсутсвуют!'});
     }
 });
 

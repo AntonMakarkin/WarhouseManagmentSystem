@@ -1,0 +1,10 @@
+body {
+  background: linear-gradient(252.44deg, #16BDE7 0%, #2746D8 100%);
+  mix-blend-mode: normal; 
+  width: 100%; 
+  min-height: 100vh
+}
+
+* {
+  font-family: 'Roboto', sans-serif !important;
+}
