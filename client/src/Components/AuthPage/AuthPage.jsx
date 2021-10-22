@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Typography, AppBar, Button, Container, CssBaseline, Paper, Grid } from '@material-ui/core';
 
 import Input from './Input';
