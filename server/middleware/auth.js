@@ -8,7 +8,7 @@ const auth = (userModels) => {
             let user = null;
 
             for (const item of userModels) {
-                user = await item.findOne({ _id: decoded._id, 'tokens.token': token });
+                user = await item.findOne({ _id: decoded._id /*, 'tokens.token': token*/ });
 
                 if (user) {
                     break;
