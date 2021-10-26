@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Typography, AppBar, Button, Container, CssBaseline, Paper, Grid } from '@material-ui/core';
 
+import { signin } from '../../Actions/auth';
+
 import Input from './Input';
 import useStyles from './styles';
 
@@ -10,12 +12,20 @@ const initialState = { email: '', password: '' };
 
 const AuthPage = () => {
     const [form, setForm] = useState(initialState);
+    const dispatch = useDispatch();
+    const history = useHistory();
     const classes = useStyles();
 
     const [showPassword, setShowPassword] = useState(false);
     const handleShowPassword = () => setShowPassword(!showPassword);
 
-    const handleChange = (e) => console.log(e.target.value);
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        dispatch(signin(form, history));
+    }
+
+    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     return (
         <>
@@ -34,7 +44,7 @@ const AuthPage = () => {
                         <Typography variant="h3" align="center" className={classes.authFormHeader}>
                             Вход
                         </Typography>
-                        <form className={classes.authForm}>
+                        <form className={classes.authForm} onSubmit={handleSubmit}>
                             <Grid container spacing={3}>
                                 <Input name="email" 
                                        className={classes.emailInput}

@@ -4,7 +4,7 @@ const auth = (userModels) => {
     return async (req, res, next) => {
         try {
             const token = req.header('Authorization').replace('Bearer ', ''); //remove Bearer
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
             let user = null;
 
             for (const item of userModels) {

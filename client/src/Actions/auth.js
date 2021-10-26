@@ -11,4 +11,4 @@ export const signin = (formData, router) => async (dispatch) => {
     } catch (err) {
         console.log(err);
     }
-}
+};

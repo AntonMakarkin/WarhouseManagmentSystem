@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const Admin = require('../models/users/admin');
 const tokenAdmin = require('../models/tokens/token');
 const auth = require('../middleware/auth');
@@ -39,14 +40,16 @@ router.post('/admin', async (req, res) => {
 router.post('/admin/login', async (req, res) => {
     try {
         const user = await Admin.findByCredentials(req.body.email, req.body.password); //function is defined in user.js (schema)
-        const tokens = await tokenAdmin.generateTokens({ _id: user._id.toString() });
-        const refreshToken = await tokenAdmin.saveRefreshToken(user._id, tokens.refreshToken);
+        const payload = { _id: user._id.toString(), email: user.email };
+        const tokens = await tokenAdmin.generateTokens(payload);
+        const refreshToken = tokens.refreshToken;
+
+        await tokenAdmin.saveRefreshToken(user._id, refreshToken);
+
         const accessToken = tokens.accessToken;
+
         res.cookie('refreshToken', refreshToken);
         res.send({ user, accessToken, refreshToken });
-        /*const token = await user.generateAuthToken();
-        res.cookie('jwt', token);
-        res.send({ user, token });*/
     } catch (e) {
         res.status(400).send('Неверный логин или пароль');
     }
@@ -54,25 +57,14 @@ router.post('/admin/login', async (req, res) => {
 
 router.post('/admin/logout', auth([Admin]), async (req, res) => {
     try {
-        req.user.tokens = req.user.tokens.filter(token => {
-            return token.token !== req.token; //to remove token which we used for authentication
-        })
-        await req.user.save();
+        const { refreshToken } = req.cookies;
 
+        await tokenAdmin.removeRefreshToken(refreshToken);
+
+        res.clearCookie('refreshToken');
         res.send();
-    } catch (e) {
-        res.status(500).send(e);
-    }
-});
-
-router.post('/admin/logoutAll', auth([Admin]), async (req, res) => {
-    try {
-        req.user.tokens = [];
-        await req.user.save();
-
-        res.send();
-    } catch (e) {
-        res.status(500).send(e);
+    } catch (err) {
+        res.status(500).send({ error: err.message });
     }
 });
 

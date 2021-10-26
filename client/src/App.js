@@ -10,9 +10,10 @@ const App = () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path="/" exact component={() => <Redirect to="/dashboard" />}/>
-                <Route path="/dashboard" exact component={MainPage}/>
-                <Route path="/auth" exact component={() => (!user ? <AuthPage/> : <Redirect to="/dashboard"/>)}/>
+                <Route exact path="/">
+                    {user ? <Redirect to="/dashboard"/> : <AuthPage />}
+                </Route>
+                <Route exact path="/dashboard" component={MainPage}/>
             </Switch>
         </BrowserRouter>    
     )
