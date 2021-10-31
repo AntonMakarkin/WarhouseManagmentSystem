@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Admin = require('../models/users/admin');
-const tokenAdmin = require('../models/tokens/token');
+const tokenAdmin = require('../models/tokens/adminToken');
 const auth = require('../middleware/auth');
 const multer = require('multer');
 const sharp = require('sharp');
@@ -38,6 +38,8 @@ router.post('/admin', async (req, res) => {
 });
 
 router.post('/admin/login', async (req, res) => {
+    const cookieLife = 2592000000;
+
     try {
         const user = await Admin.findByCredentials(req.body.email, req.body.password); //function is defined in user.js (schema)
         const payload = { _id: user._id.toString(), email: user.email };
@@ -48,10 +50,10 @@ router.post('/admin/login', async (req, res) => {
 
         const accessToken = tokens.accessToken;
 
-        res.cookie('refreshToken', refreshToken);
-        res.send({ user, accessToken, refreshToken });
+        res.cookie('refreshToken', refreshToken, { maxAge: cookieLife, httpOnly: true });
+        res.status(200).json({ user, accessToken, refreshToken });
     } catch (e) {
-        res.status(400).send('Неверный логин или пароль');
+        res.status(400).json({ error: "Неверный логин или пароль" });
     }
 });
 
@@ -62,9 +64,9 @@ router.post('/admin/logout', auth([Admin]), async (req, res) => {
         await tokenAdmin.removeRefreshToken(refreshToken);
 
         res.clearCookie('refreshToken');
-        res.send();
+        res.status(200).json({ result: "Успешный выход" });
     } catch (err) {
-        res.status(500).send({ error: err.message });
+        res.status(500).json({ error: err.message });
     }
 });
 

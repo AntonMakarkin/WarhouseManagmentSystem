@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Typography, AppBar, Button, Container, CssBaseline, Paper, Grid } from '@material-ui/core';
 
-import { signin } from '../../Actions/auth';
+import { login } from '../../Actions/user';
 
 import Input from './Input';
 import useStyles from './styles';
@@ -22,7 +22,7 @@ const AuthPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        dispatch(signin(form, history));
+        dispatch(login(form, history));
     }
 
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });

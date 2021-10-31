@@ -14,7 +14,6 @@ const courierSchema = new mongoose.Schema({
         unique: true,
         required: true,
         trim: true,
-        lowercase: true,
         validate(value) {
             if (!validator.isEmail(value)) {
                 throw new Error('Неккоректный email');
@@ -71,7 +70,7 @@ courierSchema.methods.toJSON = function () {
 
     delete userObject.password;
     delete userObject.tokens;
-    delete userObject.avatar;
+    //delete userObject.avatar;
 
     return userObject;
 }

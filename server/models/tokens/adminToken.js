@@ -7,7 +7,7 @@ const tokenAdminSchema = new Schema({
 });
 
 tokenAdminSchema.statics.generateTokens = async function (payload) {
-    const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: '10m'});
+    const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: '20m'});
     const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET, {expiresIn: '30d'});
 
     return {
@@ -39,6 +39,6 @@ tokenAdminSchema.statics.findRefreshToken = async function (refreshToken) {
     return tokenData;
 }
 
-const tokenAdmin = model('TokenAdmin', tokenAdminSchema);
+const tokenAdmin = model('tokenAdmin', tokenAdminSchema);
 
 module.exports = tokenAdmin;

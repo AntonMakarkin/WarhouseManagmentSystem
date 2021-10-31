@@ -4,7 +4,9 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const adminRoute = require('./routes/admin');
 const courierRoute = require('./routes/couriers');
+const customerRoute = require('./routes/customer');
 const adminTokenRoute = require('./routes/adminTokens');
+const courierTokenRoute = require('./routes/courierTokens');
 const dotenv = require('dotenv');
 
 const app = express();
@@ -13,11 +15,16 @@ dotenv.config()
 app.use(express.json({ limit: '30mb', extended: true }));
 app.use(express.urlencoded({ limit: '30mb', extended: true }));
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+}));
 
 app.use(adminRoute);
 app.use(courierRoute);
+app.use(customerRoute);
 app.use(adminTokenRoute);
+app.use(courierTokenRoute);
 
 app.get('/', (req, res) => {
     res.send('App is running');

@@ -14,7 +14,6 @@ const customerSchema = new mongoose.Schema({
         unique: true,
         required: true,
         trim: true,
-        lowercase: true,
         validate(value) {
             if(!validator.isEmail(value)){
                 throw new Error('Email некорректен');
@@ -84,7 +83,7 @@ customerSchema.methods.generateAuthToken = async function () {
 };
 
 customerSchema.statics.findByCredentials = async (email, password) => {
-    const user = await StoreKeeper.findOne({ email });
+    const user = await Customer.findOne({ email });
 
     if (!user) {
         throw new Error('Неверный логин или пароль');
@@ -98,6 +97,15 @@ customerSchema.statics.findByCredentials = async (email, password) => {
 
     return user;
 };
+
+// Hash the plain text password before saving
+customerSchema.pre('save', async function (next) {
+    const user = this;
+
+    if (user.isModified('password')) {
+        user.password = await bcrypt.hash(user.password, 8);
+    }
+});
 
 const Customer = mongoose.model('Customer', customerSchema);
 
