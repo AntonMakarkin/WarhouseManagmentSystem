@@ -30,7 +30,7 @@ export const logout = (router) => async (dispatch) => {
 
         localStorage.removeItem('token');
 
-        router.push('/');
+        router.push('/login');
     }
 };
 

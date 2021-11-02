@@ -1,10 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { auth } from './Actions/user';
 
-import { Grid } from '@material-ui/core';
+import { CssBaseline, createTheme, Switch as SwitchButton } from '@material-ui/core';
+
+import ThemeProvider from './Context/context';
+
+import ProtectedRoute from './ProtectedRoutes/ProtectedRoute';
 
 import AuthPage from './Components/AuthPage/AuthPage';
 import MainPage from './Components/MainPage/MainPage';
@@ -14,21 +18,53 @@ const App = () => {
     //const isAuth = JSON.parse(localStorage.getItem('token'));
     const isAuth = useSelector(state => state.user.isAuth);
     const dispatch = useDispatch();
-    const history = useHistory(); 
+    const history = useHistory();
+    
+    const [darkMode, setDarkMode] = useState(false);
 
     useEffect(() => {
-        dispatch(auth())
-    }, []);
+        /*if (darkMode) {
+            document.body.style.background = 'linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(26,32,46,1) 100%)'
+        } else {
+            document.body.style.background = 'linear-gradient(252.44deg, #16BDE7 0%, #2746D8 100%)'
+        }*/
+        //const theme = localStorage.getItem('darkTheme');
+
+        /*if (theme) {
+            const themePreference = localStorage.getItem('darkTheme')
+            if (themePreference === "true") {
+                setDarkMode(true);
+                document.body.style.background = 'linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(26,32,46,1) 100%)'
+            } else {
+                setDarkMode(false);
+                document.body.style.background = 'linear-gradient(252.44deg, #16BDE7 0%, #2746D8 100%)'
+            }
+        } else {
+            localStorage.setItem('darkTheme', "false");
+            setDarkMode(false);
+            document.body.style.background = 'linear-gradient(252.44deg, #16BDE7 0%, #2746D8 100%)'
+        }*/
+        dispatch(auth());
+
+    }, [dispatch]);
 
     return (
-        <BrowserRouter>
+        <ThemeProvider.Provider value={{darkMode, setDarkMode}}>
+            <BrowserRouter>
+            <CssBaseline/>
             <Switch>
-               <Route exact path="/">
-                    {isAuth ? <Redirect to="/dashboard"/> : <AuthPage />}
-               </Route>
-               <Route exact path="/dashboard" component={MainPage}/>
+                <Route path="/login">
+                    <AuthPage/>
+                </Route>
+                <ProtectedRoute path="/dashboard">
+                    <MainPage/>
+                </ProtectedRoute>
+                <Route exact path="/">
+                    <Redirect exact from="/" to="/dashboard" />
+                </Route>
            </Switch>
-        </BrowserRouter>    
+           </BrowserRouter>
+        </ThemeProvider.Provider>    
     )
 }
 

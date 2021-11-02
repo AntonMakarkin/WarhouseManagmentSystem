@@ -1,10 +1,22 @@
+html {
+  width: 100%;
+  height: 100%;
+}
+
 body {
-  background: linear-gradient(252.44deg, #16BDE7 0%, #2746D8 100%);
-  mix-blend-mode: normal; 
-  width: 100%; 
-  min-height: 100vh
+  /*background: linear-gradient(252.44deg, #16BDE7 0%, #2746D8 100%);*/
+  mix-blend-mode: normal;
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+  /*min-height: 100vh*/
+}
+
+#root {
+  height: 100%;
 }
 
 * {
   font-family: 'Roboto', sans-serif !important;
+  box-sizing: border-box;
 }
