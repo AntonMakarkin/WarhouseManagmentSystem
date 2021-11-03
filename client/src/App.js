@@ -22,11 +22,23 @@ const App = () => {
     
     const [darkMode, setDarkMode] = useState(false);
 
-    useEffect(() => {
-        /*if (darkMode) {
-            document.body.style.background = 'linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(26,32,46,1) 100%)'
+    const setDarkTheme = () => {
+        const theme = localStorage.getItem('darkTheme')
+    
+        if (theme === 'true') {
+            setDarkMode(true);
         } else {
-            document.body.style.background = 'linear-gradient(252.44deg, #16BDE7 0%, #2746D8 100%)'
+            setDarkMode(false);
+        }
+    }
+
+    useEffect(() => {
+        /*const theme = localStorage.getItem('darkTheme')
+    
+        if (theme === true) {
+            setDarkMode(true);
+        } else {
+            setDarkMode(false);
         }*/
         //const theme = localStorage.getItem('darkTheme');
 
@@ -44,6 +56,7 @@ const App = () => {
             setDarkMode(false);
             document.body.style.background = 'linear-gradient(252.44deg, #16BDE7 0%, #2746D8 100%)'
         }*/
+        setDarkTheme()
         dispatch(auth());
 
     }, [dispatch]);

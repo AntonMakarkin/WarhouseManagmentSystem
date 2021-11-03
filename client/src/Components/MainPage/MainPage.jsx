@@ -15,15 +15,15 @@ const MainPage = () => {
     const classes = useStyles();
 
     return (
-        <div className={classes.mainContainer}>
-        <SideBar/>
-        <div className={classes.secondaryContainer}>
-            <p>Hello</p>
-            <Switch>
-                <Route/>
-            </Switch>
-        </div>
-        </div>
+        <Container className={classes.mainContainer} disableGutters maxWidth={false}>
+            <SideBar/>
+            <Container className={classes.secondaryContainer} disableGutters maxWidth={false}>
+                <p>Hello</p>
+                <Switch>
+                    <Route/>
+                </Switch>
+            </Container>
+        </Container>
     )
 }
 

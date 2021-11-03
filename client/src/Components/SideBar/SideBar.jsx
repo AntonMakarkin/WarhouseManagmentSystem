@@ -18,7 +18,7 @@ const SideBar = () => {
 
     const handleDarkMode = () => {
         setDarkMode(!darkMode);
-        //localStorage.setItem('darkTheme', darkMode);
+        localStorage.setItem('darkTheme', !darkMode);
     }
 
     const handleSubmit = () => {

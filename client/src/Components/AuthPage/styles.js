@@ -1,6 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+    authPageContainer: {
+        width: '100%',
+        height: '100%'
+    },
     appBar: {
         paddingTop: '30px',
         paddingLeft: '45px',
@@ -79,6 +83,12 @@ const useStyles = makeStyles((theme) => ({
             paddingTop: '10px',
             paddingBottom: '10px'
         }
+    },
+    textfield__label: {
+        color: '#fff'
+    },
+    textfield__input: {
+        color: '#fff'
     }
 }));
 

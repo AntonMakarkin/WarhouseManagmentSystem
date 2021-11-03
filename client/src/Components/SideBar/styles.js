@@ -8,7 +8,6 @@ const useStyles = makeStyles((theme) => ({
         transition: 'color 0.5s'
     },
     sidebar: {
-        position: "fixed",
         paddingTop: '30px',
         paddingLeft: '45px',
         backgroundColor: '#FFFFFF',

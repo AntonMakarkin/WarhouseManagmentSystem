@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Typography, AppBar, Button, Container, CssBaseline, Paper, Grid } from '@material-ui/core';
 
 import { login } from '../../Actions/user';
+
+import Context from '../../Context/context';
 
 import Input from './Input';
 import useStyles from './styles';
@@ -12,6 +14,7 @@ const initialState = { email: '', password: '' };
 
 const AuthPage = () => {
     const [form, setForm] = useState(initialState);
+    const { darkMode } = useContext(Context);
     const dispatch = useDispatch();
     const history = useHistory();
     const classes = useStyles();
@@ -28,7 +31,10 @@ const AuthPage = () => {
     const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
     return (
-        <>
+        <Container disableGutters
+                   maxWidth={false} 
+                   className={classes.authPageContainer} 
+                   style={darkMode ? {background: 'rgba(26,32,46,1)'} : {background: 'linear-gradient(252.44deg, #16BDE7 0%, #2746D8 100%)'}}>
             <CssBaseline/>
             <AppBar className={classes.appBar}>
                 <Typography variant="h2" className={classes.headerLabel}>
@@ -40,8 +46,8 @@ const AuthPage = () => {
                     <Typography variant="h1" align="center" className={classes.pageHeader}>
                         Управление складом
                     </Typography>
-                    <Paper className={classes.authFormPaper}>
-                        <Typography variant="h3" align="center" className={classes.authFormHeader}>
+                    <Paper className={classes.authFormPaper} style={darkMode ? {background: 'rgba(255, 255, 255, 0.12)'} : {background: '#fff'}}>
+                        <Typography variant="h3" align="center" className={classes.authFormHeader} style={darkMode ? {color: '#fff'} : {color: '#000'}}>
                             Вход
                         </Typography>
                         <form className={classes.authForm} onSubmit={handleSubmit}>
@@ -50,21 +56,22 @@ const AuthPage = () => {
                                        className={classes.emailInput}
                                        label="Электронная почта" 
                                        handleChange={handleChange} 
-                                       type="email"/>
+                                       type="email"
+                                       color="#fff"/>
                                 <Input name="password" 
                                        label="Пароль" 
                                        handleChange={handleChange} 
                                        type={showPassword ? 'text' : 'password'}
                                        handleShowPassword={handleShowPassword}/>
                             </Grid>
-                            <Button type="submit" fullWidth className={classes.submit}>
+                            <Button type="submit" fullWidth className={classes.submit} style={darkMode ? {background: 'gray'} : {background: '#16bde7'}}>
                                 Войти
                             </Button>
                         </form>
                     </Paper>
                 </Container>
             </main>
-        </>
+        </Container>
     );
 }
 
