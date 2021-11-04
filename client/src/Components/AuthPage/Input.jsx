@@ -1,21 +1,35 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { TextField, Grid, InputAdornment, IconButton } from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
 
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
-import useStyles from './styles';
+import Context from '../../Context/context';
 
-const primary = grey[50];
+import useStyles from './styles';
 
 const Input = ({ name, handleChange, label, autoFocus, type, handleShowPassword }) => {
     const classes = useStyles();
-    const labelclass = classes.textfield__label
-    const inputclass = classes.textfield__input
+    const { darkMode } = useContext(Context);
+    let labelclass;
+    let inputclass;
+    let root;
+    let notchedOutline
+
+    if (darkMode) {
+        labelclass = classes.textfield__label_dark;
+        inputclass = classes.textfield__input_dark;
+        root = classes.root;
+        notchedOutline = classes.notchedOutline;
+    } else {
+        labelclass = classes.textfield__label;
+        inputclass = classes.textfield__input;
+    }
+    
     return (
         <Grid item md={12}>
             <TextField
+                className={root}
                 name={name}
                 onChange={handleChange}
                 variant="outlined"
@@ -33,8 +47,13 @@ const Input = ({ name, handleChange, label, autoFocus, type, handleShowPassword 
                             </IconButton>
                         </InputAdornment>
                     ),
-                    className: inputclass 
-                } : {className: inputclass}}
+                    className: inputclass,
+                    classes: {
+                        notchedOutline: notchedOutline,
+                    }
+                } : {className: inputclass, classes: {
+                    notchedOutline: notchedOutline
+                }}}
             />
         </Grid>
     )

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router';
+import { useDispatch } from 'react-redux';
 import { auth } from './Actions/user';
 
-import { CssBaseline, createTheme, Switch as SwitchButton } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 
 import ThemeProvider from './Context/context';
 
@@ -12,13 +11,9 @@ import ProtectedRoute from './ProtectedRoutes/ProtectedRoute';
 
 import AuthPage from './Components/AuthPage/AuthPage';
 import MainPage from './Components/MainPage/MainPage';
-import SideBar from './Components/SideBar/SideBar';
 
 const App = () => {
-    //const isAuth = JSON.parse(localStorage.getItem('token'));
-    const isAuth = useSelector(state => state.user.isAuth);
     const dispatch = useDispatch();
-    const history = useHistory();
     
     const [darkMode, setDarkMode] = useState(false);
 
@@ -33,32 +28,8 @@ const App = () => {
     }
 
     useEffect(() => {
-        /*const theme = localStorage.getItem('darkTheme')
-    
-        if (theme === true) {
-            setDarkMode(true);
-        } else {
-            setDarkMode(false);
-        }*/
-        //const theme = localStorage.getItem('darkTheme');
-
-        /*if (theme) {
-            const themePreference = localStorage.getItem('darkTheme')
-            if (themePreference === "true") {
-                setDarkMode(true);
-                document.body.style.background = 'linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(26,32,46,1) 100%)'
-            } else {
-                setDarkMode(false);
-                document.body.style.background = 'linear-gradient(252.44deg, #16BDE7 0%, #2746D8 100%)'
-            }
-        } else {
-            localStorage.setItem('darkTheme', "false");
-            setDarkMode(false);
-            document.body.style.background = 'linear-gradient(252.44deg, #16BDE7 0%, #2746D8 100%)'
-        }*/
         setDarkTheme()
         dispatch(auth());
-
     }, [dispatch]);
 
     return (

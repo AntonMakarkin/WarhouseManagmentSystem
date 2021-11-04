@@ -2,21 +2,26 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     logo: {
+        display: 'block',
+        textAlign: 'center',
         fontWeight: 'normal',
-        fontSize: '30px',
+        fontSize: '24px',
         color: "#000",
-        transition: 'color 0.5s'
+        marginBottom: '35px'
     },
     sidebar: {
-        paddingTop: '30px',
-        paddingLeft: '45px',
+        paddingTop: '15px',
         backgroundColor: '#FFFFFF',
         width: '350px',
         height: '100%'
     },
     sidebarAvatar: {
         width: '75px',
-        height: '75px'
+        height: '75px',
+        margin: '0 auto'
+    },
+    sidebarUserName: {
+        fontSize: '11px'
     }
 }));
 

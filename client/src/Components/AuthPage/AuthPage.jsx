@@ -44,7 +44,7 @@ const AuthPage = () => {
             <main>
                 <Container maxWidth="sm" className={classes.authContainer}>
                     <Typography variant="h1" align="center" className={classes.pageHeader}>
-                        Управление складом
+                        Управление магазином
                     </Typography>
                     <Paper className={classes.authFormPaper} style={darkMode ? {background: 'rgba(255, 255, 255, 0.12)'} : {background: '#fff'}}>
                         <Typography variant="h3" align="center" className={classes.authFormHeader} style={darkMode ? {color: '#fff'} : {color: '#000'}}>
