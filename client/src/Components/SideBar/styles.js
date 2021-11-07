@@ -12,16 +12,50 @@ const useStyles = makeStyles((theme) => ({
     sidebar: {
         paddingTop: '15px',
         backgroundColor: '#FFFFFF',
-        width: '350px',
-        height: '100%'
+        width: '250px',
+        height: '100%',
+        boxShadow: '0 8px 20px 0 rgb(183 192 206 / 20%)',
+        zIndex: '2'
     },
     sidebarAvatar: {
         width: '75px',
         height: '75px',
-        margin: '0 auto'
+        margin: '0 auto',
+        marginBottom: '10px',
+        border: '2px solid #fff',
+        borderRadius: '15%',
+        boxShadow: '0 5px 25px 0 rgb(0 0 0 / 20%)'
     },
     sidebarUserName: {
-        fontSize: '11px'
+        fontSize: '15px',
+        maxWidth: '150px',
+        margin: '0 auto'
+    },
+    sidebarUserPosition: {
+        fontSize: '11px',
+        maxWidth: '150px',
+        margin: '0 auto'
+    },
+    sidebarLinksContainer: {
+        padding: '8px 13px 0'
+    },
+    sidebarLinkContainer: {
+        width: '100%',
+        display: 'flex',
+        padding: '9px 9px 9px 18px',
+        textDecoration: 'none',
+        color: '#000',
+        borderRadius: '0.5rem',
+        transition: 'background-color 0.3s',
+        '&:hover': {
+            backgroundColor: '#f0f3fb'
+        }
+    },
+    sidebarLinkIcon: {
+        marginRight: '10px'
+    },
+    sidebarLinkText: {
+        width: '100%'
     }
 }));
 
