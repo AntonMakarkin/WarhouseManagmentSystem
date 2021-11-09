@@ -6,6 +6,7 @@ const adminRoute = require('./routes/admin');
 const courierRoute = require('./routes/couriers');
 const customerRoute = require('./routes/customer');
 const brandRoute = require('./routes/brands');
+const categoryRoute = require('./routes/categories');
 const adminTokenRoute = require('./routes/adminTokens');
 const courierTokenRoute = require('./routes/courierTokens');
 const dotenv = require('dotenv');
@@ -25,6 +26,7 @@ app.use(adminRoute);
 app.use(courierRoute);
 app.use(customerRoute);
 app.use(brandRoute);
+app.use(categoryRoute);
 app.use(adminTokenRoute);
 app.use(courierTokenRoute);
 

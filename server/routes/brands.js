@@ -31,19 +31,16 @@ router.get('/brands', async (req, res) => {
 
         res.json({ items });
     } catch (err) {
-        res.status(404).json({ error: 'Информация о брендах отсутcтвует!' });
+        res.status(404).json({ error: err.message });
     }
 });
 
-router.get('/brands/:id', async (req, res) => {
-    const { id } = req.params;
-
+router.delete('/brands', auth([Admin]), async (req, res) => {
     try {
-        const item = await Brand.findById(id);
-
-        res.json({ item });
+        await Brand.deleteMany({});
+        res.json({ message: 'Список брендов успешно очищен' });  
     } catch (err) {
-        res.status(404).json({ error: 'Бренд не найден!' });
+        res.status(500).json({ error: err.message });
     }
 });
 
@@ -53,11 +50,70 @@ router.get('/brands/search', async (req, res) => {
     try {
         const title = new RegExp(searchQuery, 'i');
 
-        const items = await Brand.find({ name: searchQuery });
+        const items = await Brand.find({ name: title });
 
         res.json({ items });
     } catch (err) {
-        res.status(404).json({ error: 'Неверный запрос' });
+        res.status(404).json({ error: err.message });
+    }
+});
+
+router.get('/brands/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const item = await Brand.findById(id);
+
+        if (!item) {
+            throw new Error('Бренд с данным id не найден!');
+        }
+
+        res.json({ item });
+    } catch (err) {
+        res.status(404).json({ error: err.message });
+    }
+});
+
+router.patch('/brands/:id', auth([Admin, Manager, StoreKeeper]), async (req, res) => {
+    const { id } = req.params;
+
+    const item = await Brand.findById(id);
+
+    if (!item) {
+        return res.status(400).send({ error: 'Бренд с данным id не найден!' });
+    }
+
+    const updates = Object.keys(req.body); //return array of properties
+    const allowedUpdates = ['name'];
+    const isValidOperation = updates.every(update => allowedUpdates.includes(update));
+
+    if (!isValidOperation) {
+        return res.status(400).send({ error: 'Невозможно обновить данные параметры записи!' });
+    }
+
+    try {
+        updates.forEach((update) => item[update] = req.body[update]); //updating the user
+        await item.save();
+        res.json({ item });
+    } catch (err) {
+        res.status(404).send({ error: err.message });
+    }
+});
+
+router.delete('/brands/:id', auth([Admin, Manager, StoreKeeper]), async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const item = await Brand.findById(id);
+
+        if (!item) {
+            throw new Error('Бренд с данным id не найден!');
+        }
+
+        await Brand.deleteOne(item);
+        res.status(200).send({ message: 'Бренд успешно удален' });
+    } catch (err) {
+        res.status(404).json({ error: err.message });
     }
 });
 
