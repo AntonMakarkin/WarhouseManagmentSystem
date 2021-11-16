@@ -6,6 +6,7 @@ const auth = require('../middleware/auth');
 const multer = require('multer');
 const sharp = require('sharp');
 
+
 const router = express.Router();
 
 //function for preparing avatar before uploading
