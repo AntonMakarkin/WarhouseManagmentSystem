@@ -7,8 +7,7 @@ const courierRoute = require('./routes/couriers');
 const customerRoute = require('./routes/customer');
 const brandRoute = require('./routes/brands');
 const categoryRoute = require('./routes/categories');
-const adminTokenRoute = require('./routes/adminTokens');
-const courierTokenRoute = require('./routes/courierTokens');
+const tokensRoute = require('./routes/tokens');
 const dotenv = require('dotenv');
 
 const app = express();
@@ -23,12 +22,12 @@ app.use(cors({
 }));
 
 app.use(adminRoute);
+app.use(tokensRoute);
 app.use(courierRoute);
 app.use(customerRoute);
 app.use(brandRoute);
 app.use(categoryRoute);
-app.use(adminTokenRoute);
-app.use(courierTokenRoute);
+
 
 app.get('/', (req, res) => {
     res.send('App is running');

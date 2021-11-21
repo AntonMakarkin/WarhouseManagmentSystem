@@ -48,12 +48,6 @@ const customerSchema = new mongoose.Schema({
         type: String,
         default: 'customer'
     },
-    tokens: [{
-        token: {
-            type: String,
-            required: true
-        }
-    }],
     avatar: {
         type: Buffer
     }

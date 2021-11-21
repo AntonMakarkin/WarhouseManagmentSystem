@@ -1,27 +1,26 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Customer = require('../models/users/customer');
+const Admin = require('../models/users/admin');
+const Manager = require('../models/users/manager');
+const StoreKeeper = require('../models/users/storeKeeper');
 const tokenCustomer = require('../models/tokens/customerToken');
 const auth = require('../middleware/auth');
-const multer = require('multer');
-const sharp = require('sharp');
 
+const customerControllers = require('../controllers/users');
+const login = customerControllers.login;
+const logout = customerControllers.logout;
+const getListOfUsers = customerControllers.getListOfUsers;
+const getAccountInfo = customerControllers.getAccountInfo;
+const updateAccountInfo = customerControllers.updateAccountInfo;
+const postAvatar = customerControllers.postAvatar;
+
+const upload = require('../service/upload'); //function for preparing avatar before uploading
 
 const router = express.Router();
 
-//function for preparing avatar before uploading
-const upload = multer({
-    limits: {
-        fileSize: 1000000
-    },
-    fileFilter(req, file, cb) {
-        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-            return cb(new Error('Пожалуйста, загрузите картинку'));
-        }
-
-        cb(undefined, true); //to accept the file
-    }
-});
+//list of allowedUpdates
+const allowedUpdates = ['name', 'email', 'password', 'phone'];
 
 //users routes
 router.post('/customers', async (req, res) => {
@@ -37,25 +36,14 @@ router.post('/customers', async (req, res) => {
         res.status(400).json({ error: 'Пользователь с данным email или телефоном уже существует' });
     }
 });
+router.get('/customers', auth([Admin, Manager, StoreKeeper]), getListOfUsers(Customer));
 
-router.post('/customers/login', async (req, res) => {
-    const cookieLife = 2592000000;
 
-    try {
-        const user = await Customer.findByCredentials(req.body.email, req.body.password); //function is defined in user.js (schema)
-        const payload = { _id: user._id.toString(), email: user.email };
-        const tokens = await tokenCustomer.generateTokens(payload);
-        const refreshToken = tokens.refreshToken;
+router.post('/customers/login', login(Customer, tokenCustomer));
+router.post('/customers/logout', auth([Customer]), logout(tokenCustomer));
 
-        await tokenCustomer.saveRefreshToken(user._id, refreshToken);
-
-        const accessToken = tokens.accessToken;
-
-        res.cookie('refreshToken', refreshToken, { maxAge: cookieLife, httpOnly: true });
-        res.status(200).json({ user, accessToken, refreshToken });
-    } catch (e) {
-        res.status(400).json({ error: "Неверный логин или пароль" });
-    }
-});
+router.get('/customers/me', auth([Customer]), getAccountInfo());
+router.patch('/customers/me', auth([Customer]), updateAccountInfo(allowedUpdates));
+router.post('/customers/me/avatar', auth([Customer]), upload.single('avatar'), postAvatar());
 
 module.exports = router;
