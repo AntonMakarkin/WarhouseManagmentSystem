@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 const sharp = require('sharp');
 
-const createUser = (model) => {
+const createUser = (model, role) => {
     return async (req, res) => {
-        const user = new model(req.body);
+        const { name, email, password, phone } = req.body;
+        const user = new model({ name, email, password, phone, role });
 
         try {
             await user.save();
@@ -56,6 +57,22 @@ const getAccountInfo = () => {
             res.json({ user: req.user });
         } catch (err) {
             res.status(500).json({ error: err.message });
+        }
+    }
+};
+
+const searchAccount = (model) => {
+    return async (req, res) => {
+        const { searchQuery } = req.query;
+
+        try {
+            const title = new RegExp(searchQuery, 'i');
+
+            const items = await model.find({ name: title });
+
+            res.json({ items })
+        } catch (err) {
+            res.status(404).json({ error: err.message });
         }
     }
 };
@@ -269,6 +286,7 @@ module.exports.createUser = createUser;
 module.exports.login = login;
 module.exports.logout = logout;
 module.exports.getAccountInfo = getAccountInfo;
+module.exports.searchAccount = searchAccount;
 module.exports.updateAccountInfo = updateAccountInfo;
 module.exports.deleteAccountAvatar = deleteAccountAvatar;
 module.exports.getListOfUsers = getListOfUsers;
