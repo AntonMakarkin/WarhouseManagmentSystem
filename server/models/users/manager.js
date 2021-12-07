@@ -109,6 +109,6 @@ managerSchema.pre('save', async function (next) {
     next() //middleware function is finished
 });
 
-const Manager = mongoose.model('ManagerSchema', managerSchema);
+const Manager = mongoose.model('Manager', managerSchema);
 
 module.exports = Manager;
