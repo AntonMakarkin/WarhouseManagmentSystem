@@ -48,12 +48,6 @@ const managerSchema = new mongoose.Schema({
         type: String,
         default: 'manager'
     },
-    tokens: [{
-        token: {
-            type: String,
-            required: true
-        }
-    }],
     avatar: {
         type: Buffer
     }
@@ -82,8 +76,8 @@ managerSchema.methods.generateAuthToken = async function () {
     return token;
 };
 
-managerSchema.findByCredentials = async (email, password) => {
-    const user = await StoreKeeper.findOne({ email });
+managerSchema.statics.findByCredentials = async (email, password) => {
+    const user = await Manager.findOne({ email });
 
     if (!user) {
         throw new Error('Неверный логин или пароль');

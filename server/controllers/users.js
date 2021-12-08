@@ -31,7 +31,8 @@ const login = (model, tokenModel, cookieLife = 2592000000) => {
             res.json({ user, accessToken, refreshToken });
 
         } catch (err) {
-            res.status(400).json({ error: "Неверный логин или пароль" });
+            //res.status(400).json({ error: "Неверный логин или пароль" });
+            res.status(400).json({ error: err.message });
         }
     }
 };
@@ -282,18 +283,8 @@ const deleteAvatarById = (model) => {
     }
 };
 
-module.exports.createUser = createUser;
-module.exports.login = login;
-module.exports.logout = logout;
-module.exports.getAccountInfo = getAccountInfo;
-module.exports.searchAccount = searchAccount;
-module.exports.updateAccountInfo = updateAccountInfo;
-module.exports.deleteAccountAvatar = deleteAccountAvatar;
-module.exports.getListOfUsers = getListOfUsers;
-module.exports.getUserById = getUserById;
-module.exports.updateUserById = updateUserById;
-module.exports.deleteUserById = deleteUserById;
-module.exports.postAvatar = postAvatar;
-module.exports.postAvatarById = postAvatarById;
-module.exports.deleteAvatar = deleteAvatar;
-module.exports.deleteAvatarById = deleteAvatarById;
+module.exports = {
+    createUser, login, logout, getAccountInfo, searchAccount, updateAccountInfo, deleteAccountAvatar,
+    getListOfUsers, getUserById, updateUserById, deleteUserById, postAvatar, postAvatarById,
+    deleteAvatar, deleteAvatarById 
+};
