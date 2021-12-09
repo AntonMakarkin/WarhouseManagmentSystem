@@ -35,6 +35,7 @@ const customerSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
+        unique: true,
         required: true,
         minlength: 11,
         trim: true,

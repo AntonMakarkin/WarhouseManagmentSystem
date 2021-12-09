@@ -170,6 +170,11 @@ const updateUserById = (model, allowedUpdates) => {
         }
 
         const updates = Object.keys(req.body); //return array of properties
+
+        if (updates.length < 1) {
+            return res.status(400).send({ error: 'Переданы пустые данные!' });
+        }
+
         const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
         if (!isValidOperation) {

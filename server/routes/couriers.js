@@ -39,7 +39,7 @@ router.patch('/couriers/me', auth([Courier]), updateAccountInfo(allowedUpdates))
 router.post('/couriers/me/avatar', auth([Courier]), upload.single('avatar'), postAvatar());
 router.delete('/couriers/me/avatar', auth([Courier]), deleteAvatar());
 router.post('/couriers/:id/avatar', auth([Admin]), upload.single('avatar'), postAvatarById(Courier));
-router.delete('/couriers/:id/avatar', auth([Admin]), upload.single('avatar'), deleteAvatarById(Courier));
+router.delete('/couriers/:id/avatar', auth([Admin]), deleteAvatarById(Courier));
 
 router.get('/couriers/:id', auth([Admin, StoreKeeper]), getUserById(Courier));
 router.patch('/couriers/:id', auth([Admin, StoreKeeper]), updateUserById(Courier, allowedUpdates));
