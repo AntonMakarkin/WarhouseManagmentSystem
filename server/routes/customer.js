@@ -8,18 +8,9 @@ const tokenCustomer = require('../models/tokens/customerToken');
 const auth = require('../middleware/auth');
 
 const customerControllers = require('../controllers/users');
-const createCustomer = customerControllers.createUser;
-const login = customerControllers.login;
-const logout = customerControllers.logout;
-const getListOfUsers = customerControllers.getListOfUsers;
-const getUserById = customerControllers.getUserById;
-const searchAccount = customerControllers.searchAccount;
-const deleteUserById = customerControllers.deleteUserById;
-const getAccountInfo = customerControllers.getAccountInfo;
-const updateAccountInfo = customerControllers.updateAccountInfo;
-const postAvatar = customerControllers.postAvatar;
-const deleteAvatar = customerControllers.deleteAvatar;
-const deleteAvatarById = customerControllers.deleteAvatarById;
+const { createUser: createCustomer, login, logout, getAccountInfo, updateAccountInfo,
+        getListOfUsers, getUserById, searchAccount, deleteUserById,
+        postAvatar, deleteAvatar, deleteAvatarById } = customerControllers;
 
 const upload = require('../service/upload'); //function for preparing avatar before uploading
 

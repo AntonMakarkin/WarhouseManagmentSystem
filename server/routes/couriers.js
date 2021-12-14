@@ -6,19 +6,9 @@ const StoreKeeper = require('../models/users/storeKeeper');
 const auth = require('../middleware/auth');
 
 const courierControllers = require('../controllers/users');
-const createCourier = courierControllers.createUser;
-const login = courierControllers.login;
-const logout = courierControllers.logout;
-const getAccountInfo = courierControllers.getAccountInfo;
-const updateAccountInfo = courierControllers.updateAccountInfo;
-const getListOfUsers = courierControllers.getListOfUsers;
-const getUserById = courierControllers.getUserById;
-const updateUserById = courierControllers.updateUserById;
-const deleteUserById = courierControllers.deleteUserById;
-const postAvatar = courierControllers.postAvatar;
-const postAvatarById = courierControllers.postAvatarById;
-const deleteAvatar = courierControllers.deleteAvatar;
-const deleteAvatarById = courierControllers.deleteAvatarById;
+const { createUser: createCourier, login, logout, getAccountInfo, updateAccountInfo, 
+        getListOfUsers, getUserById, searchAccount, updateUserById, deleteUserById, 
+        postAvatar, postAvatarById, deleteAvatar, deleteAvatarById } = courierControllers;
 
 const upload = require('../service/upload'); //function for preparing avatar before uploading
 
@@ -30,6 +20,8 @@ const allowedUpdates = ['name', 'email', 'password', 'phone'];
 //user routes
 router.post('/couriers', auth([Admin]), createCourier(Courier));
 router.get('/couriers', auth([Admin, StoreKeeper]), getListOfUsers(Courier));
+
+router.get('/couriers/search', auth([Admin, StoreKeeper]), searchAccount(Courier));
 
 router.post('/couriers/login', login(Courier, tokenCourier));
 router.post('/couriers/logout', auth([Courier]), logout(tokenCourier));

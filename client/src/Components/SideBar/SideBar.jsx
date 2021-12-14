@@ -7,6 +7,7 @@ import { Skeleton } from '@material-ui/lab';
 
 import HomeTwoToneIcon from '@material-ui/icons/HomeTwoTone';
 import FormatListBulletedSharpIcon from '@material-ui/icons/FormatListBulletedSharp';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 
 import { logout } from '../../Actions/user';
 
@@ -54,6 +55,10 @@ const SideBar = () => {
                     <Link className={classes.sidebarLinkContainer} style={darkMode ? {color: '#fff'} : {color: '#000'}} to='/'>
                         <FormatListBulletedSharpIcon className={classes.sidebarLinkIcon}/>
                         <Typography className={classes.sidebarLinkText}>Каталог</Typography>
+                    </Link>
+                    <Link className={classes.sidebarLinkContainer} style={darkMode ? {color: '#fff'} : {color: '#000'}} to='/'>
+                        <PermIdentityIcon className={classes.sidebarLinkIcon}/>
+                        <Typography className={classes.sidebarLinkText}>Персонал</Typography>
                     </Link>
                 </Container>
                 <button onClick={handleSubmit}>Выйти</button>

@@ -4,14 +4,10 @@ const Admin = require('../models/users/admin');
 const Manager = require('../models/users/manager');
 const StoreKeeper = require('../models/users/storeKeeper');
 const auth = require('../middleware/auth');
-const catalogControllers = require('../controllers/catalog')
-const addInCatalog = catalogControllers.addInCatalog;
-const getFromCatalog = catalogControllers.getFromCatalog;
-const deleteAllFromCatalog = catalogControllers.deleteAllFromCatalog;
-const searchItemsFromCatalog = catalogControllers.searchItemsFromCatalog;
-const searchItemById = catalogControllers.searchItemById;
-const updateItemById = catalogControllers.updateItemFromCatalogById;
-const deleteItemById = catalogControllers.deleteItemById;
+
+const catalogControllers = require('../controllers/catalog');
+const { addInCatalog, getFromCatalog, deleteAllFromCatalog, searchItemsFromCatalog,
+        searchItemById, updateItemFromCatalogById: updateItemById, deleteItemById } = catalogControllers;
 
 const router = express.Router();
 

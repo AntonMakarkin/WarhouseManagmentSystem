@@ -133,12 +133,9 @@ const deleteItemById = (model, modelName) => {
             res.status(404).json({ error: err.message })
         }
     }
-}
+};
 
-module.exports.addInCatalog = addInCatalog;
-module.exports.getFromCatalog = getFromCatalog;
-module.exports.deleteAllFromCatalog = deleteAllFromCatalog;
-module.exports.searchItemsFromCatalog = searchItemsFromCatalog;
-module.exports.searchItemById = searchItemById;
-module.exports.updateItemFromCatalogById = updateItemFromCatalogById;
-module.exports.deleteItemById = deleteItemById;
+module.exports = {
+    addInCatalog, getFromCatalog, deleteAllFromCatalog, searchItemsFromCatalog, 
+    searchItemById, updateItemFromCatalogById, deleteItemById
+}

@@ -23,8 +23,7 @@ const MainPage = () => {
     const classes = useStyles();
 
     const sidebar = document.getElementsByTagName('aside');
-    console.log(sidebar);
-
+    
     const [hideSidebar, setHideSidebar] = useState(false)
 
     const setHideSidebarHandler = () => {
