@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Avatar, Typography, Container } from '@material-ui/core';
@@ -18,6 +18,7 @@ import useStyles from './styles';
 const SideBar = () => {
     const user = useSelector(state => state.user.currentUser);
     const { darkMode, setDarkMode } = useContext(Context);
+    const match = useRouteMatch();
     const dispatch = useDispatch();
     const history = useHistory();
     const classes = useStyles();
@@ -56,7 +57,7 @@ const SideBar = () => {
                         <FormatListBulletedSharpIcon className={classes.sidebarLinkIcon}/>
                         <Typography className={classes.sidebarLinkText}>Каталог</Typography>
                     </Link>
-                    <Link className={classes.sidebarLinkContainer} style={darkMode ? {color: '#fff'} : {color: '#000'}} to='/'>
+                    <Link className={classes.sidebarLinkContainer} style={darkMode ? {color: '#fff'} : {color: '#000'}} to={`${match.url}/personal`}>
                         <PermIdentityIcon className={classes.sidebarLinkIcon}/>
                         <Typography className={classes.sidebarLinkText}>Персонал</Typography>
                     </Link>

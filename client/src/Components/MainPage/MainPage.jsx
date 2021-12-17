@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useHistory, Switch, Route } from 'react-router';
+import { useHistory, Switch, Route, useRouteMatch } from 'react-router';
 import { useDispatch } from 'react-redux';
 
 import { Grid, Container, Button, AppBar, Box, IconButton } from '@material-ui/core';
@@ -13,16 +13,20 @@ import Context from '../../Context/context';
 
 import SideBar from '../SideBar/SideBar';
 import Home from '../Home/Home';
+import LinkPage from '../Pages/LinkPage/LinkPage';
+import DataPage from '../Pages/DataPage/DataPage';
 
 import useStyles from './styles';
 
 const MainPage = () => {
     const { darkMode } = useContext(Context);
-    const dispatch = useDispatch();
-    const history = useHistory();
+    //const dispatch = useDispatch();
+    //const history = useHistory();
+    const match = useRouteMatch();
     const classes = useStyles();
 
     const sidebar = document.getElementsByTagName('aside');
+    const linksArray = [{link: 'couriers', name: 'Курьеры'}];
     
     const [hideSidebar, setHideSidebar] = useState(false)
 
@@ -42,7 +46,10 @@ const MainPage = () => {
                     </Box>
                 </AppBar>
                 <Switch>
-                    <Route exact path="/" component={Home}/>
+                    <Route exact path={`${match.path}`} component={Home}/>
+                    <Route exact path={`${match.path}/personal`} 
+                        render={props => (<LinkPage {...props} header={'Персонал'} arrayOfLinks={linksArray} />)}/>
+                    <Route exact path={`${match.path}/personal/couriers`} component={DataPage}/>
                 </Switch>
             </Container>
         </Container>

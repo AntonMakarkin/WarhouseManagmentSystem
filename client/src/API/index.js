@@ -14,6 +14,8 @@ API.interceptors.request.use((req) => {
     return req;
 });
 
+export const fetchUsers = (typeUser) => API.get(`/${typeUser}`);
+
 export const signIn = (formData) => API.post('/admin/login', formData);
 export const logout = () => API.post('/admin/logout', {withCredentials: true});
 export const refresh = () => API.get('/admin/refresh', {withCredentials: true});
