@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { auth } from './Actions/user';
 
@@ -14,6 +14,7 @@ import MainPage from './Components/MainPage/MainPage';
 
 const App = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     
     const [darkMode, setDarkMode] = useState(false);
 
@@ -29,8 +30,8 @@ const App = () => {
 
     useEffect(() => {
         setDarkTheme()
-        dispatch(auth());
-    }, [dispatch]);
+        //dispatch(auth());
+    }, [/*dispatch*/]);
 
     return (
         <ThemeProvider.Provider value={{darkMode, setDarkMode}}>

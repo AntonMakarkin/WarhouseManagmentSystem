@@ -1,4 +1,4 @@
-import { FETCH_ALL } from '../../Constants/actionTypes';
+import { FETCH_ALL, LOGOUT } from '../../Constants/actionTypes';
 import * as API from '../../API/index';
 
 export const getCouriers = () => async (dispatch) => {
