@@ -10,7 +10,7 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import Context from '../../Context/context';
 
 import SideBar from '../SideBar/SideBar';
-import ModalUser from '../Modals/ModalUser/ModalUser'
+import Modal from '../Modals/Modal'
 import Home from '../Home/Home';
 import LinkPage from '../Pages/LinkPage/LinkPage';
 import DataPage from '../Pages/DataPage/DataPage';
@@ -49,7 +49,7 @@ const MainPage = () => {
                     <Route exact path={`${match.path}/personal`} 
                         render={props => (<LinkPage {...props} header={'Персонал'} arrayOfLinks={linksArray} />)}/>
                     <Route exact path={`${match.path}/personal/couriers`}
-                        render={props => (<DataPage {...props} header={linksArray[0].name} modal={ModalUser} />)}/>
+                        render={props => (<DataPage {...props} header={linksArray[0].name} modal={Modal} modalHeader={'Добавить курьера'} />)}/>
                 </Switch>
             </Container>
         </Container>

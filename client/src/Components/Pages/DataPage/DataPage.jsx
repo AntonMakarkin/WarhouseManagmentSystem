@@ -8,8 +8,8 @@ import DataItems from '../../DataItems/DataItems';
 import Pagination from '../../Pagination/Pagination';
 import useStyles from './styles';
 
-const DataPage = ({ header, modal }) => {
-    const [modalActive, setModalActive] = useState(true)
+const DataPage = ({ header, modal, modalHeader }) => {
+    const [modalActive, setModalActive] = useState(true);
     const dispatch = useDispatch();
     const classes = useStyles();
     const AddItemModal = modal;
@@ -18,12 +18,13 @@ const DataPage = ({ header, modal }) => {
     return (
         <div className={classes.dataPageContainer}>
             <h2>{header}</h2>
-            <button>Добавить</button>
+            <button onClick={() => setModalActive(true)}>Добавить</button>
             <DataItems/>
             <Paper>
                 <Pagination page={page}/>
             </Paper>
-            <AddItemModal active={modalActive} setActive={setModalActive}/>
+            <AddItemModal active={modalActive} setActive={setModalActive} header={modalHeader}>
+            </AddItemModal>
         </div>
     )
 }
