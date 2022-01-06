@@ -4,6 +4,9 @@ const useStyles = makeStyles((theme) => ({
     dataPageContainer: {
         paddingLeft: '20px',
         paddingRight: '20px'
+    },
+    dataItemsContainer: {
+        
     }
 }));
 

@@ -46,6 +46,8 @@ const MainPage = () => {
                 </AppBar>
                 <Switch>
                     <Route exact path={`${match.path}`} component={Home}/>
+                    <Route exact path={`${match.path}/catalog`}
+                        render={props => (<LinkPage {...props} header={'Каталог'} arrayOfLinks={linksArray} />)}/>
                     <Route exact path={`${match.path}/personal`} 
                         render={props => (<LinkPage {...props} header={'Персонал'} arrayOfLinks={linksArray} />)}/>
                     <Route exact path={`${match.path}/personal/couriers`}

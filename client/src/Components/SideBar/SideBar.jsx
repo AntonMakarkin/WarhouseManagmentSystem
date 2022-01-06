@@ -53,7 +53,7 @@ const SideBar = () => {
                         <HomeTwoToneIcon className={classes.sidebarLinkIcon}/>
                         <Typography className={classes.sidebarLinkText}>Главная</Typography>
                     </Link>
-                    <Link className={classes.sidebarLinkContainer} style={darkMode ? {color: '#fff'} : {color: '#000'}} to='/'>
+                    <Link className={classes.sidebarLinkContainer} style={darkMode ? {color: '#fff'} : {color: '#000'}} to={`${match.url}/catalog`}>
                         <FormatListBulletedSharpIcon className={classes.sidebarLinkIcon}/>
                         <Typography className={classes.sidebarLinkText}>Каталог</Typography>
                     </Link>

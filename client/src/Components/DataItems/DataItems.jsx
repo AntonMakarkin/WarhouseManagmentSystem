@@ -11,7 +11,9 @@ const DataItems = () => {
     return (
         <div>
             {users.map(item => (
-                <DataItem key={item._id} item={item}/>
+                <div key={item._id}>
+                    <DataItem item={item}/>
+                </div>
             ))}
         </div>
     )

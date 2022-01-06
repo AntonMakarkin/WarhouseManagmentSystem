@@ -18,7 +18,7 @@ const router = new express.Router();
 const allowedUpdates = ['name', 'email', 'password', 'phone'];
 
 //user routes
-router.post('/couriers', auth([Admin]), createCourier(Courier));
+router.post('/couriers', auth([Admin]), createCourier(Courier, 'courier'));
 router.get('/couriers', auth([Admin, StoreKeeper]), getListOfUsers(Courier));
 
 router.get('/couriers/search', auth([Admin, StoreKeeper]), searchAccount(Courier));
