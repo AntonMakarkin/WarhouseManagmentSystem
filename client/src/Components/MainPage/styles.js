@@ -14,15 +14,31 @@ const useStyles = makeStyles((theme) => ({
     },
     appBar: {
         display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         paddingTop: '10px',
         paddingBottom: '10px',
         paddingLeft: '35px',
+        paddingRight: '35px',
         backgroundColor: '#fff',
         boxShadow: '5px 7px 26px -5px #cdd4e7'
+    },
+    appBarButtonBox: {
+        display: 'flex',
+        alignItems: 'center'
     },
     appBarButton: {
         width: '40px',
         height: '40px'
+    },
+    darkThemeButton: {
+        display: 'flex',
+        alignItems: 'center',
+        marginRight: '15px'
+    },
+    logoutButtonIcon: {
+        width: '30px',
+        height: '30px'
     }
 }));
 

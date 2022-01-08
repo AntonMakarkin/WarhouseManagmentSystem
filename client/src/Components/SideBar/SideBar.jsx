@@ -17,23 +17,12 @@ import useStyles from './styles';
 
 const SideBar = () => {
     const user = useSelector(state => state.user.currentUser);
-    const { darkMode, setDarkMode } = useContext(Context);
+    const { darkMode } = useContext(Context);
     const match = useRouteMatch();
-    const dispatch = useDispatch();
-    const history = useHistory();
     const classes = useStyles();
 
     let avatar = `data:image/jpg;base64,${user?.avatar}`;
     avatar = avatar.replace(/^(javascript\:)/,"");
-
-    const handleDarkMode = () => {
-        setDarkMode(!darkMode);
-        localStorage.setItem('darkTheme', !darkMode);
-    }
-
-    const handleSubmit = () => {
-        dispatch(logout(history));
-    }
 
     return (
         <aside className={classes.sidebar} style={darkMode ? {backgroundColor: '#1A202E', boxShadow: 'none', borderRight: '1px solid #1A202E'} : {backgroundColor: '#fff'}}>
@@ -62,8 +51,6 @@ const SideBar = () => {
                         <Typography className={classes.sidebarLinkText}>Персонал</Typography>
                     </Link>
                 </Container>
-                <button onClick={handleSubmit}>Выйти</button>
-                <button onClick={handleDarkMode}>Смена темы</button>
             </Container>
         </aside>
     )

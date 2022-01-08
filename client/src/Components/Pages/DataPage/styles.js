@@ -5,6 +5,9 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: '20px',
         paddingRight: '20px'
     },
+    addButton: {
+        textTransform: 'none'
+    },
     dataItemsContainer: {
         
     }
