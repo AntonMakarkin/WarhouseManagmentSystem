@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, Switch, Route, useRouteMatch } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-
+import decode from 'jwt-decode';
 
 import { Grid, Container, Button, AppBar, Box, IconButton, Switch as SwitchButton } from '@material-ui/core';
 
@@ -11,7 +11,6 @@ import LogoutIcon from '@material-ui/icons/ExitToApp';
 import NightsStay from '@material-ui/icons/NightsStay';
 import LightMode from '@material-ui/icons/WbSunny'
 
-import { auth } from '../../Actions/user';
 import { logout } from '../../Actions/user';
 
 import Context from '../../Context/context';
@@ -45,9 +44,22 @@ const MainPage = () => {
     }
 
     //you have to validate token in localstorage
-    useEffect(() => {
+    /*useEffect(() => {
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            const decodedToken = decode(token);
+
+            if (decodedToken.exp * 1000 < new Date().getTime()) {
+                refreshToken();
+            }
+        }
+
+    }, [location]);*/
+
+    /*useEffect(() => {
         dispatch(auth());
-    }, [dispatch])
+    }, [dispatch])*/
 
     return (
         <Container className={classes.mainContainer} disableGutters maxWidth={false}>

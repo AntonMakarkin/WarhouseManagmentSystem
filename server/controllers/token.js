@@ -26,7 +26,7 @@ const refreshToken = (model, tokenModel, cookieLife = 2592000000) => {
                   refreshToken = tokens.refreshToken;
 
             res.cookie('refreshToken', refreshToken, { maxAge: cookieLife, httpOnly: true });
-            res.json({ user, accessToken, refreshToken });
+            res.json({ accessToken, refreshToken });
         } catch (err) {
             res.status(401).json({ error: err.message });
         }

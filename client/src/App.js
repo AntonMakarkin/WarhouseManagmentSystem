@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Switch, Route, Redirect, useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { auth } from './Actions/user';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import { CssBaseline } from '@material-ui/core';
 
@@ -13,9 +11,6 @@ import AuthPage from './Components/AuthPage/AuthPage';
 import MainPage from './Components/MainPage/MainPage';
 
 const App = () => {
-    const dispatch = useDispatch();
-    const history = useHistory();
-    
     const [darkMode, setDarkMode] = useState(false);
 
     const setDarkTheme = () => {
