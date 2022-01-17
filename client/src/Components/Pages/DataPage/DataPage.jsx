@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Paper, Container, TextField, Button } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
+import { useLocation } from 'react-router-dom';
 
 import AddIcon from '@material-ui/icons/Add';
 
@@ -14,6 +15,10 @@ import DataItems from '../../DataItems/DataItems';
 import Pagination from '../../Pagination/Pagination';
 import useStyles from './styles';
 
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
+}
+
 const DataPage = ({ header, modal, modalHeader }) => {
     const { isLoading } = useSelector((state) => state.courier);
     const { darkMode } = useContext(Context);
@@ -21,8 +26,9 @@ const DataPage = ({ header, modal, modalHeader }) => {
     const [modalActive, setModalActive] = useState(false);
     const dispatch = useDispatch();
     const classes = useStyles();
+    const query = useQuery();
     const AddItemModal = modal;
-    const page = 1
+    const page = query.get('page') || 1;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,7 +45,7 @@ const DataPage = ({ header, modal, modalHeader }) => {
                         style={darkMode ? {color: '#fff', backgroundColor: 'rgb(26, 32, 46)'} : {color: '#000'}} 
                         onClick={() => setModalActive(true)}>Добавить</Button>
                 <Container className={classes.dataItemsContainer} disableGutters maxWidth={false}>
-                    {isLoading ? <><Skeleton/><Skeleton/></> : <DataItems/>}
+                    {isLoading ? <><Skeleton style={{flex: '1 0 auto'}}/><Skeleton/></> :  <DataItems/>}
                     <Paper>
                         <Pagination page={page}/>
                     </Paper>

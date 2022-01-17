@@ -7,7 +7,7 @@ const DataItem = ({ item }) => {
     const classes = useStyles();
     
     return (
-        <Card>
+        <Card className={classes.dataItem}>
             <Typography>{item.name}</Typography>
         </Card>
     )

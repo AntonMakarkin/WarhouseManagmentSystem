@@ -112,6 +112,7 @@ const deleteAccountAvatar = () => {
 const getListOfUsers = (model) => {
     return async (req, res) => {
         const { page } = req.query;
+        
         try {
             const LIMIT = 10;
             const startIndex = (Number(page) - 1) * LIMIT; // get the starting index of every page
@@ -120,13 +121,6 @@ const getListOfUsers = (model) => {
             const users = await model.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
 
             res.json({ users, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
-            /*const users = await model.find({});
-
-            if (!users) {
-                throw new Error('Пользователи данной группы отсутсвуют!');
-            }
-
-            res.json({ users });*/
         } catch (err) {
             res.status(404).json({ error: err.message });
         }

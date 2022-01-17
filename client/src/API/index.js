@@ -38,7 +38,7 @@ API.interceptors.response.use((config) => {
 
 
 
-export const fetchUsers = (typeUser) => API.get(`/${typeUser}`);
+export const fetchUsers = (typeUser, page) => API.get(`/${typeUser}?page=${page}`);
 export const createUser = (typeUser, newUser) => API.post(`/${typeUser}`, newUser);
 
 export const signIn = (formData) => API.post('/admin/login', formData);

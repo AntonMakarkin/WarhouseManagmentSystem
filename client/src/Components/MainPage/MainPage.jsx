@@ -43,24 +43,6 @@ const MainPage = () => {
         dispatch(logout(history));
     }
 
-    //you have to validate token in localstorage
-    /*useEffect(() => {
-        const token = localStorage.getItem("token");
-
-        if (token) {
-            const decodedToken = decode(token);
-
-            if (decodedToken.exp * 1000 < new Date().getTime()) {
-                refreshToken();
-            }
-        }
-
-    }, [location]);*/
-
-    /*useEffect(() => {
-        dispatch(auth());
-    }, [dispatch])*/
-
     return (
         <Container className={classes.mainContainer} disableGutters maxWidth={false}>
             <SideBar/>

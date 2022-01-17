@@ -6,10 +6,10 @@ import useStyles from './styles';
 
 const DataItems = () => {
     const { users } = useSelector((state) => state.courier);
-
+    const classes = useStyles();
 
     return (
-        <div>
+        <div className={classes.dataItemsBlocksContainer}>
             {users.map(item => (
                 <div key={item._id}>
                     <DataItem item={item}/>

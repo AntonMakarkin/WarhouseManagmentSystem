@@ -7,6 +7,8 @@ const useStyles = makeStyles((theme) => ({
         height: '100%'
     },
     secondaryContainer: {
+        display: 'flex',
+        flexDirection: 'column',
         backgroundColor: '#f0f3fb',
         height: '100%',
         width: '100%',
