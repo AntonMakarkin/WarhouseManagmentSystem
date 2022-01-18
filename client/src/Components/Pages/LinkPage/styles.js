@@ -14,13 +14,19 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         flexDirection: 'column'
     },
+    linkPageLinkCard: {
+        transition: 'all 0.2s',
+        '&:hover': {
+            transform: 'scale(1.015)'
+        }
+    },
     linkPageLink: {
         fontSize: '16px',
         textDecoration: 'none',
         display: 'block',
         width: '100%',
         height: '100%',
-        padding: '8px 16px'
+        padding: '32px 20px',
     }
 }));
 

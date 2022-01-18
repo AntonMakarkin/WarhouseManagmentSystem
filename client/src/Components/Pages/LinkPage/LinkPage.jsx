@@ -18,8 +18,9 @@ const LinkPage = ({ header, arrayOfLinks }) => {
                         variant='h2'>{header}</Typography>
                 <Grid container alignItems="stretch" spacing={6}>
                     {arrayOfLinks?.map((link, i) => (
-                        <Grid key={i} item xs={12} sm={12} md={12} lg={12}>
-                            <Card style={darkMode ? {backgroundColor: 'rgb(26, 32, 46)'} : {color: '#000'}}>
+                        <Grid key={i} item xs={12} sm={12} md={6} lg={6}>
+                            <Card style={darkMode ? {backgroundColor: 'rgb(26, 32, 46)'} : {color: '#000'}}
+                                  className={classes.linkPageLinkCard}>
                                 <Link style={darkMode ? {color: '#fff'} : {color: '#000'}}
                                 className={classes.linkPageLink}
                                 to={`${match.url}/${link.link}`}>

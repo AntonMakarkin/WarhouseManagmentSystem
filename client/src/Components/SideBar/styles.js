@@ -48,7 +48,8 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: '0.5rem',
         transition: 'background-color 0.3s',
         '&:hover': {
-            backgroundColor: 'rgb(35, 43, 62)'
+            backgroundColor: 'rgb(35, 43, 62)',
+            color: '#fff'
         }
     },
     sidebarLinkIcon: {
