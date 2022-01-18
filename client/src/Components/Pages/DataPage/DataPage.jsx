@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Paper, Container, TextField, Button } from '@material-ui/core';
+import { Paper, Container, TextField, Button, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { useLocation } from 'react-router-dom';
 
@@ -37,8 +37,10 @@ const DataPage = ({ header, modal, modalHeader }) => {
     }
     
     return (
-        <div className={classes.dataPageContainer}>
-            <h2 style={darkMode ? {color: '#fff'} : {color: '#000'}}>{header}</h2>
+        <Container className={classes.dataPageContainer}>
+            <Typography className={classes.dataPageHeader} 
+                        variant="h2" 
+                        style={darkMode ? {color: '#fff'} : {color: '#000'}}>{header}</Typography>
                 <Button variant="contained"
                         className={classes.addButton} 
                         endIcon={<AddIcon/>}
@@ -59,7 +61,7 @@ const DataPage = ({ header, modal, modalHeader }) => {
                     <Button type="submit">Добавить</Button>
                 </form>
             </AddItemModal>
-        </div>
+        </Container>
     )
 }
 

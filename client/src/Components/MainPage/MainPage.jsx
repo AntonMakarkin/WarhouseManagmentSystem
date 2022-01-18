@@ -10,6 +10,10 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import NightsStay from '@material-ui/icons/NightsStay';
 import LightMode from '@material-ui/icons/WbSunny'
+import DeliverLogo from '../../SvgIcons/CourierLogo'
+import ManagerLogo from '../../SvgIcons/ManagerLogo';
+import StoreKeeperLogo from '../../SvgIcons/StoreKeeperLogo';
+import CustomerLogo from '../../SvgIcons/CustomerLogo';
 
 import { logout } from '../../Actions/user';
 
@@ -31,8 +35,13 @@ const MainPage = () => {
     const match = useRouteMatch();
     const classes = useStyles();
 
+    const fill = darkMode ? '#fff' : '#000';
+
     //const sidebar = document.getElementsByTagName('aside');
-    const linksArray = [{link: 'couriers', name: 'Курьеры'}];
+    const linksArray = [{link: 'couriers', name: 'Курьеры', logo: <DeliverLogo width="50px" height="50px" fill={fill}/>}, 
+    {link: 'managers', name: 'Менеджеры', logo: <ManagerLogo width="50px" height="50px" fill={fill}/>},
+    {link: 'storekeepers', name: 'Кладовщики', logo: <StoreKeeperLogo width="50px" height="50px" fill={fill}/>},
+    {link: 'customers', name: 'Клиенты', logo: <CustomerLogo width="50px" height="50px" fill={fill}/>}];
 
     const handleDarkMode = () => {
         setDarkMode(!darkMode);
@@ -70,6 +79,12 @@ const MainPage = () => {
                         render={props => (<LinkPage {...props} header={'Персонал'} arrayOfLinks={linksArray} />)}/>
                     <Route exact path={`${match.path}/personal/couriers`}
                         render={props => (<DataPage {...props} header={linksArray[0].name} modal={Modal} modalHeader={'Добавить курьера'} />)}/>
+                    <Route exact path={`${match.path}/personal/managers`}
+                        render={props => (<DataPage {...props} header={linksArray[1].name} modal={Modal} modalHeader={'Добавить менеджера'} />)}/>
+                    <Route exact path={`${match.path}/personal/storekeepers`}
+                        render={props => (<DataPage {...props} header={linksArray[2].name} modal={Modal} modalHeader={'Добавить кладовщика'} />)}/>
+                    <Route exact path={`${match.path}/personal/customers`}
+                        render={props => (<DataPage {...props} header={linksArray[3].name} modal={Modal} modalHeader={'Добавить клиента'} />)}/>
                 </Switch>
             </Container>
         </Container>

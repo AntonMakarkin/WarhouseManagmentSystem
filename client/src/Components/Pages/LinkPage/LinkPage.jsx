@@ -1,24 +1,40 @@
 import React, { useEffect, useContext } from 'react';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { auth } from '../../../Actions/user'
+import { Container, Typography, Card, Grid, Box } from '@material-ui/core';
 
 import Context from '../../../Context/context';
 
 import useStyles from './styles';
 
 const LinkPage = ({ header, arrayOfLinks }) => {
-    //const users = useSelector((state) => state?.users)
     const { darkMode } = useContext(Context);
     const match = useRouteMatch();
+    const classes = useStyles();
 
     return (
-        <div style={!darkMode ? {color: '#000'} : {color: '#fff'}}>
-            <h2>{header}</h2>
-            {arrayOfLinks?.map((link, i) => (
-                <Link key={i} to={`${match.url}/${link.link}`}>{link.name}</Link>
-            ))}
-        </div>
+        <Container style={!darkMode ? {color: '#000'} : {color: '#fff'}}>
+            <Typography className={classes.linkPageHeader} 
+                        variant='h2'>{header}</Typography>
+                <Grid container alignItems="stretch" spacing={6}>
+                    {arrayOfLinks?.map((link, i) => (
+                        <Grid key={i} item xs={12} sm={12} md={12} lg={12}>
+                            <Card style={darkMode ? {backgroundColor: 'rgb(26, 32, 46)'} : {color: '#000'}}>
+                                <Link style={darkMode ? {color: '#fff'} : {color: '#000'}}
+                                className={classes.linkPageLink}
+                                to={`${match.url}/${link.link}`}>
+                                    <Box>
+                                        {link.logo}
+                                    </Box>
+                                    <Typography>
+                                        {link.name}
+                                    </Typography>
+                                </Link>
+                            </Card>
+                        </Grid>
+                    ))}
+                </Grid>
+        </Container>
     )
 }
 
