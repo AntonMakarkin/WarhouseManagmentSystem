@@ -1,4 +1,4 @@
-import { START_LOADING, END_LOADING, FETCH_ALL, CREATE } from "../Constants/actionTypes";
+import { START_LOADING, END_LOADING, FETCH_ALL, FETCH_BY_SEARCH, CREATE, UPDATE, DELETE } from "../Constants/actionTypes";
 
 const courierReducer = (state = { isLoading: true, users: [] }, action) => {
     switch (action.type) {
@@ -13,9 +13,14 @@ const courierReducer = (state = { isLoading: true, users: [] }, action) => {
                 currentPage: action.payload.currentPage,
                 numberOfPages: action.payload.numberOfPages
             }
-        case CREATE: {
+        case FETCH_BY_SEARCH:
+            return { ...state, users: action.payload.items }
+        case CREATE:
             return { ...state, users: [...state.users, action.payload] }
-        }
+        case UPDATE:
+            return { ...state, users: state.users.map(user => (user._id === action.payload._id ? action.payload : user))}
+        case DELETE:
+            return { ...state, users: state.users.filter(user => user._id !== action.payload)}
         default:
             return state
     }

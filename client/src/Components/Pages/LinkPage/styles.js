@@ -15,9 +15,15 @@ const useStyles = makeStyles(() => ({
         flexDirection: 'column'
     },
     linkPageLinkCard: {
+        transition: 'background-color 0.4s',
+        '&:hover': {
+            backgroundColor: '#000'
+        }
+    },
+    linkPageLinkCardLight: {
         transition: 'all 0.2s',
         '&:hover': {
-            transform: 'scale(1.015)'
+            backgroundColor: '#fff'
         }
     },
     linkPageLink: {

@@ -48,7 +48,7 @@ const SideBar = () => {
     }, [location])
 
     return (
-        <aside className={classes.sidebar} style={darkMode ? {backgroundColor: '#1A202E', boxShadow: 'none', borderRight: '1px solid #1A202E'} : {backgroundColor: '#fff'}}>
+        <aside className={classes.sidebar} style={darkMode ? {backgroundColor: '#1A202E', boxShadow: 'none'} : {backgroundColor: '#fff'}}>
             <Container disableGutters>
                 <span className={classes.logo} style={darkMode ? {color: '#fff'} : {color: '#000'}}>UniShop</span>
                 <Container disableGutters>

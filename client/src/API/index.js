@@ -19,7 +19,7 @@ API.interceptors.request.use((config) => {
     return config;
 });
 
-API.interceptors.response.use((config) => {
+/*API.interceptors.response.use((config) => {
     return config;
 }, async (error) => {
     const originalRequest = error.config;
@@ -34,11 +34,12 @@ API.interceptors.response.use((config) => {
         }
     }
     throw error;
-})
+})*/
 
 
 
 export const fetchUsers = (typeUser, page) => API.get(`/${typeUser}?page=${page}`);
+export const fetchUsersBySearch = (typeUser, searchQuery) => API.get(`/${typeUser}/search?searchQuery=${searchQuery.search}`);
 export const createUser = (typeUser, newUser) => API.post(`/${typeUser}`, newUser);
 
 export const signIn = (formData) => API.post('/admin/login', formData);

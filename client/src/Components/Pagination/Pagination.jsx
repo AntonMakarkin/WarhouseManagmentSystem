@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 import { getCouriers } from '../../Actions/Personal/couriers';
 import useStyles from './styles';
 
-const Paginate = ({ page }) => {
-    const { numberOfPages } = useSelector(state => state.courier);
+const Paginate = ({ page, getAllItems,  }) => {
+    const { numberOfPages } = useSelector(state => state['courier']);
     const dispatch = useDispatch();
     const match = useRouteMatch();
 
@@ -16,7 +16,7 @@ const Paginate = ({ page }) => {
 
     useEffect(() => {
         if (page) {
-            dispatch(getCouriers(page));
+            dispatch(getAllItems(page));
         }
     }, [dispatch, page]);
 

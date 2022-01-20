@@ -16,6 +16,12 @@ import StoreKeeperLogo from '../../SvgIcons/StoreKeeperLogo';
 import CustomerLogo from '../../SvgIcons/CustomerLogo';
 
 import { logout } from '../../Actions/user';
+import { getCouriers } from '../../Actions/Personal/couriers';
+import { getManagers } from '../../Actions/Personal/managers';
+import { getCouriersBySearch } from '../../Actions/Personal/couriers';
+import { getManagersBySearch } from '../../Actions/Personal/managers';
+import { createCourier } from '../../Actions/Personal/couriers';
+import { createManager } from '../../Actions/Personal/managers';
 
 import Context from '../../Context/context';
 
@@ -78,9 +84,19 @@ const MainPage = () => {
                     <Route exact path={`${match.path}/personal`} 
                         render={props => (<LinkPage {...props} header={'Персонал'} arrayOfLinks={linksArray} />)}/>
                     <Route exact path={`${match.path}/personal/couriers`}
-                        render={props => (<DataPage {...props} header={linksArray[0].name} modal={Modal} modalHeader={'Добавить курьера'} />)}/>
+                        render={props => (<DataPage {...props} header={linksArray[0].name} 
+                                                               modal={Modal} 
+                                                               modalHeader={'Добавить курьера'}
+                                                               searchAction={getCouriersBySearch}
+                                                               createAction={createCourier}
+                                                               getAllAction={getCouriers} />)}/>
                     <Route exact path={`${match.path}/personal/managers`}
-                        render={props => (<DataPage {...props} header={linksArray[1].name} modal={Modal} modalHeader={'Добавить менеджера'} />)}/>
+                        render={props => (<DataPage {...props} header={linksArray[1].name} 
+                                                               modal={Modal} 
+                                                               modalHeader={'Добавить менеджера'}
+                                                               searchAction={getManagersBySearch}
+                                                               createAction={createManager}
+                                                               getAllAction={getManagers} />)}/>
                     <Route exact path={`${match.path}/personal/storekeepers`}
                         render={props => (<DataPage {...props} header={linksArray[2].name} modal={Modal} modalHeader={'Добавить кладовщика'} />)}/>
                     <Route exact path={`${match.path}/personal/customers`}

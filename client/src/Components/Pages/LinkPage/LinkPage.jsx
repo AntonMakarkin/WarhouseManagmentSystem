@@ -20,7 +20,7 @@ const LinkPage = ({ header, arrayOfLinks }) => {
                     {arrayOfLinks?.map((link, i) => (
                         <Grid key={i} item xs={12} sm={12} md={6} lg={6}>
                             <Card style={darkMode ? {backgroundColor: 'rgb(26, 32, 46)'} : {color: '#000'}}
-                                  className={classes.linkPageLinkCard}>
+                                  className={darkMode ? `${classes.linkPageLinkCard}` : `${classes.linkPageLinkCardLight}`}>
                                 <Link style={darkMode ? {color: '#fff'} : {color: '#000'}}
                                 className={classes.linkPageLink}
                                 to={`${match.url}/${link.link}`}>

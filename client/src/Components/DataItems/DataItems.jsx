@@ -11,9 +11,7 @@ const DataItems = () => {
     return (
         <div className={classes.dataItemsBlocksContainer}>
             {users.map(item => (
-                <div key={item._id}>
-                    <DataItem item={item}/>
-                </div>
+                <DataItem key={item._id} item={item}/>
             ))}
         </div>
     )

@@ -12,7 +12,8 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: '#f0f3fb',
         height: '100%',
         width: '100%',
-        flex: '1'
+        flex: '1',
+        transition: 'background-color 0.4s'
     },
     appBar: {
         display: 'flex',
@@ -23,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
         paddingLeft: '35px',
         paddingRight: '35px',
         backgroundColor: '#fff',
-        boxShadow: '5px 7px 26px -5px #cdd4e7'
+        boxShadow: '5px 7px 26px -5px #cdd4e7',
+        transition: 'background-color 0.4s'
     },
     appBarButtonBox: {
         display: 'flex',

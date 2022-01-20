@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme) => ({
         width: '250px',
         height: '100%',
         boxShadow: '0 8px 20px 0 rgb(183 192 206 / 20%)',
-        zIndex: '2'
+        zIndex: '2',
+        transition: 'background-color 0.4s'
     },
     sidebarAvatar: {
         width: '75px',
