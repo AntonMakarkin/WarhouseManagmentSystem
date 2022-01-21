@@ -5,7 +5,7 @@ import DataItem from '../DataItem/DataItem';
 import useStyles from './styles';
 
 const DataItems = () => {
-    const { users } = useSelector((state) => state.courier);
+    const { users } = useSelector((state) => state.personal);
     const classes = useStyles();
 
     return (

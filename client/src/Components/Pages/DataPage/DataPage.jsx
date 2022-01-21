@@ -17,7 +17,7 @@ function useQuery() {
 }
 
 const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, createAction }) => {
-    const { isLoading } = useSelector((state) => state.courier);
+    const { isLoading } = useSelector((state) => state.personal);
     const { darkMode } = useContext(Context);
     const [postData, setPostData] = useState({ name: '', email: '', phone: '', password: ''});
     const [modalActive, setModalActive] = useState(false);
@@ -27,6 +27,7 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
     const AddItemModal = modal;
     const page = query.get('page') || 1;
     const searchQuery = query.get('searchQuery');
+    console.log(getAllAction);
 
     const [search, setSearch] = useState('');
     const history = useHistory();
@@ -49,9 +50,9 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
         dispatch(createAction({ ...postData }))
     }
 
-    useEffect(() => {
+    /*useEffect(() => {
         dispatch(getAllAction(page))
-    }, [dispatch, page])
+    }, [dispatch, page, getAllAction]);*/
     
     return (
         <Container className={classes.dataPageContainer}>

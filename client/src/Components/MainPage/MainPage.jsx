@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useLocation, Switch, Route, useRouteMatch } from 'react-router';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import decode from 'jwt-decode';
 
 import { Grid, Container, Button, AppBar, Box, IconButton, Switch as SwitchButton } from '@material-ui/core';
 
@@ -18,10 +17,13 @@ import CustomerLogo from '../../SvgIcons/CustomerLogo';
 import { logout } from '../../Actions/user';
 import { getCouriers } from '../../Actions/Personal/couriers';
 import { getManagers } from '../../Actions/Personal/managers';
+import { getCustomers } from '../../Actions/Personal/customers';
 import { getCouriersBySearch } from '../../Actions/Personal/couriers';
 import { getManagersBySearch } from '../../Actions/Personal/managers';
+import { getCustomersBySearch } from '../../Actions/Personal/customers';
 import { createCourier } from '../../Actions/Personal/couriers';
 import { createManager } from '../../Actions/Personal/managers';
+import { createCustomer } from '../../Actions/Personal/customers';
 
 import Context from '../../Context/context';
 
@@ -98,9 +100,19 @@ const MainPage = () => {
                                                                createAction={createManager}
                                                                getAllAction={getManagers} />)}/>
                     <Route exact path={`${match.path}/personal/storekeepers`}
-                        render={props => (<DataPage {...props} header={linksArray[2].name} modal={Modal} modalHeader={'Добавить кладовщика'} />)}/>
+                        render={props => (<DataPage {...props} header={linksArray[2].name} 
+                                                               modal={Modal} 
+                                                               modalHeader={'Добавить кладовщика'}
+                                                               searchAction={getCustomersBySearch}
+                                                               createAction={createCustomer}
+                                                               getAllAction={getCustomers} />)}/>
                     <Route exact path={`${match.path}/personal/customers`}
-                        render={props => (<DataPage {...props} header={linksArray[3].name} modal={Modal} modalHeader={'Добавить клиента'} />)}/>
+                        render={props => (<DataPage {...props} header={linksArray[3].name} 
+                                                               modal={Modal} 
+                                                               modalHeader={'Добавить клиента'}
+                                                               searchAction={getCustomersBySearch}
+                                                               createAction={createCustomer}
+                                                               getAllAction={getCustomers} />)}/>
                 </Switch>
             </Container>
         </Container>
