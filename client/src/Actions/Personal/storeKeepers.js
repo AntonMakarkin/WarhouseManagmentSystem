@@ -1,10 +1,10 @@
 import { START_LOADING, END_LOADING, FETCH_ALL, CREATE, FETCH_BY_SEARCH } from '../../Constants/actionTypes';
 import * as API from '../../API/index';
 
-export const getCouriers = (page) => async (dispatch) => {
+export const getStoreKeepers = (page) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
-        const { data: { users, currentPage, numberOfPages } } = await API.fetchUsers('couriers', page);
+        const { data: { users, currentPage, numberOfPages } } = await API.fetchUsers('storekeepers', page);
 
         dispatch({ type: FETCH_ALL, payload: { users, currentPage, numberOfPages } });
         dispatch({ type: END_LOADING });
@@ -13,10 +13,10 @@ export const getCouriers = (page) => async (dispatch) => {
     }
 };
 
-export const getCouriersBySearch = (searchQuery) => async (dispatch) => {
+export const getStoreKeepersBySearch = (searchQuery) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
-        const { data: { items } } = await API.fetchUsersBySearch('couriers', searchQuery);
+        const { data: { items } } = await API.fetchUsersBySearch('storekeepers', searchQuery);
 
         dispatch({ type: FETCH_BY_SEARCH, payload: { items } });
         dispatch({ type: END_LOADING });
@@ -25,11 +25,11 @@ export const getCouriersBySearch = (searchQuery) => async (dispatch) => {
     }
 };
 
-export const createCourier = (post) => async (dispatch) => {
+export const createStoreKeeper = (post) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
         console.log(post);
-        const { data } = await API.createUser('couriers', post);
+        const { data } = await API.createUser('storekeepers', post);
 
         dispatch({ type: CREATE, payload: data });
         dispatch({ type: END_LOADING });

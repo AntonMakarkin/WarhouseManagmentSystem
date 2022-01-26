@@ -27,7 +27,6 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
     const AddItemModal = modal;
     const page = query.get('page') || 1;
     const searchQuery = query.get('searchQuery');
-    console.log(getAllAction);
 
     const [search, setSearch] = useState('');
     const history = useHistory();

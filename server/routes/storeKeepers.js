@@ -12,3 +12,13 @@ const { createUser: createStoreKeeper, login, logout, getAccountInfo, updateAcco
 const upload = require('../service/upload');
 const router = new express.Router();
 
+//list of allowedUpdates
+const allowedUpdates = ['name', 'email', 'password', 'phone'];
+
+//user routes
+router.post('/storekeepers', auth([Admin]), createStoreKeeper(StoreKeeper, 'storekeeper'));
+router.get('/storekeepers', auth([Admin]), getListOfUsers(StoreKeeper));
+
+router.get('/storekeepers/search', auth([Admin]), searchAccount(StoreKeeper));
+
+module.exports = router;

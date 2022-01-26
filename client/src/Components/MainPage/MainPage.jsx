@@ -15,14 +15,20 @@ import StoreKeeperLogo from '../../SvgIcons/StoreKeeperLogo';
 import CustomerLogo from '../../SvgIcons/CustomerLogo';
 
 import { logout } from '../../Actions/user';
+
 import { getCouriers } from '../../Actions/Personal/couriers';
 import { getManagers } from '../../Actions/Personal/managers';
+import { getStoreKeepers } from '../../Actions/Personal/storeKeepers';
 import { getCustomers } from '../../Actions/Personal/customers';
+
 import { getCouriersBySearch } from '../../Actions/Personal/couriers';
 import { getManagersBySearch } from '../../Actions/Personal/managers';
+import { getStoreKeepersBySearch } from '../../Actions/Personal/storeKeepers';
 import { getCustomersBySearch } from '../../Actions/Personal/customers';
+
 import { createCourier } from '../../Actions/Personal/couriers';
 import { createManager } from '../../Actions/Personal/managers';
+import { createStoreKeeper } from '../../Actions/Personal/storeKeepers';
 import { createCustomer } from '../../Actions/Personal/customers';
 
 import Context from '../../Context/context';
@@ -103,9 +109,9 @@ const MainPage = () => {
                         render={props => (<DataPage {...props} header={linksArray[2].name} 
                                                                modal={Modal} 
                                                                modalHeader={'Добавить кладовщика'}
-                                                               searchAction={getCustomersBySearch}
-                                                               createAction={createCustomer}
-                                                               getAllAction={getCustomers} />)}/>
+                                                               searchAction={getStoreKeepersBySearch}
+                                                               createAction={createStoreKeeper}
+                                                               getAllAction={getStoreKeepers} />)}/>
                     <Route exact path={`${match.path}/personal/customers`}
                         render={props => (<DataPage {...props} header={linksArray[3].name} 
                                                                modal={Modal} 
