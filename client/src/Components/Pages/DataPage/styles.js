@@ -15,9 +15,15 @@ const useStyles = makeStyles(() => ({
         fontWeight: 'bold',
         lineHeight: '1.43'
     },
+    dataPageButtonsPanel: {
+        display: 'flex',
+        marginBottom: '10px'
+    },
     addButton: {
         textTransform: 'none',
-        marginBottom: '10px'
+        textDecoration: 'none',
+        height: '100%',
+        marginRight: '10px'
     },
     dataItemsContainer: {
         display: 'flex',

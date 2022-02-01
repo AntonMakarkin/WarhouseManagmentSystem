@@ -38,6 +38,7 @@ import Modal from '../Modals/Modal'
 import Home from '../Home/Home';
 import LinkPage from '../Pages/LinkPage/LinkPage';
 import DataPage from '../Pages/DataPage/DataPage';
+import AddPage from '../Pages/AddPage/AddPage';
 
 import useStyles from './styles';
 
@@ -119,6 +120,9 @@ const MainPage = () => {
                                                                searchAction={getCustomersBySearch}
                                                                createAction={createCustomer}
                                                                getAllAction={getCustomers} />)}/>
+                    <Route exact path={`${match.path}/personal/managers/addNewUser`}
+                        render={props => (<AddPage {...props} header={'менеджера'}
+                                                              createAction={createManager} />)}/>
                 </Switch>
             </Container>
         </Container>

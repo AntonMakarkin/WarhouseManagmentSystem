@@ -1,8 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Paper, Container, TextField, Button, Typography } from '@material-ui/core';
+import { Paper, Container, TextField, Button, Box, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 
 import AddIcon from '@material-ui/icons/Add';
 
@@ -24,6 +24,7 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
     const dispatch = useDispatch();
     const classes = useStyles();
     const query = useQuery();
+    const match = useRouteMatch();
     const AddItemModal = modal;
     const page = query.get('page') || 1;
     const searchQuery = query.get('searchQuery');
@@ -46,7 +47,7 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        dispatch(createAction({ ...postData }))
+        dispatch(createAction({ ...postData }, history))
     }
 
     /*useEffect(() => {
@@ -58,19 +59,24 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
             <Typography className={classes.dataPageHeader} 
                         variant="h2" 
                         style={darkMode ? {color: '#fff'} : {color: '#000'}}>{header}</Typography>
-                <Button variant="contained"
-                        className={classes.addButton} 
-                        endIcon={<AddIcon/>}
-                        style={darkMode ? {color: '#fff', backgroundColor: 'rgb(26, 32, 46)'} : {color: '#000'}} 
-                        onClick={() => setModalActive(true)}>Добавить</Button>
-                <TextField onKeyDown={handleKeyPress} name="search" variant="outlined" label="Поиск" fullWidth value={search} onChange={(e) => setSearch(e.target.value)}/>
+                <Box className={classes.dataPageButtonsPanel}>
+                    <Link to={`${match.url}/addNewUser`} variant="contained" className={classes.addButton}>
+                        <Button variant="contained"
+                                className={classes.addButton} 
+                                endIcon={<AddIcon/>}
+                                style={darkMode ? {color: '#fff', backgroundColor: 'rgb(26, 32, 46)'} : {color: '#000'}}>
+                        Добавить 
+                        </Button>
+                    </Link>
+                    <TextField onKeyDown={handleKeyPress} name="search" variant="outlined" label="Поиск" fullWidth value={search} onChange={(e) => setSearch(e.target.value)}/>
+                </Box>
                 <Container className={classes.dataItemsContainer} disableGutters maxWidth={false}>
                     {isLoading ? <><Skeleton style={{flex: '1 0 auto'}}/><Skeleton/></> :  <DataItems/>}
                     <Paper>
                         <Pagination page={page} getAllItems={getAllAction}/>
                     </Paper>
                 </Container>
-            <AddItemModal active={modalActive} setActive={setModalActive} header={modalHeader}>
+            {/*<AddItemModal active={modalActive} setActive={setModalActive} header={modalHeader}>
                 <form onSubmit={handleSubmit}>
                     <TextField name="name" variant="outlined" label="Имя" fullWidth onChange={(e) => setPostData({ ...postData, name: e.target.value })} />
                     <TextField name="email" variant="outlined" label="Логин" fullWidth onChange={(e) => setPostData({ ...postData, email: e.target.value })} />
@@ -78,7 +84,7 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
                     <TextField name="password" variant="outlined" label="Пароль" fullWidth onChange={(e) => setPostData({ ...postData, password: e.target.value })} />
                     <Button type="submit">Добавить</Button>
                 </form>
-            </AddItemModal>
+            </AddItemModal>*/}
         </Container>
     )
 }

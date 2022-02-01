@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { CLEAR_STATE } from '../../Constants/actionTypes';
 import decode from 'jwt-decode';
 
 import { Avatar, Typography, Container } from '@material-ui/core';
@@ -13,13 +14,14 @@ import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import * as actionType from '../../Constants/actionTypes'
 
 import { refresh } from '../../Actions/user';
+import { clearData } from '../../Actions/Controllers/controllers';
 
 import Context from '../../Context/context';
 
 import useStyles from './styles';
 
 const SideBar = () => {
-    //const user = useSelector(state => state.user.currentUser);
+    const data = useSelector(state => state.personal.users);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
     const { darkMode } = useContext(Context);
     const dispatch = useDispatch();
@@ -36,6 +38,9 @@ const SideBar = () => {
     }
 
     useEffect(() => {
+        if (data.length) {
+            dispatch(clearData());
+        }
         const token = localStorage.getItem('token');
 
         if (token) {

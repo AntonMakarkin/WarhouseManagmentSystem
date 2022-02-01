@@ -25,13 +25,15 @@ export const getManagersBySearch = (searchQuery) => async (dispatch) => {
     }
 };
 
-export const createManager = (post) => async (dispatch) => {
+export const createManager = (post, history) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
         console.log(post);
-        const { data } = await API.createUser('couriers', post);
+        const { data } = await API.createUser('managers', post);
 
         dispatch({ type: CREATE, payload: data });
+
+        history.push('/');
         dispatch({ type: END_LOADING });
     } catch (err) {
         console.log(err);

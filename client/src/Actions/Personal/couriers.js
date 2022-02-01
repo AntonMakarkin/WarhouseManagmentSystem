@@ -25,13 +25,15 @@ export const getCouriersBySearch = (searchQuery) => async (dispatch) => {
     }
 };
 
-export const createCourier = (post) => async (dispatch) => {
+export const createCourier = (post, history) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
         console.log(post);
         const { data } = await API.createUser('couriers', post);
 
         dispatch({ type: CREATE, payload: data });
+
+        history.push('/');
         dispatch({ type: END_LOADING });
     } catch (err) {
         console.log(err);
