@@ -28,7 +28,8 @@ const useStyles = makeStyles(() => ({
     dataItemsContainer: {
         display: 'flex',
         flexDirection: 'column',
-        flexGrow: '1'
+        flexGrow: '1',
+        //overflow: 'auto'
     }
 }));
 

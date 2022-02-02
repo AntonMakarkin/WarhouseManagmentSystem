@@ -1,6 +1,4 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
-import { DataGrid } from '@material-ui/data-grid';
 
 import DataItem from '../DataItem/DataItem';
 import useStyles from './styles';

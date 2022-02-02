@@ -16,16 +16,16 @@ function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
-const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, createAction }) => {
+const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, createAction, collectionName }) => {
     const { isLoading } = useSelector((state) => state.personal);
     const { darkMode } = useContext(Context);
-    const [postData, setPostData] = useState({ name: '', email: '', phone: '', password: ''});
-    const [modalActive, setModalActive] = useState(false);
+    //const [postData, setPostData] = useState({ name: '', email: '', phone: '', password: ''});
+    //const [modalActive, setModalActive] = useState(false);
     const dispatch = useDispatch();
     const classes = useStyles();
     const query = useQuery();
     const match = useRouteMatch();
-    const AddItemModal = modal;
+    //const AddItemModal = modal;
     const page = query.get('page') || 1;
     const searchQuery = query.get('searchQuery');
 
@@ -44,11 +44,11 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
         }
     }
 
-    const handleSubmit = async (e) => {
+    /*const handleSubmit = async (e) => {
         e.preventDefault();
 
         dispatch(createAction({ ...postData }, history))
-    }
+    }*/
 
     /*useEffect(() => {
         dispatch(getAllAction(page))
@@ -73,7 +73,7 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
                 <Container className={classes.dataItemsContainer} disableGutters maxWidth={false}>
                     {isLoading ? <><Skeleton style={{flex: '1 0 auto'}}/><Skeleton/></> :  <DataItems/>}
                     <Paper>
-                        <Pagination page={page} getAllItems={getAllAction}/>
+                        <Pagination page={page} collection={collectionName} getAllItems={getAllAction}/>
                     </Paper>
                 </Container>
             {/*<AddItemModal active={modalActive} setActive={setModalActive} header={modalHeader}>

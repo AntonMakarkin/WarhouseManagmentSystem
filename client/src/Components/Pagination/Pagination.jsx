@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, PaginationItem } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 
-import { getCouriers } from '../../Actions/Personal/couriers';
 import useStyles from './styles';
 
-const Paginate = ({ page, getAllItems }) => {
+const Paginate = ({ page, getAllItems, collection }) => {
     const { numberOfPages } = useSelector(state => state['personal']);
     const dispatch = useDispatch();
     const match = useRouteMatch();
@@ -16,9 +15,9 @@ const Paginate = ({ page, getAllItems }) => {
 
     useEffect(() => {
         if (page) {
-            dispatch(getAllItems(page));
+            dispatch(getAllItems(page, collection));
         }
-    }, [dispatch, page, getAllItems]);
+    }, [dispatch, page, getAllItems, collection]);
 
     return (
         <Pagination

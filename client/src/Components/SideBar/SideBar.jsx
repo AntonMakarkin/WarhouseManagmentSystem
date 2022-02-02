@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { CLEAR_STATE } from '../../Constants/actionTypes';
 import decode from 'jwt-decode';
 
 import { Avatar, Typography, Container } from '@material-ui/core';
@@ -10,8 +9,6 @@ import { Skeleton } from '@material-ui/lab';
 import HomeTwoToneIcon from '@material-ui/icons/HomeTwoTone';
 import FormatListBulletedSharpIcon from '@material-ui/icons/FormatListBulletedSharp';
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-
-import * as actionType from '../../Constants/actionTypes'
 
 import { refresh } from '../../Actions/user';
 import { clearData } from '../../Actions/Controllers/controllers';

@@ -25,8 +25,7 @@ const App = () => {
 
     useEffect(() => {
         setDarkTheme()
-        //dispatch(auth());
-    }, [/*dispatch*/]);
+    }, []);
 
     return (
         <ThemeProvider.Provider value={{darkMode, setDarkMode}}>
