@@ -8,8 +8,17 @@ import useStyles from './styles';
 const DataItem = ({ item }) => {
     const { darkMode } = useContext(Context);
 
-    let avatar = `data:image/jpg;base64,${item?.avatar}`;
-    avatar = avatar.replace(/^(javascript\:)/,"");
+    let avatar = item?.avatar
+
+    if (avatar === undefined) {
+        avatar = ''
+    } else {
+        avatar = `data:image/jpg;base64,${item?.avatar}`;
+        avatar = avatar.replace(/^(javascript\:)/,"");
+    }
+
+    //let avatar = `data:image/jpg;base64,${item?.avatar}`;
+
     const classes = useStyles();
     
     return (

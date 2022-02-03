@@ -14,6 +14,9 @@ const useStyles = makeStyles(() => ({
         marginInlineEnd: '0px',
         fontWeight: 'bold',
         lineHeight: '1.43'
+    },
+    addPageInput: {
+        marginBottom: '10px'
     }
 }));
 

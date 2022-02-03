@@ -11,7 +11,7 @@ import FormatListBulletedSharpIcon from '@material-ui/icons/FormatListBulletedSh
 import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 
 import { refresh } from '../../Actions/user';
-import { clearData } from '../../Actions/Controllers/controllers';
+import { clearData } from '../../Actions/controllers';
 
 import Context from '../../Context/context';
 

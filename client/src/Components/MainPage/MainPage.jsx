@@ -16,25 +16,14 @@ import CustomerLogo from '../../SvgIcons/CustomerLogo';
 
 import { logout } from '../../Actions/user';
 
-import { getPersonal } from '../../Actions/Controllers/controllers';
-import { getManagers } from '../../Actions/Personal/managers';
-import { getStoreKeepers } from '../../Actions/Personal/storeKeepers';
-import { getCustomers } from '../../Actions/Personal/customers';
-
-import { getCouriersBySearch } from '../../Actions/Personal/couriers';
-import { getManagersBySearch } from '../../Actions/Personal/managers';
-import { getStoreKeepersBySearch } from '../../Actions/Personal/storeKeepers';
-import { getCustomersBySearch } from '../../Actions/Personal/customers';
-
-import { createCourier } from '../../Actions/Personal/couriers';
-import { createManager } from '../../Actions/Personal/managers';
-import { createStoreKeeper } from '../../Actions/Personal/storeKeepers';
-import { createCustomer } from '../../Actions/Personal/customers';
+import { getPersonal } from '../../Actions/controllers';
+import { getPersonalBySearch } from '../../Actions/controllers';
+import { createPersonal } from '../../Actions/controllers';
 
 import Context from '../../Context/context';
 
 import SideBar from '../SideBar/SideBar';
-import Modal from '../Modals/Modal'
+//import Modal from '../Modals/Modal'
 import Home from '../Home/Home';
 import LinkPage from '../Pages/LinkPage/LinkPage';
 import DataPage from '../Pages/DataPage/DataPage';
@@ -55,10 +44,10 @@ const MainPage = () => {
     //const sidebar = document.getElementsByTagName('aside');
     const pageArray = [{link: 'catalog', name: 'Каталог'}, {link: 'personal', name: 'Персонал'}];
 
-    const linksArray = [{link: 'couriers', name: 'Курьеры', logo: <DeliverLogo width="50px" height="50px" fill={fill}/>}, 
-    {link: 'managers', name: 'Менеджеры', logo: <ManagerLogo width="50px" height="50px" fill={fill}/>},
-    {link: 'storekeepers', name: 'Кладовщики', logo: <StoreKeeperLogo width="50px" height="50px" fill={fill}/>},
-    {link: 'customers', name: 'Клиенты', logo: <CustomerLogo width="50px" height="50px" fill={fill}/>}];
+    const linksArray = [{link: 'couriers', type: 'personal', name: 'Курьеры', addName: 'курьера', logo: <DeliverLogo width="50px" height="50px" fill={fill}/>}, 
+    {link: 'managers', type: 'personal', name: 'Менеджеры', addName: 'менеджера', logo: <ManagerLogo width="50px" height="50px" fill={fill}/>},
+    {link: 'storekeepers', type: 'personal', name: 'Кладовщики', addName: 'кладовщика', logo: <StoreKeeperLogo width="50px" height="50px" fill={fill}/>},
+    {link: 'customers', type: 'personal', name: 'Клиенты', addName: 'клиента', logo: <CustomerLogo width="50px" height="50px" fill={fill}/>}];
 
     const handleDarkMode = () => {
         setDarkMode(!darkMode);
@@ -94,41 +83,19 @@ const MainPage = () => {
                         <Route key={i} exact path={`${match.path}/${item.link}`}
                             render={props => (<LinkPage {...props} header={`${item.name}`} arrayOfLinks={linksArray}/>)}/>
                     ))}
-                    {/*linksArray.map((item, i) => (
-
-                    ))*/}
-                    <Route exact path={`${match.path}/personal/couriers`}
-                        render={props => (<DataPage {...props} header={linksArray[0].name} 
-                                                               modal={Modal} 
-                                                               modalHeader={'Добавить курьера'}
-                                                               searchAction={getCouriersBySearch}
-                                                               createAction={createCourier}
-                                                               getAllAction={getPersonal}
-                                                               collectionName={linksArray[0].link}/>)}/>
-                    <Route exact path={`${match.path}/personal/managers`}
-                        render={props => (<DataPage {...props} header={linksArray[1].name} 
-                                                               modal={Modal} 
-                                                               modalHeader={'Добавить менеджера'}
-                                                               searchAction={getManagersBySearch}
-                                                               createAction={createManager}
-                                                               getAllAction={getManagers} />)}/>
-                    <Route exact path={`${match.path}/personal/storekeepers`}
-                        render={props => (<DataPage {...props} header={linksArray[2].name} 
-                                                               modal={Modal} 
-                                                               modalHeader={'Добавить кладовщика'}
-                                                               searchAction={getStoreKeepersBySearch}
-                                                               createAction={createStoreKeeper}
-                                                               getAllAction={getStoreKeepers} />)}/>
-                    <Route exact path={`${match.path}/personal/customers`}
-                        render={props => (<DataPage {...props} header={linksArray[3].name} 
-                                                               modal={Modal} 
-                                                               modalHeader={'Добавить клиента'}
-                                                               searchAction={getCustomersBySearch}
-                                                               createAction={createCustomer}
-                                                               getAllAction={getCustomers} />)}/>
-                    <Route exact path={`${match.path}/personal/managers/addNewUser`}
-                        render={props => (<AddPage {...props} header={'менеджера'}
-                                                              createAction={createManager} />)}/>
+                    {linksArray.map((item, i) => (
+                        <Route key={i} exact path={`${match.path}/${item.type}/${item.link}`}
+                            render={props => (<DataPage {...props} header={item.name}
+                                                                   searchAction={getPersonalBySearch}
+                                                                   createAction={createPersonal}
+                                                                   getAllAction={getPersonal}
+                                                                   collectionName={item.link}/>)}/>
+                    ))}
+                    {linksArray.map((item, i) => (
+                        <Route key={i} exact path={`${match.path}/${item.type}/${item.link}/add`}
+                            render={props => (<AddPage {...props} header={item.addName}
+                                                                  createAction={createPersonal}/>)}/>
+                    ))}
                 </Switch>
             </Container>
         </Container>

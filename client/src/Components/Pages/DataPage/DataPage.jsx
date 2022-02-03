@@ -8,6 +8,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 import Context from '../../../Context/context'
 
+import Loader from '../../Loader/Loader';
 import DataItems from '../../DataItems/DataItems';
 import Pagination from '../../Pagination/Pagination';
 import useStyles from './styles';
@@ -19,7 +20,6 @@ function useQuery() {
 const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, createAction, collectionName }) => {
     const { isLoading } = useSelector((state) => state.personal);
     const { darkMode } = useContext(Context);
-    //const [postData, setPostData] = useState({ name: '', email: '', phone: '', password: ''});
     //const [modalActive, setModalActive] = useState(false);
     const dispatch = useDispatch();
     const classes = useStyles();
@@ -34,7 +34,7 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
 
     const searchPost = () => {
         if (search.trim()) {
-            dispatch(searchAction({ search }))
+            dispatch(searchAction({ search }, collectionName))
         }
     }
 
@@ -43,16 +43,6 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
             searchPost();
         }
     }
-
-    /*const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        dispatch(createAction({ ...postData }, history))
-    }*/
-
-    /*useEffect(() => {
-        dispatch(getAllAction(page))
-    }, [dispatch, page, getAllAction]);*/
     
     return (
         <Container className={classes.dataPageContainer}>
@@ -60,7 +50,7 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
                         variant="h2" 
                         style={darkMode ? {color: '#fff'} : {color: '#000'}}>{header}</Typography>
                 <Box className={classes.dataPageButtonsPanel}>
-                    <Link to={`${match.url}/addNewUser`} variant="contained" className={classes.addButton}>
+                    <Link to={`${match.url}/add`} variant="contained" className={classes.addButton}>
                         <Button variant="contained"
                                 className={classes.addButton} 
                                 endIcon={<AddIcon/>}
@@ -71,7 +61,7 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
                     <TextField onKeyDown={handleKeyPress} name="search" variant="outlined" label="Поиск" fullWidth value={search} onChange={(e) => setSearch(e.target.value)}/>
                 </Box>
                 <Container className={classes.dataItemsContainer} disableGutters maxWidth={false}>
-                    {isLoading ? <><Skeleton style={{flex: '1 0 auto'}}/><Skeleton/></> :  <DataItems/>}
+                    {isLoading ? <Loader/> :  <DataItems/>}
                     <Paper>
                         <Pagination page={page} collection={collectionName} getAllItems={getAllAction}/>
                     </Paper>
