@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Typography, AppBar, Button, Container, CssBaseline, Paper, Grid } from '@material-ui/core';
 
@@ -15,6 +15,7 @@ const initialState = { email: '', password: '' };
 const AuthPage = () => {
     const [form, setForm] = useState(initialState);
     const { darkMode } = useContext(Context);
+    const isAuthError = useSelector(state => state.user.authError);
     const dispatch = useDispatch();
     const history = useHistory();
     const classes = useStyles();
@@ -49,6 +50,9 @@ const AuthPage = () => {
                     <Paper className={classes.authFormPaper} style={darkMode ? {background: 'rgba(255, 255, 255, 0.12)'} : {background: '#fff'}}>
                         <Typography variant="h3" align="center" className={classes.authFormHeader} style={darkMode ? {color: '#fff'} : {color: '#000'}}>
                             Вход
+                        </Typography>
+                        <Typography align="center" className={classes.authFormErrorMessage} style={isAuthError ? {opacity: '1'} : {opacity: '0'}}>
+                            Ошибка! Неверный логин или пароль
                         </Typography>
                         <form className={classes.authForm} onSubmit={handleSubmit}>
                             <Grid container spacing={3}>

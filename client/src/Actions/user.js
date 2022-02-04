@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, REFRESH } from '../Constants/actionTypes';
+import { LOGIN, LOGOUT, REFRESH, LOGIN_ERROR } from '../Constants/actionTypes';
 import * as API from '../API/index';
 
 export const login = (formData, router) => async (dispatch) => {
@@ -10,6 +10,7 @@ export const login = (formData, router) => async (dispatch) => {
         router.push('/');
     } catch (err) {
         console.log(err);
+        dispatch({ type: LOGIN_ERROR });
     }
 };
 
@@ -41,3 +42,4 @@ export const refresh = (router) => async (dispatch) => {
         router.push('/');
     }
 }
+

@@ -11,3 +11,4 @@ export const LOGIN = 'AUTH';
 export const LOGOUT = 'LOGOUT';
 export const AUTH = 'AUTH';
 export const REFRESH = 'REFRESH';
+export const LOGIN_ERROR = 'LOGIN_ERROR';

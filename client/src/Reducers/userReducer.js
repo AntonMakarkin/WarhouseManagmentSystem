@@ -1,23 +1,26 @@
-import * as actionType from '../Constants/actionTypes';
+import { LOGIN, LOGOUT, REFRESH, LOGIN_ERROR } from '../Constants/actionTypes';
 
 const defaultState = {
-    currentUser: null,
-    isAuth: false
+    //currentUser: localStorage.getItem('profile'),
+    currentUser: JSON.parse(localStorage.getItem('profile')),
+    authError: false
 };
 
 const userReducer = (state = defaultState, action) => {
     switch (action.type) {
-        case actionType.LOGIN:
+        case LOGIN:
             localStorage.setItem('token', action?.data?.accessToken);
             localStorage.setItem('profile', JSON.stringify({ ...action?.data?.user }));
-            return { ...state, currentUser: action.data.user, loading: false, errors: null, isAuth: true};
-        case actionType.LOGOUT:
+            return { ...state, currentUser: action.data.user};
+        case LOGOUT:
             localStorage.removeItem('token');
             localStorage.removeItem('profile');
-            return { ...state, currentUser: null, loading: false, errors: null, isAuth: false};
-        case actionType.REFRESH:
+            return { ...state, currentUser: null};
+        case REFRESH:
             localStorage.setItem('token', action?.data?.accessToken);
-            return { ...state, currentUser: action.data.user, loading: false, errors: null, isAuth: true};
+            return { ...state, currentUser: action.data.user, loading: false };
+        case LOGIN_ERROR:
+            return { ...state, authError: true }
         default:
             return state;
     }

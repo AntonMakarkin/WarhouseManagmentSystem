@@ -60,10 +60,15 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 400,
         fontSize: '39px',
         color: '#000',
-        marginBottom: '48px',
+        marginBottom: '28px',
         [theme.breakpoints.down('lg')]: {
             fontSize: '25px'
         }
+    },
+    authFormErrorMessage: {
+        color: '#ff0000',
+        fontSize: '15px',
+        marginBottom: '20px'
     },
     passwordInput: {
         marginBottom: '44px'
