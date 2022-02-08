@@ -8,7 +8,7 @@ import Context from '../../Context/context';
 
 import useStyles from './styles';
 
-const Input = ({ name, handleChange, label, autoFocus, type, handleShowPassword }) => {
+const Input = ({ name, handleChange, label, autoFocus, type, value, handleShowPassword }) => {
     const classes = useStyles();
     const { darkMode } = useContext(Context);
     let labelclass;
@@ -31,6 +31,7 @@ const Input = ({ name, handleChange, label, autoFocus, type, handleShowPassword 
             <TextField
                 className={root}
                 name={name}
+                value={value}
                 onChange={handleChange}
                 variant="outlined"
                 required

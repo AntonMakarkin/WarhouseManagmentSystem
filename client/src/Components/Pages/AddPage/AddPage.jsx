@@ -34,10 +34,11 @@ const AddPage = ({ header, createAction }) => {
                         style={darkMode ? {color: '#fff'} : {color: '#000'}}>{`Добавить ${header}`}</Typography>
             <form onSubmit={handleSubmit}>
                 <Grid container spacing={3}>
-                    <Input name="name" className={classes.addPageInput} label="Имя" handleChange={(e) => setPostData({ ...postData, name: e.target.value })}/>
-                    <Input name="email" className={classes.addPageInput} label="Логин" handleChange={(e) => setPostData({ ...postData, email: e.target.value })}/>
-                    <Input name="phone" className={classes.addPageInput} label="Телефон" handleChange={(e) => setPostData({ ...postData, phone: e.target.value })}/>
+                    <Input name="name" value={postData.name} className={classes.addPageInput} label="Имя" handleChange={(e) => setPostData({ ...postData, name: e.target.value })}/>
+                    <Input name="email" value={postData.email} className={classes.addPageInput} label="Логин" handleChange={(e) => setPostData({ ...postData, email: e.target.value })}/>
+                    <Input name="phone" value={postData.phone} className={classes.addPageInput} label="Телефон" handleChange={(e) => setPostData({ ...postData, phone: e.target.value })}/>
                     <Input name="password"
+                           value={postData.password}
                            className={classes.addPageInput} 
                            label="Пароль" 
                            handleChange={(e) => setPostData({ ...postData, password: e.target.value })}
