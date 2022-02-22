@@ -1,4 +1,4 @@
-import { START_LOADING, END_LOADING, FETCH_ALL, CREATE, FETCH_BY_SEARCH, CLEAR_STATE } from "../Constants/actionTypes";
+import { START_LOADING, END_LOADING, FETCH_ALL, CREATE, DELETE, FETCH_BY_SEARCH, CLEAR_STATE } from "../Constants/actionTypes";
 import * as API from '../API/index';
 
 export const getPersonal = (page, collection) => async (dispatch) => {
@@ -29,12 +29,23 @@ export const createPersonal = (post, history, collection) => async (dispatch) =>
     try {
         dispatch({ type: START_LOADING });
         console.log(post);
+        console.log(collection);
         const { data } = await API.createUser(collection, post);
 
         dispatch({ type: CREATE, payload: data });
 
         history.push('/');
         dispatch({ type: END_LOADING });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const deletePersonal = (collection, id) => async (dispatch) => {
+    try {
+        await API.deleteUser(collection, id);
+
+        dispatch({ type: DELETE, payload: id })
     } catch (err) {
         console.log(err);
     }

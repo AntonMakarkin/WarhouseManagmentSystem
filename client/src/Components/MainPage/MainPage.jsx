@@ -19,6 +19,7 @@ import { logout } from '../../Actions/user';
 import { getPersonal } from '../../Actions/controllers';
 import { getPersonalBySearch } from '../../Actions/controllers';
 import { createPersonal } from '../../Actions/controllers';
+import { deletePersonal } from '../../Actions/controllers';
 
 import Context from '../../Context/context';
 
@@ -87,14 +88,15 @@ const MainPage = () => {
                         <Route key={i} exact path={`${match.path}/${item.type}/${item.link}`}
                             render={props => (<DataPage {...props} header={item.name}
                                                                    searchAction={getPersonalBySearch}
-                                                                   createAction={createPersonal}
                                                                    getAllAction={getPersonal}
+                                                                   deleteAction={deletePersonal}
                                                                    collectionName={item.link}/>)}/>
                     ))}
                     {linksArray.map((item, i) => (
                         <Route key={i} exact path={`${match.path}/${item.type}/${item.link}/add`}
                             render={props => (<AddPage {...props} header={item.addName}
-                                                                  createAction={createPersonal}/>)}/>
+                                                                  createAction={createPersonal}
+                                                                  collectionName={item.link}/>)}/>
                     ))}
                 </Switch>
             </Container>

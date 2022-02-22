@@ -41,6 +41,7 @@ API.interceptors.request.use((config) => {
 export const fetchUsers = (typeUser, page) => API.get(`/${typeUser}?page=${page}`);
 export const fetchUsersBySearch = (typeUser, searchQuery) => API.get(`/${typeUser}/search?searchQuery=${searchQuery.search}`);
 export const createUser = (typeUser, newUser) => API.post(`/${typeUser}`, newUser);
+export const deleteUser = (typeUser, id) => API.delete(`/${typeUser}/${id}`);
 
 export const signIn = (formData) => API.post('/admin/login', formData);
 export const logout = () => API.post('/admin/logout', {withCredentials: true});

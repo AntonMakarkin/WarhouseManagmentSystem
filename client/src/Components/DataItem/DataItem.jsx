@@ -1,12 +1,15 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
 import { Card, Box, Button, Typography, Avatar } from '@material-ui/core';
 
 import Context from '../../Context/context';
 
 import useStyles from './styles';
 
-const DataItem = ({ item }) => {
+const DataItem = ({ item, deleteAction, setActive, setItemId, collection }) => {
     const { darkMode } = useContext(Context);
+    const dispatch = useDispatch();
 
     let avatar = item?.avatar
 
@@ -15,6 +18,11 @@ const DataItem = ({ item }) => {
     } else {
         avatar = `data:image/jpg;base64,${item?.avatar}`;
         avatar = avatar.replace(/^(javascript\:)/,"");
+    }
+
+    const callModalToDelete = () => {
+        setItemId(item._id);
+        setActive(true);
     }
 
     //let avatar = `data:image/jpg;base64,${item?.avatar}`;
@@ -30,7 +38,7 @@ const DataItem = ({ item }) => {
             </Box>
             <Box className={classes.dataItemButtons}>
                 <Button>Изменить</Button>
-                <Button>Удалить</Button>
+                <Button onClick={() => callModalToDelete()}>Удалить</Button>
             </Box>
         </Card>
     )

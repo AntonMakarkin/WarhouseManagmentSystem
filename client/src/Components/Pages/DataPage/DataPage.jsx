@@ -8,6 +8,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 import Context from '../../../Context/context'
 
+import Modal from '../../Modals/Modal';
 import Loader from '../../Loader/Loader';
 import DataItems from '../../DataItems/DataItems';
 import Pagination from '../../Pagination/Pagination';
@@ -17,10 +18,11 @@ function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
-const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, createAction, collectionName }) => {
+const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, deleteAction, collectionName }) => {
     const { isLoading } = useSelector((state) => state.personal);
     const { darkMode } = useContext(Context);
-    //const [modalActive, setModalActive] = useState(false);
+    const [modalActive, setModalActive] = useState(false);
+    const [itemId, setItemId] = useState(null);
     const dispatch = useDispatch();
     const classes = useStyles();
     const query = useQuery();
@@ -28,6 +30,8 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
     //const AddItemModal = modal;
     const page = query.get('page') || 1;
     const searchQuery = query.get('searchQuery');
+
+    console.log(itemId)
 
     const [search, setSearch] = useState('');
     const history = useHistory();
@@ -61,20 +65,18 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, crea
                     <TextField onKeyDown={handleKeyPress} name="search" variant="outlined" label="Поиск" fullWidth value={search} onChange={(e) => setSearch(e.target.value)}/>
                 </Box>
                 <Container className={classes.dataItemsContainer} disableGutters maxWidth={false}>
-                    {isLoading ? <Loader/> :  <DataItems/>}
+                    {isLoading ? <Loader/> :  <DataItems deleteAction={deleteAction} 
+                                                         collection={collectionName}
+                                                         setActive={setModalActive}
+                                                         setItemId={setItemId}/>}
                     <Paper>
                         <Pagination page={page} collection={collectionName} getAllItems={getAllAction}/>
                     </Paper>
                 </Container>
-            {/*<AddItemModal active={modalActive} setActive={setModalActive} header={modalHeader}>
-                <form onSubmit={handleSubmit}>
-                    <TextField name="name" variant="outlined" label="Имя" fullWidth onChange={(e) => setPostData({ ...postData, name: e.target.value })} />
-                    <TextField name="email" variant="outlined" label="Логин" fullWidth onChange={(e) => setPostData({ ...postData, email: e.target.value })} />
-                    <TextField name="phone" variant="outlined" label="Телефон" fullWidth onChange={(e) => setPostData({ ...postData, phone: e.target.value })} />
-                    <TextField name="password" variant="outlined" label="Пароль" fullWidth onChange={(e) => setPostData({ ...postData, password: e.target.value })} />
-                    <Button type="submit">Добавить</Button>
-                </form>
-            </AddItemModal>*/}
+            <Modal active={modalActive} setActive={setModalActive} header={'Вы действительно хотите удалить сотрудника из базы данных?'}>
+               <Button onClick={() => setModalActive()}>Нет</Button>
+               <Button onClick={() => dispatch(deleteAction(collectionName, itemId))}>Да</Button>
+            </Modal>
         </Container>
     )
 }

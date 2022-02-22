@@ -11,7 +11,7 @@ import useStyles from './styles';
 
 const initialState = { email: '', password: '' };
 
-const AddPage = ({ header, createAction }) => {
+const AddPage = ({ header, createAction, collectionName }) => {
     const { darkMode } = useContext(Context);
     const [postData, setPostData] = useState({ name: '', email: '', phone: '', password: ''});
     const [showPassword, setShowPassword] = useState(false);
@@ -19,12 +19,14 @@ const AddPage = ({ header, createAction }) => {
     const classes = useStyles();
     const history = useHistory();
 
+    console.log(collectionName)
+
     const handleShowPassword = () => setShowPassword(!showPassword);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        dispatch(createAction({ ...postData }, history))
+        dispatch(createAction({ ...postData }, history, collectionName))
     }
 
     return (
