@@ -25,8 +25,6 @@ const DataItem = ({ item, deleteAction, setActive, setItemId, collection }) => {
         setActive(true);
     }
 
-    //let avatar = `data:image/jpg;base64,${item?.avatar}`;
-
     const classes = useStyles();
     
     return (

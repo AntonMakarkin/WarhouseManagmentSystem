@@ -47,6 +47,11 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, dele
             searchPost();
         }
     }
+
+    const deletePersonal = () => {
+        dispatch(deleteAction(collectionName, itemId));
+        setModalActive(false)
+    }
     
     return (
         <Container className={classes.dataPageContainer}>
@@ -74,8 +79,8 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, dele
                     </Paper>
                 </Container>
             <Modal active={modalActive} setActive={setModalActive} header={'Вы действительно хотите удалить сотрудника из базы данных?'}>
-               <Button onClick={() => setModalActive()}>Нет</Button>
-               <Button onClick={() => dispatch(deleteAction(collectionName, itemId))}>Да</Button>
+               <Button onClick={() => setModalActive(false)}>Нет</Button>
+               <Button onClick={deletePersonal}>Да</Button>
             </Modal>
         </Container>
     )
