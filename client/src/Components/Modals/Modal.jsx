@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { IconButton } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { Container } from '@material-ui/core';
 
 import useStyles from './styles';
 
@@ -11,11 +10,10 @@ const Modal = ({ active, setActive, header, children }) => {
     return (
         <div className={active ? `${classes.overlay} ${classes.overlayActive}` : classes.overlay} onClick={() => setActive(false)}>
             <div className={active ? `${classes.modal} ${classes.modalActive}` : classes.modal} onClick={e => e.stopPropagation()}>
-                <IconButton className={classes.modalCloseButton} onClick={() => setActive(false)} >
-                    <CloseIcon/>
-                </IconButton>
-                <h3>{header}</h3>
-                {children}
+                <Container>
+                    <h3>{header}</h3>
+                    {children}
+                </Container>
             </div>
         </div>
     )

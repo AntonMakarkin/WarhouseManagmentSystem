@@ -34,7 +34,7 @@ const SideBar = () => {
         dispatch(refresh(history))
     }
 
-    useEffect(() => {
+    /*useEffect(() => {
         if (data.length) {
             dispatch(clearData());
         }
@@ -47,7 +47,7 @@ const SideBar = () => {
         }
 
         setUser(JSON.parse(localStorage.getItem('profile')));
-    }, [location])
+    }, [location])*/
 
     return (
         <aside className={classes.sidebar} style={darkMode ? {backgroundColor: '#1A202E', boxShadow: 'none'} : {backgroundColor: '#fff'}}>

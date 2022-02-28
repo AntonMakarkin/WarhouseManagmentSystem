@@ -1,4 +1,4 @@
-import { START_LOADING, END_LOADING, FETCH_ALL, CREATE, DELETE, FETCH_BY_SEARCH, CLEAR_STATE } from "../Constants/actionTypes";
+import { START_LOADING, END_LOADING, FETCH_ALL, CREATE, DELETE, FETCH_BY_SEARCH, CLEAR_STATE, ERROR } from "../Constants/actionTypes";
 import * as API from '../API/index';
 
 export const getPersonal = (page, collection) => async (dispatch) => {
@@ -10,6 +10,9 @@ export const getPersonal = (page, collection) => async (dispatch) => {
         dispatch({ type: END_LOADING });
     } catch (err) {
         console.log(err);
+        if (err.message.includes('401')) {
+            dispatch({ type: ERROR, payload: 'Ошибка авторизации. Попробуйте обновить страницу или заново авторизоваться'})
+        }
     }
 };
 
@@ -37,7 +40,7 @@ export const createPersonal = (post, history, collection) => async (dispatch) =>
         history.push('/');
         dispatch({ type: END_LOADING });
     } catch (err) {
-        console.log(err);
+        console.log(err.message);
     }
 }
 

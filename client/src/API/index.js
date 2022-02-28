@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useHistory } from 'react-router-dom'; 
 
 const API = axios.create({
     withCredentials: true, 
@@ -19,14 +20,14 @@ API.interceptors.request.use((config) => {
     return config;
 });
 
-/*API.interceptors.response.use((config) => {
+API.interceptors.response.use((config) => {
     return config;
 }, async (error) => {
     const originalRequest = error.config;
-    if (error.response.status == 401 && error.config && !error.config._isRetry) {
+    if (error.response.status === 401 && error.config && !error.config._isRetry) {
         originalRequest._isRetry = true;
         try {
-            const response = await axios.get('/admin/refresh', {withCredentials: true});
+            const response = await API.get('/admin/refresh', {withCredentials: true});
             localStorage.setItem('token', response.data.accessToken);
             return API.request(originalRequest);
         } catch (e) {
@@ -34,7 +35,7 @@ API.interceptors.request.use((config) => {
         }
     }
     throw error;
-})*/
+})
 
 
 

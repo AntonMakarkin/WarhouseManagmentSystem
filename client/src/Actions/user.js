@@ -39,7 +39,7 @@ export const refresh = (router) => async (dispatch) => {
         
         dispatch({ type: LOGOUT });
 
-        router.push('/');
+        router.push('/login');
     }
 }
 

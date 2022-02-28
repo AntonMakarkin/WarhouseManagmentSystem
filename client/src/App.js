@@ -29,7 +29,6 @@ const App = () => {
 
     return (
         <ThemeProvider.Provider value={{darkMode, setDarkMode}}>
-            <BrowserRouter>
             <CssBaseline/>
             <Switch>
                 <Route path="/login">
@@ -42,7 +41,6 @@ const App = () => {
                     <Redirect exact from="/" to="/dashboard" />
                 </Route>
            </Switch>
-           </BrowserRouter>
         </ThemeProvider.Provider>    
     )
 }

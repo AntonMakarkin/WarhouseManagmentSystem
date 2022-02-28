@@ -1,9 +1,12 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Container, Typography, TextField, Button, Grid } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import decode from 'jwt-decode';
 
 import Input from '../../AuthPage/Input';
+
+import { refresh } from '../../../Actions/user';
 
 import Context from '../../../Context/context';
 
@@ -19,8 +22,6 @@ const AddPage = ({ header, createAction, collectionName }) => {
     const classes = useStyles();
     const history = useHistory();
 
-    console.log(collectionName)
-
     const handleShowPassword = () => setShowPassword(!showPassword);
 
     const handleSubmit = async (e) => {
@@ -28,6 +29,20 @@ const AddPage = ({ header, createAction, collectionName }) => {
 
         dispatch(createAction({ ...postData }, history, collectionName))
     }
+
+    const refreshToken = () => {
+        dispatch(refresh(history));
+    }
+
+    /*useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            const decodedToken = decode(token);
+
+            if (decodedToken.exp * 1000 < new Date().getTime()) refreshToken();
+        }
+    })*/
 
     return (
         <Container className={classes.addPageContainer}>

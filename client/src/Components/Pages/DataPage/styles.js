@@ -4,7 +4,8 @@ const useStyles = makeStyles(() => ({
     dataPageContainer: {
         display: 'flex',
         flexDirection: 'column',
-        flexGrow: '1'
+        flexGrow: '1',
+        overflow: 'auto'
     },
     dataPageHeader: {
         fontSize: '1.5em',
@@ -29,7 +30,7 @@ const useStyles = makeStyles(() => ({
         display: 'flex',
         flexDirection: 'column',
         flexGrow: '1',
-        //overflow: 'auto'
+        overflow: 'auto'
     }
 }));
 

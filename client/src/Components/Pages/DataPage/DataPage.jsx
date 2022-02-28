@@ -1,5 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import decode from 'jwt-decode';
+
 import { Paper, Container, TextField, Button, Box, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
@@ -10,8 +12,12 @@ import Context from '../../../Context/context'
 
 import Modal from '../../Modals/Modal';
 import Loader from '../../Loader/Loader';
+import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 import DataItems from '../../DataItems/DataItems';
 import Pagination from '../../Pagination/Pagination';
+
+import { refresh } from '../../../Actions/user';
+
 import useStyles from './styles';
 
 function useQuery() {
@@ -19,7 +25,8 @@ function useQuery() {
 }
 
 const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, deleteAction, collectionName }) => {
-    const { isLoading } = useSelector((state) => state.personal);
+    const { isAuth } = useSelector((state) => state.user);
+    const { isLoading, isError, errorMessage } = useSelector((state) => state.personal);
     const { darkMode } = useContext(Context);
     const [modalActive, setModalActive] = useState(false);
     const [itemId, setItemId] = useState(null);
@@ -27,14 +34,27 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, dele
     const classes = useStyles();
     const query = useQuery();
     const match = useRouteMatch();
-    //const AddItemModal = modal;
     const page = query.get('page') || 1;
     const searchQuery = query.get('searchQuery');
 
-    console.log(itemId)
-
     const [search, setSearch] = useState('');
     const history = useHistory();
+
+    console.log(isAuth)
+
+    /*const refreshToken = () => {
+        dispatch(refresh(history))
+    }*/
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            const decodedToken = decode(token);
+
+            if (decodedToken.exp * 1000 < new Date().getTime()) history.push('/login');
+        }
+    })
 
     const searchPost = () => {
         if (search.trim()) {

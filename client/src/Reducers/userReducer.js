@@ -3,7 +3,8 @@ import { LOGIN, LOGOUT, REFRESH, LOGIN_ERROR } from '../Constants/actionTypes';
 const defaultState = {
     //currentUser: localStorage.getItem('profile'),
     currentUser: JSON.parse(localStorage.getItem('profile')),
-    authError: false
+    authError: false,
+    isAuth: false
 };
 
 const userReducer = (state = defaultState, action) => {
