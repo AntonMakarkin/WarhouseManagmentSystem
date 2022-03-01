@@ -46,7 +46,7 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, dele
         dispatch(refresh(history))
     }*/
 
-    useEffect(() => {
+    /*useEffect(() => {
         const token = localStorage.getItem('token');
 
         if (token) {
@@ -54,7 +54,7 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, dele
 
             if (decodedToken.exp * 1000 < new Date().getTime()) history.push('/login');
         }
-    })
+    })*/
 
     const searchPost = () => {
         if (search.trim()) {

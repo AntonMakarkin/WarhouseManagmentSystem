@@ -27,6 +27,7 @@ API.interceptors.response.use((config) => {
     if (error.response.status === 401 && error.config && !error.config._isRetry) {
         originalRequest._isRetry = true;
         try {
+            console.log(window.location.href);
             const response = await API.get('/admin/refresh', {withCredentials: true});
             localStorage.setItem('token', response.data.accessToken);
             return API.request(originalRequest);
@@ -34,7 +35,8 @@ API.interceptors.response.use((config) => {
             console.log(e);
         }
     }
-    throw error;
+    return Promise.reject(error);
+    //throw error;
 })
 
 

@@ -29,6 +29,7 @@ import Home from '../Home/Home';
 import LinkPage from '../Pages/LinkPage/LinkPage';
 import DataPage from '../Pages/DataPage/DataPage';
 import AddPage from '../Pages/AddPage/AddPage';
+import DetailsPage from '../Pages/DetailsPage/DetailsPage';
 
 import useStyles from './styles';
 
@@ -49,6 +50,8 @@ const MainPage = () => {
     {link: 'managers', type: 'personal', name: 'Менеджеры', addName: 'менеджера', logo: <ManagerLogo width="50px" height="50px" fill={fill}/>},
     {link: 'storekeepers', type: 'personal', name: 'Кладовщики', addName: 'кладовщика', logo: <StoreKeeperLogo width="50px" height="50px" fill={fill}/>},
     {link: 'customers', type: 'personal', name: 'Клиенты', addName: 'клиента', logo: <CustomerLogo width="50px" height="50px" fill={fill}/>}];
+
+    const employeeHeaderPage = 'Информация о сотруднике'
 
     const handleDarkMode = () => {
         setDarkMode(!darkMode);
@@ -97,6 +100,10 @@ const MainPage = () => {
                             render={props => (<AddPage {...props} header={item.addName}
                                                                   createAction={createPersonal}
                                                                   collectionName={item.link}/>)}/>
+                    ))}
+                    {linksArray.map((item, i) => (
+                        <Route key={i} exact path={`${match.path}/${item.type}/${item.link}/:id`}
+                            render={props => (<DetailsPage {...props} header={employeeHeaderPage}/>)}/>
                     ))}
                 </Switch>
             </Container>

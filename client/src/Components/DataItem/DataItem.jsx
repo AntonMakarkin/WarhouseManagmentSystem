@@ -1,4 +1,6 @@
 import { useContext } from 'react';
+import { useRouteMatch } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { Card, Box, Button, Typography, Avatar } from '@material-ui/core';
 
@@ -8,6 +10,8 @@ import useStyles from './styles';
 
 const DataItem = ({ item, setActive, setItemId }) => {
     const { darkMode } = useContext(Context);
+    const history = useHistory();
+    const match = useRouteMatch();
 
     let avatar = item?.avatar
 
@@ -23,6 +27,10 @@ const DataItem = ({ item, setActive, setItemId }) => {
         setActive(true);
     }
 
+    const openDetails = () => {
+        history.push(`${match.path}/${item._id}`)
+    }
+
     const classes = useStyles();
     
     return (
@@ -33,7 +41,7 @@ const DataItem = ({ item, setActive, setItemId }) => {
                 <Typography>{item.name}</Typography>
             </Box>
             <Box className={classes.dataItemButtons}>
-                <Button>Изменить</Button>
+                <Button onClick={openDetails}>Изменить</Button>
                 <Button onClick={() => callModalToDelete()}>Удалить</Button>
             </Box>
         </Card>

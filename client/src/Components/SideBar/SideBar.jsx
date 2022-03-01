@@ -34,11 +34,11 @@ const SideBar = () => {
         dispatch(refresh(history))
     }
 
-    /*useEffect(() => {
+    useEffect(() => {
         if (data.length) {
             dispatch(clearData());
         }
-        const token = localStorage.getItem('token');
+        /*const token = localStorage.getItem('token');
 
         if (token) {
             const decodedToken = decode(token);
@@ -46,8 +46,8 @@ const SideBar = () => {
             if (decodedToken.exp * 1000 < new Date().getTime()) refreshToken();
         }
 
-        setUser(JSON.parse(localStorage.getItem('profile')));
-    }, [location])*/
+        setUser(JSON.parse(localStorage.getItem('profile')));*/
+    }, [location])
 
     return (
         <aside className={classes.sidebar} style={darkMode ? {backgroundColor: '#1A202E', boxShadow: 'none'} : {backgroundColor: '#fff'}}>
