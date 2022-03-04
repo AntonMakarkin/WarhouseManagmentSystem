@@ -40,8 +40,6 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, dele
     const [search, setSearch] = useState('');
     const history = useHistory();
 
-    console.log(isAuth)
-
     /*const refreshToken = () => {
         dispatch(refresh(history))
     }*/

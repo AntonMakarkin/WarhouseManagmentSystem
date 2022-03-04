@@ -47,7 +47,7 @@ const managerSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: 'manager'
+        default: 'Менеджер'
     },
     avatar: {
         type: Buffer

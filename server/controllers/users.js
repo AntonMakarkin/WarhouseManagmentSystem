@@ -214,7 +214,7 @@ const postAvatar = () => {
             const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
             req.user.avatar = buffer;
             await req.user.save();
-            res.json({ message: 'Аватар добавлен' });
+            res.json({ user: req.user }); 
         } catch (err) {
             res.status(404).json({ error: err.message });
         }
@@ -239,7 +239,8 @@ const postAvatarById = (model) => {
             const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
             user.avatar = buffer;
             await user.save();
-            res.json({ message: 'Аватар добавлен' }); 
+            //res.json({ message: 'Аватар добавлен' });
+            res.json({ user }) 
         } catch (err) {
             res.status(500).json({ error: err.message });
         }

@@ -48,7 +48,7 @@ const courierSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: 'courier',
+        default: 'Курьер',
         minlength: 5
     },
     avatar: {

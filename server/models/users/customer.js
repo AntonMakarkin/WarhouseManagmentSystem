@@ -47,7 +47,7 @@ const customerSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: 'customer'
+        default: 'Клиент'
     },
     avatar: {
         type: Buffer

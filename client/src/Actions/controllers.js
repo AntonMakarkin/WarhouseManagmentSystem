@@ -1,5 +1,17 @@
-import { START_LOADING, END_LOADING, FETCH_ALL, CREATE, DELETE, FETCH_BY_SEARCH, CLEAR_STATE, ERROR } from "../Constants/actionTypes";
+import { START_LOADING, END_LOADING, FETCH_ALL, FETCH_BY_ID, CREATE, DELETE, FETCH_BY_SEARCH, CLEAR_STATE, ERROR } from "../Constants/actionTypes";
 import * as API from '../API/index';
+
+export const getPersonalById = (collection, id) => async (dispatch) => {
+    try {
+        dispatch({ type: START_LOADING });
+        const { data } = await API.fetchUserById(collection, id);
+
+        dispatch({ type: FETCH_BY_ID, payload: data });
+        dispatch({ type: END_LOADING });
+    } catch (err) {
+        console.log(err);
+    }
+}
 
 export const getPersonal = (page, collection) => async (dispatch) => {
     try {
@@ -49,6 +61,15 @@ export const deletePersonal = (collection, id) => async (dispatch) => {
         await API.deleteUser(collection, id);
 
         dispatch({ type: DELETE, payload: id })
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export const uploadPersonalAvatar = (collection, id) => async (dispatch) => {
+    try {
+        dispatch({ type: START_LOADING });
+        const { data } = await API.uploadAvatar(collection, id);
     } catch (err) {
         console.log(err);
     }

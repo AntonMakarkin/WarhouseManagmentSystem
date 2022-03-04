@@ -1,10 +1,12 @@
-import { START_LOADING, END_LOADING, FETCH_ALL, FETCH_BY_SEARCH, CLEAR_STATE, CREATE, UPDATE, DELETE, ERROR } from "../Constants/actionTypes";
+import { START_LOADING, END_LOADING, FETCH_ALL, FETCH_BY_SEARCH, FETCH_BY_ID, CLEAR_STATE, 
+         CREATE, UPDATE, DELETE, ERROR } from "../Constants/actionTypes";
 
 const initialState = {
     isLoading: true,
     isError: false,
     errorMessage: '', 
-    users: []
+    users: [],
+    user: []
 }
 
 const courierReducer = (state = initialState, action) => {
@@ -22,6 +24,8 @@ const courierReducer = (state = initialState, action) => {
             }
         case FETCH_BY_SEARCH:
             return { ...state, users: action.payload.items }
+        case FETCH_BY_ID:
+            return { ...state, user: action.payload.user }
         case CLEAR_STATE:
             return initialState
         case CREATE:

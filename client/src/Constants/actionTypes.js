@@ -4,6 +4,7 @@ export const DELETE = 'DELETE';
 export const CLEAR_STATE = 'CLEAR_STATE';
 export const FETCH_ALL = 'FETCH_ALL';
 export const FETCH_BY_SEARCH = 'FETCH_BY_SEARCH';
+export const FETCH_BY_ID = 'FETCH_BY_ID';
 export const START_LOADING = 'START_LOADING';
 export const END_LOADING = 'END_LOADING';
 export const CLOSE_MODAL = 'CLOSE_MODAL';

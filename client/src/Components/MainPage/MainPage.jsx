@@ -103,7 +103,8 @@ const MainPage = () => {
                     ))}
                     {linksArray.map((item, i) => (
                         <Route key={i} exact path={`${match.path}/${item.type}/${item.link}/:id`}
-                            render={props => (<DetailsPage {...props} header={employeeHeaderPage}/>)}/>
+                            render={props => (<DetailsPage {...props} header={employeeHeaderPage}
+                                                                      collectionName={item.link}/>)}/>
                     ))}
                 </Switch>
             </Container>

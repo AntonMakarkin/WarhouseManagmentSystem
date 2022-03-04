@@ -47,7 +47,7 @@ const storeKeeperSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: 'storekeeper'
+        default: 'Кладовщик'
     },
     tokens: [{
         token: {
