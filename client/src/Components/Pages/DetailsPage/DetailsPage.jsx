@@ -8,6 +8,7 @@ import Context from '../../../Context/context';
 import { getPersonalById, uploadPersonalAvatar } from '../../../Actions/controllers';
 
 import Loader from '../../Loader/Loader';
+import FileInput from '../../FileInput/FileInput';
 
 import useStyles from './styles';
 
@@ -59,7 +60,7 @@ const DetailsPage = ({ header, collectionName }) => {
             <Container className={classes.detailsContainer} disableGutters maxWidth={false}>
                 <Container className={classes.avatarContainer} disableGutters maxWidth={false}>
                     <Avatar className={classes.detailsAvatar} variant="rounded" src={avatar} />
-                    <input type="file"/>
+                    <FileInput/>
                 </Container>
                 <Container disableGutters maxWidth={false}>
                     <Box className={classes.detailsBlock} style={darkMode ? {color: '#fff'} : {color: '#000'}}>

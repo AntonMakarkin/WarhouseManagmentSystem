@@ -35,7 +35,7 @@ const AuthPage = () => {
         <Container disableGutters
                    maxWidth={false} 
                    className={classes.authPageContainer} 
-                   style={darkMode ? {background: 'rgba(26,32,46,1)'} : {background: 'linear-gradient(252.44deg, #16BDE7 0%, #2746D8 100%)'}}>
+                   style={darkMode ? {background: 'rgba(26,32,46,1)'} : {background: '#f0f3fb'}}> {/*'linear-gradient(252.44deg, #16BDE7 0%, #2746D8 100%)*/}
             <CssBaseline/>
             <AppBar className={classes.appBar}>
                 <Typography variant="h2" className={classes.headerLabel}>
@@ -44,7 +44,8 @@ const AuthPage = () => {
             </AppBar>
             <main>
                 <Container maxWidth="sm" className={classes.authContainer}>
-                    <Typography variant="h1" align="center" className={classes.pageHeader}>
+                    <Typography variant="h1" align="center" className={classes.pageHeader}
+                                style={darkMode ? {color: '#fff'} : {color: '#000'}}>
                         Управление магазином
                     </Typography>
                     <Paper className={classes.authFormPaper} style={darkMode ? {background: 'rgba(255, 255, 255, 0.12)'} : {background: '#fff'}}>
