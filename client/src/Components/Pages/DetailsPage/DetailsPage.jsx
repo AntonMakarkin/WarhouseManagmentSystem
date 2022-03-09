@@ -21,6 +21,8 @@ const DetailsPage = ({ header, collectionName }) => {
     const { id } = useParams();
     const classes = useStyles();
 
+    const allowedFormats = ["image/png", "image/jpg"];
+
     let avatar = `data:image/jpg;base64,${personalData?.avatar}`;
     avatar = avatar.replace(/^(javascript\:)/,"");
 
@@ -60,7 +62,7 @@ const DetailsPage = ({ header, collectionName }) => {
             <Container className={classes.detailsContainer} disableGutters maxWidth={false}>
                 <Container className={classes.avatarContainer} disableGutters maxWidth={false}>
                     <Avatar className={classes.detailsAvatar} variant="rounded" src={avatar} />
-                    <FileInput/>
+                    <FileInput allowedFormats={allowedFormats} />
                 </Container>
                 <Container disableGutters maxWidth={false}>
                     <Box className={classes.detailsBlock} style={darkMode ? {color: '#fff'} : {color: '#000'}}>
