@@ -1,4 +1,6 @@
-import { START_LOADING, END_LOADING, FETCH_ALL, FETCH_BY_ID, CREATE, DELETE, FETCH_BY_SEARCH, CLEAR_STATE, ERROR } from "../Constants/actionTypes";
+import { START_LOADING, END_LOADING, FETCH_ALL, FETCH_BY_ID, CREATE, DELETE, 
+         FETCH_BY_SEARCH, CLEAR_STATE, ERROR, START_LOADING_AVATAR, LOAD_AVATAR,
+         END_LOADING_AVATAR } from "../Constants/actionTypes";
 import * as API from '../API/index';
 
 export const getPersonalById = (collection, id) => async (dispatch) => {
@@ -10,6 +12,7 @@ export const getPersonalById = (collection, id) => async (dispatch) => {
         dispatch({ type: END_LOADING });
     } catch (err) {
         console.log(err);
+        dispatch({ type: ERROR, payload: 'Ошибка. Попробуйте обновить страницу или зайдите позже'})
     }
 }
 
@@ -22,9 +25,7 @@ export const getPersonal = (page, collection) => async (dispatch) => {
         dispatch({ type: END_LOADING });
     } catch (err) {
         console.log(err);
-        if (err.message.includes('401')) {
-            dispatch({ type: ERROR, payload: 'Ошибка авторизации. Попробуйте обновить страницу или заново авторизоваться'})
-        }
+        dispatch({ type: ERROR, payload: 'Ошибка. Попробуйте обновить страницу или зайдите позже'})
     }
 };
 
@@ -66,12 +67,21 @@ export const deletePersonal = (collection, id) => async (dispatch) => {
     }
 }
 
-export const uploadPersonalAvatar = (collection, id) => async (dispatch) => {
+export const uploadPersonalAvatar = (avatar, collection, id) => async (dispatch) => {
     try {
-        dispatch({ type: START_LOADING });
-        const { data } = await API.uploadAvatar(collection, id);
+        dispatch({ type: START_LOADING_AVATAR });
+
+        let formDataAvatar = new FormData();
+        formDataAvatar.append('avatar', avatar);
+
+        const { data } = await API.uploadAvatar(collection, id, formDataAvatar);
+        console.log(data);
+
+        dispatch({ type: LOAD_AVATAR, payload: data });
+        dispatch({ type: END_LOADING_AVATAR });
     } catch (err) {
         console.log(err);
+        dispatch({ type: ERROR, payload: 'Ошибка загрузки'})
     }
 }
 

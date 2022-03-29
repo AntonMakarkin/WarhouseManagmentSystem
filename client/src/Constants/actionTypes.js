@@ -10,6 +10,10 @@ export const END_LOADING = 'END_LOADING';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const ERROR = 'ERROR';
 
+export const START_LOADING_AVATAR = 'START_LOADING_AVATAR';
+export const LOAD_AVATAR = 'LOAD_AVATAR';
+export const END_LOADING_AVATAR = 'END_LOADING_AVATAR';
+
 export const LOGIN = 'AUTH';
 export const LOGOUT = 'LOGOUT';
 export const AUTH = 'AUTH';

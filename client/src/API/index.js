@@ -47,7 +47,7 @@ export const fetchUserById = (typeUser, id) => API.get(`/${typeUser}/${id}`);
 export const createUser = (typeUser, newUser) => API.post(`/${typeUser}`, newUser);
 export const deleteUser = (typeUser, id) => API.delete(`/${typeUser}/${id}`);
 
-export const uploadAvatar = (typeUser, id) => API.post(`/${typeUser}/${id}/avatar`);
+export const uploadAvatar = (typeUser, id, avatar) => API.post(`/${typeUser}/${id}/avatar`, avatar);
 
 export const signIn = (formData) => API.post('/admin/login', formData);
 export const logout = () => API.post('/admin/logout', {withCredentials: true});

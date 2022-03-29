@@ -43,6 +43,30 @@ const useStyles = makeStyles(() => ({
     },
     detailsDescription: {
         marginRight: '10px'
+    },
+    errorMessage: {
+        paddingLeft: '10px',
+        paddingRight: '10px',
+        color: '#ff0000',
+        textAlign: 'center'
+    },
+    uploadAvatarBlock: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '270px'
+    },
+    sendAvatarButton: {
+        width: '100%',
+        marginBottom: '10px'
+    },
+    actionButtons: {
+        maxWidth: '190px',
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    actionButton: {
+        marginBottom: '10px'
     }
 }));
 

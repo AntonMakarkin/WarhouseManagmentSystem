@@ -41,8 +41,13 @@ const DataItem = ({ item, setActive, setItemId }) => {
                 <Typography>{item.name}</Typography>
             </Box>
             <Box className={classes.dataItemButtons}>
-                <Button onClick={openDetails}>Изменить</Button>
-                <Button onClick={() => callModalToDelete()}>Удалить</Button>
+                <Button className={classes.openDetailsButton}
+                        onClick={openDetails}
+                        variant="contained"
+                        style={darkMode ? {color: '#fff', backgroundColor: '#000'} : {color: '#000'}}>Изменить</Button>
+                <Button onClick={() => callModalToDelete()}
+                        variant="contained"
+                        style={darkMode ? {color: '#fff', backgroundColor: '#000'} : {color: '#000'}}>Удалить</Button>
             </Box>
         </Card>
     )

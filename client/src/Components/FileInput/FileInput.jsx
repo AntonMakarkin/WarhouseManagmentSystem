@@ -1,19 +1,15 @@
 import { useState, useContext, useRef } from 'react';
-import { Box, Button } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 
 import Context from '../../Context/context';
 
 import useStyles from './styles';
 
-const FileInput = ({ allowedFormats }) => {
+const FileInput = ({ allowedFormats, setFile, setFileError, fileSize, setSendButtonDisabled }) => {
     const { darkMode } = useContext(Context);
-    const [file, setFile] = useState(null);
-    const [formatError, setFormatError] = useState(false);
+    const [fileName, setFileName] = useState('Название файла');
     const hiddenFileInput = useRef(null);
-    let header = '';
     const classes = useStyles();
-
-    console.log(allowedFormats);
 
     const mimeType = (headerStr) => {
         let type = '';
@@ -22,6 +18,8 @@ const FileInput = ({ allowedFormats }) => {
                 type = "image/png";
                 break;
             case "ffd8ffe0":
+            case "ffd8ffe1":
+            case "ffd8ffe2":
                 type = 'image/jpg';
                 break;
             default:
@@ -31,37 +29,82 @@ const FileInput = ({ allowedFormats }) => {
         return type;
     }
 
-    const getBlobFileHeader = (e) => {
+    const readUploadedFileAsArray = (inputFile) => {
         const reader = new FileReader();
-        let header = '';
-        reader.onloadend = (e) => {
-            const arr = (new Uint8Array(e.target.result)).subarray(0, 4);
-            for (let i = 0; i < arr.length; i++) {
-                header += arr[i].toString(16);
+
+        return new Promise((resolve, reject) => {
+            reader.onerror = () => {
+                reader.abort();
+                reject(new DOMException('Проблема с чтением файла'))
             }
-            console.log(header);
+
+            reader.onload = () => {
+                resolve(reader.result);
+            }
+            reader.readAsArrayBuffer(inputFile);
+        });
+
+    }
+
+    const getFileHeader = (file) => {
+        const arr = (new Uint8Array(file)).subarray(0, 4);
+        let header = '';
+        for (let i = 0; i < arr.length; i++) {
+            header += arr[i].toString(16);
         }
-        reader.readAsArrayBuffer(e.target.files[0]);
+        return header;
     }
 
     const handleClick = () => {
         hiddenFileInput.current.click();
     }
 
-    const handleChange = (e) => {
-        getBlobFileHeader(e);
+    const handleChange = async (e) => {
+        const file = e.target.files[0];
+        const size = file.size;
+        let fileName = file.name;
+
+        try {
+            if (size > fileSize) {
+                throw new Error('Размер файла слишком велик');
+            }
+
+            const fileContents = await readUploadedFileAsArray(file);
+            const header = getFileHeader(fileContents);
+            const type = mimeType(header);
+            const isAllow = allowedFormats.includes(type);
+
+            if (!isAllow) {
+                throw new Error('');
+            }
+
+            if (fileName.length > 14) {
+                fileName = file.name.slice(0, 11) + '...';
+            }
+
+            setFileName(fileName);
+            setFile(file);
+            setFileError(false);
+            setSendButtonDisabled(false);
+        } catch (e) {
+            setSendButtonDisabled(true);
+            setFileName('Название файла');
+            setFileError(true);
+        }
     }
 
     return (
-        <Box>
-            <Button variant="contained"
-                    onClick={handleClick} 
-                    style={darkMode ? {color: '#fff', backgroundColor: 'rgb(26, 32, 46)'} : {color: '#000'}}>Загрузить</Button>
-            <input style={{ display: 'none' }} 
-                   type="file" 
-                   name="fileAvatar" 
-                   ref={hiddenFileInput}
-                   onChange={handleChange}/>
+        <Box className={classes.uploadInputBlock}
+             style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                <Button variant="contained"
+                        onClick={handleClick} 
+                        style={darkMode ? {color: '#fff', backgroundColor: 'rgb(26, 32, 46)'} : {color: '#000'}}>Загрузить</Button>
+                <input style={{ display: 'none' }} 
+                       type="file" 
+                       name="fileAvatar" 
+                       ref={hiddenFileInput}
+                       onChange={handleChange}/>
+                <Typography>{fileName}</Typography>
         </Box>
     )
 }

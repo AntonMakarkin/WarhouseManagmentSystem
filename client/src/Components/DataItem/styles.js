@@ -18,5 +18,8 @@ export default makeStyles((theme) => ({
     dataItemButtons: {
         display: 'flex',
         alignItems: 'center'
+    },
+    openDetailsButton: {
+        marginRight: '10px'
     }
 }));

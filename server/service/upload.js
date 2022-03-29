@@ -3,7 +3,7 @@ const multer = require('multer');
 //function for preparing avatar before uploading
 const upload = multer({
     limits: {
-        fileSize: 1000000
+        fileSize: 1048576
     },
     fileFilter(req, file, cb) {
         if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {

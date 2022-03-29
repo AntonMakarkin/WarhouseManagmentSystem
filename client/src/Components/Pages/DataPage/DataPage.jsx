@@ -70,6 +70,12 @@ const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, dele
         dispatch(deleteAction(collectionName, itemId));
         setModalActive(false)
     }
+
+    if (isError) {
+        return (
+            <ErrorMessage message={errorMessage}/>
+        )
+    }
     
     return (
         <Container className={classes.dataPageContainer}>

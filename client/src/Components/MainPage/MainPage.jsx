@@ -44,12 +44,14 @@ const MainPage = () => {
     const fill = darkMode ? '#fff' : '#000';
 
     //const sidebar = document.getElementsByTagName('aside');
-    const pageArray = [{link: 'catalog', name: 'Каталог'}, {link: 'personal', name: 'Персонал'}];
+    //const pageArray = [{link: 'catalog', name: 'Каталог'}, {link: 'personal', name: 'Персонал'}];
 
     const linksArray = [{link: 'couriers', type: 'personal', name: 'Курьеры', addName: 'курьера', logo: <DeliverLogo width="50px" height="50px" fill={fill}/>}, 
     {link: 'managers', type: 'personal', name: 'Менеджеры', addName: 'менеджера', logo: <ManagerLogo width="50px" height="50px" fill={fill}/>},
     {link: 'storekeepers', type: 'personal', name: 'Кладовщики', addName: 'кладовщика', logo: <StoreKeeperLogo width="50px" height="50px" fill={fill}/>},
     {link: 'customers', type: 'personal', name: 'Клиенты', addName: 'клиента', logo: <CustomerLogo width="50px" height="50px" fill={fill}/>}];
+
+    const pageArray = [{link: 'catalog', name: 'Каталог'}, {link: 'personal', name: 'Персонал'}];
 
     const employeeHeaderPage = 'Информация о сотруднике'
 
