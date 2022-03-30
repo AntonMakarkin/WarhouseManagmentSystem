@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 import { Avatar, Container, Box, Typography, Button } from '@material-ui/core';
 
 import Context from '../../../Context/context';
@@ -23,6 +23,8 @@ const DetailsPage = ({ header, collectionName }) => {
     const [fileError, setFileError] = useState(false);
     const [sendButtonDisabled, setSendButtonDisabled] = useState(true);
     const dispatch = useDispatch();
+    const history = useHistory();
+    const match = useRouteMatch();
     const { id } = useParams();
     const classes = useStyles();
 
@@ -55,6 +57,10 @@ const DetailsPage = ({ header, collectionName }) => {
     const uploadAvatar = () => {
         dispatch(uploadPersonalAvatar(avatarFile, collectionName, id))
     };
+
+    const openChangeDetails = () => {
+        history.push(`${match.path.slice(0, -4)}/changedata/${id}`)
+    }
 
     const deleteItem = () => {
         dispatch()
@@ -120,7 +126,8 @@ const DetailsPage = ({ header, collectionName }) => {
                     </Box>
                     <Box className={classes.actionButtons}>
                         <Button variant="contained"
-                                className={classes.actionButton} 
+                                className={classes.actionButton}
+                                onClick={openChangeDetails} 
                                 style={darkMode ? {color: '#fff', backgroundColor: 'rgb(26, 32, 46)'} : {color: '#000'}}>Изменить данные</Button>
                         <Button variant="contained"
                                 className={classes.actionButton} 

@@ -30,6 +30,7 @@ import LinkPage from '../Pages/LinkPage/LinkPage';
 import DataPage from '../Pages/DataPage/DataPage';
 import AddPage from '../Pages/AddPage/AddPage';
 import DetailsPage from '../Pages/DetailsPage/DetailsPage';
+import ChangeDetailsPage from '../Pages/ChangeDetailsPage/ChangeDetailsPage';
 
 import useStyles from './styles';
 
@@ -54,6 +55,7 @@ const MainPage = () => {
     const pageArray = [{link: 'catalog', name: 'Каталог'}, {link: 'personal', name: 'Персонал'}];
 
     const employeeHeaderPage = 'Информация о сотруднике'
+    const employeeChangeDataHeader = 'Изменить данные о сотруднике'
 
     const handleDarkMode = () => {
         setDarkMode(!darkMode);
@@ -107,6 +109,11 @@ const MainPage = () => {
                         <Route key={i} exact path={`${match.path}/${item.type}/${item.link}/:id`}
                             render={props => (<DetailsPage {...props} header={employeeHeaderPage}
                                                                       collectionName={item.link}/>)}/>
+                    ))}
+                    {linksArray.map((item, i) => (
+                        <Route key={i} exact path={`${match.path}/${item.type}/${item.link}/changedata/:id`}
+                            render={props => (<ChangeDetailsPage {...props} header={employeeChangeDataHeader}
+                                                                            collectionType='personal'/>)}/>
                     ))}
                 </Switch>
             </Container>
