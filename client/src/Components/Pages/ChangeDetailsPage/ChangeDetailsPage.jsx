@@ -1,7 +1,8 @@
 import { useState, useContext, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Container, Typography, Button, Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Input from '../../AuthPage/Input';
 
@@ -9,37 +10,51 @@ import Context from '../../../Context/context';
 
 import useStyles from './styles';
 
-const ChangeDetailsPage = ({ header, collectionType }) => {
+const ChangeDetailsPage = ({ header, updateAction, collectionType, collectionName, getItemById }) => {
     const { darkMode } = useContext(Context);
-    let postDataDefault = {};
-    
-    const [postData, setPostData] = useState()
+    const { id } = useParams();
+    const [postData, setPostData] = useState({ name: '', email: '', phone: ''});
+    const dispatch = useDispatch();
     const classes = useStyles();
 
-    const ChangeEmployeeData = () => {
-        return (
-            <Container className={classes.changeDetailsPageContainer}>
-                <Typography className={classes.changeDetailsPageHeader}
-                            variant="h2"
-                            style={darkMode ? {color: '#fff'} : {color: '#000'}}>{header}</Typography>
-                <form onSubmit={handleSubmit}>
-                    <Grid container spacing={3}>
-                            <Input name="name" label="Имя"/>
-                            <Input name="email" label="Логин"/>
-                            <Input name="phone" label="Телефон"/>
-                    </Grid>
-                </form>
-            </Container>
-        )
+    let postDataDefaultItemType = ''
+
+    if (collectionType === 'personal') {
+        postDataDefaultItemType = 'user'
     }
 
-    const handleSubmit = async (e) => {
+    const postDataDefault = useSelector(state => state[collectionType]);
+    const postDataDefaultItem = postDataDefault[postDataDefaultItemType];
+    const postDataDefaultItemNew = { ...postDataDefaultItem }
 
+    useEffect(() => {
+        if (postDataDefaultItem === []) {
+            dispatch(getItemById(collectionName, id));
+        }
+        setPostData(postDataDefaultItem) 
+        //dispatch(getItemById(collectionName, id));
+    },[collectionName, dispatch, getItemById, id, postDataDefaultItem]);
+
+    console.log(id, postDataDefaultItem, postData)
+
+    const handleSubmit = async (e) => {
+        dispatch()
     }
 
     switch (collectionType) {
         case "personal":
-            return <ChangeEmployeeData/>
+            return (
+                <Container className={classes.changeDetailsPageContainer}>
+                    <Typography className={classes.changeDetailsPageHeader}
+                                variant="h2"
+                                style={darkMode ? {color: '#fff'} : {color: '#000'}}>{header}</Typography>
+                    <form onSubmit={handleSubmit}>
+                        <Grid container spacing={3}>
+                                <Input name="name" label="Имя" value={postData.name} handleChange={(e) => setPostData({ ...postData, name: e.target.value })}/>
+                        </Grid>
+                    </form>
+                </Container>
+            )
         default:
             return null;
     }

@@ -16,10 +16,8 @@ import CustomerLogo from '../../SvgIcons/CustomerLogo';
 
 import { logout } from '../../Actions/user';
 
-import { getPersonal } from '../../Actions/controllers';
-import { getPersonalBySearch } from '../../Actions/controllers';
-import { createPersonal } from '../../Actions/controllers';
-import { deletePersonal } from '../../Actions/controllers';
+import { getPersonal, getPersonalBySearch, createPersonal, updatePersonal, deletePersonal, getPersonalById } from '../../Actions/controllers';
+
 
 import Context from '../../Context/context';
 
@@ -113,6 +111,9 @@ const MainPage = () => {
                     {linksArray.map((item, i) => (
                         <Route key={i} exact path={`${match.path}/${item.type}/${item.link}/changedata/:id`}
                             render={props => (<ChangeDetailsPage {...props} header={employeeChangeDataHeader}
+                                                                            updateAction={updatePersonal}
+                                                                            getItemById={getPersonalById}
+                                                                            collectionName={item.link}
                                                                             collectionType='personal'/>)}/>
                     ))}
                 </Switch>

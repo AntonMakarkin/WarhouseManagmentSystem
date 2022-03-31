@@ -1,6 +1,6 @@
 import { START_LOADING, END_LOADING, FETCH_ALL, FETCH_BY_ID, CREATE, DELETE, 
          FETCH_BY_SEARCH, CLEAR_STATE, ERROR, START_LOADING_AVATAR, LOAD_AVATAR,
-         END_LOADING_AVATAR } from "../Constants/actionTypes";
+         END_LOADING_AVATAR, UPDATE } from "../Constants/actionTypes";
 import * as API from '../API/index';
 
 export const getPersonalById = (collection, id) => async (dispatch) => {
@@ -52,6 +52,20 @@ export const createPersonal = (post, history, collection) => async (dispatch) =>
 
         history.push('/');
         dispatch({ type: END_LOADING });
+    } catch (err) {
+        console.log(err.message);
+    }
+}
+
+export const updatePersonal = (collection, id, post) => async (dispatch) => {
+    try {
+        dispatch({ type: START_LOADING });
+        console.log(id);
+        console.log(collection);
+        console.log(post);
+        const { data } = await API.updateUser(collection, post, id);
+
+        dispatch({ type: UPDATE, payload: data });
     } catch (err) {
         console.log(err.message);
     }

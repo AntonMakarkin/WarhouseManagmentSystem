@@ -45,6 +45,7 @@ export const fetchUsers = (typeUser, page) => API.get(`/${typeUser}?page=${page}
 export const fetchUsersBySearch = (typeUser, searchQuery) => API.get(`/${typeUser}/search?searchQuery=${searchQuery.search}`);
 export const fetchUserById = (typeUser, id) => API.get(`/${typeUser}/${id}`);
 export const createUser = (typeUser, newUser) => API.post(`/${typeUser}`, newUser);
+export const updateUser = (typeUser, updatedUser, id) => API.patch(`${typeUser}/${id}`, updatedUser);
 export const deleteUser = (typeUser, id) => API.delete(`/${typeUser}/${id}`);
 
 export const uploadAvatar = (typeUser, id, avatar) => API.post(`/${typeUser}/${id}/avatar`, avatar);
