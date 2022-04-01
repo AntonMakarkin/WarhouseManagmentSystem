@@ -57,7 +57,7 @@ export const createPersonal = (post, history, collection) => async (dispatch) =>
     }
 }
 
-export const updatePersonal = (collection, id, post) => async (dispatch) => {
+export const updatePersonal = (post, id, collection) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
         console.log(id);
@@ -67,7 +67,7 @@ export const updatePersonal = (collection, id, post) => async (dispatch) => {
 
         dispatch({ type: UPDATE, payload: data });
     } catch (err) {
-        console.log(err.message);
+        console.log(err);
     }
 }
 

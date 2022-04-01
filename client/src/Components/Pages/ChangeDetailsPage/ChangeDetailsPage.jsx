@@ -14,8 +14,11 @@ const ChangeDetailsPage = ({ header, updateAction, collectionType, collectionNam
     const { darkMode } = useContext(Context);
     const { id } = useParams();
     const [postData, setPostData] = useState({ name: '', email: '', phone: ''});
+    const [changePassword, setChangePassword] = useState({ password: ''});
+    const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch();
     const classes = useStyles();
+
 
     let postDataDefaultItemType = ''
 
@@ -25,20 +28,34 @@ const ChangeDetailsPage = ({ header, updateAction, collectionType, collectionNam
 
     const postDataDefault = useSelector(state => state[collectionType]);
     const postDataDefaultItem = postDataDefault[postDataDefaultItemType];
-    const postDataDefaultItemNew = { ...postDataDefaultItem }
+    let newDataObjForSending = {}
+
+    if (collectionType === 'personal') {
+        const { name, email, phone } = postDataDefaultItem;
+        newDataObjForSending = { name, email, phone };
+    }
 
     useEffect(() => {
-        if (postDataDefaultItem === []) {
+        if (postDataDefaultItem.length === 0) {
             dispatch(getItemById(collectionName, id));
         }
-        setPostData(postDataDefaultItem) 
-        //dispatch(getItemById(collectionName, id));
-    },[collectionName, dispatch, getItemById, id, postDataDefaultItem]);
+        setPostData(newDataObjForSending)
+    },[postDataDefaultItem, collectionName, id, dispatch, getItemById]);
 
-    console.log(id, postDataDefaultItem, postData)
+    console.log(id, collectionName, postDataDefaultItem, postData)
+    console.log(changePassword)
+
+    const handleShowPassword = () => setShowPassword(!showPassword);
 
     const handleSubmit = async (e) => {
-        dispatch()
+        e.preventDefault();
+        console.log(postData);
+        dispatch(updateAction({ ...postData }, id, collectionName))
+    }
+
+    const handleSubmitPassword = async (e) => {
+        e.preventDefault();
+        dispatch(updateAction({ ...changePassword }, id, collectionName))
     }
 
     switch (collectionType) {
@@ -50,8 +67,26 @@ const ChangeDetailsPage = ({ header, updateAction, collectionType, collectionNam
                                 style={darkMode ? {color: '#fff'} : {color: '#000'}}>{header}</Typography>
                     <form onSubmit={handleSubmit}>
                         <Grid container spacing={3}>
-                                <Input name="name" label="Имя" value={postData.name} handleChange={(e) => setPostData({ ...postData, name: e.target.value })}/>
+                                <Input name="name" label="Имя" value={postData.name || ''} handleChange={(e) => setPostData({ ...postData, name: e.target.value })}/>
+                                <Input name="email" label="Логин" value={postData.email || ''} handleChange={(e) => setPostData({ ...postData, email: e.target.value })}/>
+                                <Input name="phone" label="Телефон" value={postData.phone || ''} handleChange={(e) => setPostData({ ...postData, phone: e.target.value })}/>
                         </Grid>
+                        <Button type="submit">Сохранить изменения</Button>
+                    </form>
+                    <Typography className={classes.changeDetailsPageHeader}
+                                variant="h2"
+                                style={darkMode ? {color: '#fff'} : {color: '#000'}}>Изменить пароль сотрудника</Typography>
+                    <form onSubmit={handleSubmitPassword}>
+                        <Grid container spacing={3}>
+                            <Input name="password"
+                                   value={postData.password}
+                                   className={classes.addPageInput} 
+                                   label="Пароль" 
+                                   handleChange={(e) => setChangePassword({ ...changePassword, password: e.target.value })}
+                                   type={showPassword ? 'text' : 'password'}
+                                   handleShowPassword={handleShowPassword}/>
+                        </Grid>
+                        <Button type="submit">Сохранить пароль</Button>
                     </form>
                 </Container>
             )
