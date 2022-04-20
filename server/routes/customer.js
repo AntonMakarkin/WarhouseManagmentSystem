@@ -9,7 +9,7 @@ const auth = require('../middleware/auth');
 
 const customerControllers = require('../controllers/users');
 const { createUser: createCustomer, login, logout, getAccountInfo, updateAccountInfo,
-        getListOfUsers, getUserById, searchAccount, deleteUserById,
+        getListOfUsers, getUserById, getCustomerStats, searchAccount, deleteUserById,
         postAvatar, deleteAvatar, deleteAvatarById } = customerControllers;
 
 const upload = require('../service/upload'); //function for preparing avatar before uploading
@@ -22,6 +22,8 @@ const allowedUpdates = ['name', 'email', 'password', 'phone'];
 //users routes
 router.post('/customers', createCustomer(Customer, 'customer'));
 router.get('/customers', auth([Admin, Manager, StoreKeeper]), getListOfUsers(Customer));
+
+router.get('/customers/stats', auth([Admin, Manager]), getCustomerStats(Manager));
 
 router.get('/customers/search', auth([Admin, Manager, StoreKeeper]), searchAccount(Customer));
 

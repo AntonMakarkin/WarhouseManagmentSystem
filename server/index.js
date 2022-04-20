@@ -9,6 +9,7 @@ const managerRoute = require('./routes/manager');
 const storeKeeperRoute = require('./routes/storeKeepers');
 const brandRoute = require('./routes/brands');
 const categoryRoute = require('./routes/categories');
+const goodsRoute = require('./routes/catalog/goods');
 const tokensRoute = require('./routes/tokens');
 const dotenv = require('dotenv');
 
@@ -31,6 +32,7 @@ app.use(storeKeeperRoute);
 app.use(managerRoute);
 app.use(brandRoute);
 app.use(categoryRoute);
+app.use(goodsRoute);
 
 
 app.get('/', (req, res) => {

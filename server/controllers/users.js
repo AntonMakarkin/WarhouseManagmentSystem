@@ -149,6 +149,35 @@ const getUserById = (model) => {
     }
 };
 
+const getCustomerStats = (model) => {
+    return async (req, res) => {
+        const date = new Date();
+        const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+        console.log(model)
+
+        try {
+            const data = await model.aggregate([
+                { $match: { createdAt: { $gte: lastYear } } },
+                {
+                    $project: {
+                      month: { $month: "$createdAt" },
+                    },
+                },
+                {
+                    $group: {
+                      _id: "$month",
+                      total: { $sum: 1 },
+                    },
+                  },
+            ])
+
+            res.json(data)
+        } catch (err) {
+            res.status(500).json({ error: err.message })
+        }
+    }
+}
+
 const updateUserById = (model, allowedUpdates) => {
     return async (req, res) => {
         const { id } = req.params;
@@ -285,6 +314,6 @@ const deleteAvatarById = (model) => {
 
 module.exports = {
     createUser, login, logout, getAccountInfo, searchAccount, updateAccountInfo, deleteAccountAvatar,
-    getListOfUsers, getUserById, updateUserById, deleteUserById, postAvatar, postAvatarById,
+    getListOfUsers, getUserById, getCustomerStats, updateUserById, deleteUserById, postAvatar, postAvatarById,
     deleteAvatar, deleteAvatarById 
 };
