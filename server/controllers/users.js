@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Customer = require('../models/users/customer');
+const customerToken = require('../models/tokens/customerToken')
 const sharp = require('sharp');
 
 const createUser = (model, role) => {
@@ -10,10 +12,38 @@ const createUser = (model, role) => {
             await user.save();
             res.status(201).json({ user });
         } catch (e) {
+            console.log(e);
             res.status(400).json({ error: 'Пользователь с данным email или телефоном уже существует' });
         }
     }
 };
+
+const createCustomer = (cookieLife = 2592000000) => {
+    return async (req, res) => {
+        const { name, email, password, phone } = req.body;
+        const role = "Клиент (покупатель)"
+        const user = new Customer({ name, email, password, phone, role });
+
+        try {
+            await user.save();
+            const payload = { _id: user._id.toString(), email: user.email };
+            const tokens = await customerToken.generateTokens(payload);
+            const refreshToken = tokens.refreshToken;
+
+            await customerToken.saveRefreshToken(user._id, refreshToken);
+
+            const accessToken = tokens.accessToken;
+
+            res.cookie('refreshToken', refreshToken, { maxAge: cookieLife, httpOnly: true });
+            res.json({ user, accessToken });
+
+            //res.status(201).json(user);
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({ error: 'Пользователь с данным email или телефоном уже существует' });
+        }
+    }
+}
 
 const login = (model, tokenModel, cookieLife = 2592000000) => {
     return async (req, res) => {
@@ -313,7 +343,7 @@ const deleteAvatarById = (model) => {
 };
 
 module.exports = {
-    createUser, login, logout, getAccountInfo, searchAccount, updateAccountInfo, deleteAccountAvatar,
+    createUser, createCustomer, login, logout, getAccountInfo, searchAccount, updateAccountInfo, deleteAccountAvatar,
     getListOfUsers, getUserById, getCustomerStats, updateUserById, deleteUserById, postAvatar, postAvatarById,
     deleteAvatar, deleteAvatarById 
 };

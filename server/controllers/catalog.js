@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Category = require('../models/catalog/categories');
 
 const addInCatalog = (model) => {
     return async (req, res) => {
@@ -15,16 +16,38 @@ const addInCatalog = (model) => {
     }
 };
 
+const addCategoryInCatalog = () => {
+    return async (req, res) => {
+        const { name, link } = req.body;
+
+        const item = new Category({ name, link });
+
+        try {
+            await item.save();
+            res.status(201).json(item);
+        } catch (err) {
+            res.status(400).json({ error: err.message });
+        }
+    }
+};
+
+
 const getFromCatalog = (model, modelName) => {
     return async (req, res) => {
+        const { page } = req.query;
+
         try {
-            const items = await model.find({});
+            const LIMIT = 10;
+            const startIndex = (Number(page) - 1) * LIMIT; // get the starting index of every page
+
+            const total = await model.countDocuments({});
+            const items = await model.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
 
             if (!items) {
                 throw new Error(`Информация о "${modelName}" отсутcтвует!`)
             }
 
-            res.json({ items });
+            res.json({ items, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
         } catch (err) {
             res.status(404).json({ error: err.message });
         }
@@ -136,6 +159,6 @@ const deleteItemById = (model, modelName) => {
 };
 
 module.exports = {
-    addInCatalog, getFromCatalog, deleteAllFromCatalog, searchItemsFromCatalog, 
+    addInCatalog, addCategoryInCatalog, getFromCatalog, deleteAllFromCatalog, searchItemsFromCatalog, 
     searchItemById, updateItemFromCatalogById, deleteItemById
 }

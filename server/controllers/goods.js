@@ -34,17 +34,28 @@ const getGoods = () => {
         } catch (err) {
             res.status(404).json({ error: err.message });
         }
-        /*try {
-            const items = await Goods.find({});
+    }
+}
 
-            if (!items) {
-                throw new Error(`Информация о товарах отсутcтвует!`)
+const getGoodsById = () => {
+    return async (req, res) => {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: 'Неккоректный id!'});
+        }
+
+        try {
+            const item = await Goods.findById(id);
+
+            if (!item) {
+                throw new Error(`Товар с данным id отсутствует!`);
             }
 
-            res.json(items);
+            res.json(item);
         } catch (err) {
             res.status(404).json({ error: err.message });
-        }*/
+        }
     }
 }
 
@@ -73,13 +84,36 @@ const updateGoodsById = (modelName) => {
         try {
             updates.forEach((update) => item[update] = req.body[update]); //updating the item
             await item.save();
-            res.json({ item });
+            res.json(item);
         } catch (err) {
             res.status(500).send({ error: err.message });
         }
     }
 }
 
+const deleteGoodsById = () => {
+    return async (req, res) => {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: 'Неккоректный id' });
+        }
+
+        try {
+            const item = await Goods.findById(id);
+    
+            if (!item) {
+                throw new Error('Товар с данным id не найден!');
+            }
+    
+            await Goods.deleteOne(item);
+            res.json({ message: 'Товар успешно удален' });
+        } catch(err) {
+            res.status(404).json({ error: err.message });
+        }
+    }
+}
+
 module.exports = {
-    addInGoods, getGoods, updateGoodsById
+    addInGoods, getGoods, getGoodsById, updateGoodsById, deleteGoodsById
 }

@@ -17,6 +17,7 @@ import CustomerLogo from '../../SvgIcons/CustomerLogo';
 import { logout } from '../../Actions/user';
 
 import { getPersonal, getPersonalBySearch, createPersonal, updatePersonal, deletePersonal, getPersonalById } from '../../Actions/controllers';
+import { getCatalogItems } from '../../Actions/catalogControllers';
 
 
 import Context from '../../Context/context';
@@ -49,6 +50,8 @@ const MainPage = () => {
     {link: 'managers', type: 'personal', name: 'Менеджеры', addName: 'менеджера', logo: <ManagerLogo width="50px" height="50px" fill={fill}/>},
     {link: 'storekeepers', type: 'personal', name: 'Кладовщики', addName: 'кладовщика', logo: <StoreKeeperLogo width="50px" height="50px" fill={fill}/>},
     {link: 'customers', type: 'personal', name: 'Клиенты', addName: 'клиента', logo: <CustomerLogo width="50px" height="50px" fill={fill}/>}];
+
+    const goodsLinksArray = [{link: 'categories', type: 'catalog', name: 'Категории', addName: 'категорию', logo: <CustomerLogo width="50px" height="50px" fill={fill}/>}]
 
     const pageArray = [{link: 'catalog', name: 'Каталог'}, {link: 'personal', name: 'Персонал'}];
 
@@ -85,16 +88,20 @@ const MainPage = () => {
                 </AppBar>
                 <Switch>
                     <Route exact path={`${match.path}`} component={Home}/>
-                    {pageArray.map((item, i) => (
-                        <Route key={i} exact path={`${match.path}/${item.link}`}
-                            render={props => (<LinkPage {...props} header={`${item.name}`} arrayOfLinks={linksArray}/>)}/>
-                    ))}
+                    <Route exact path={`${match.path}/personal`} render={props => (<LinkPage {...props} header="Персонал" arrayOfLinks={linksArray}/>)}/>
+                    <Route exact path={`${match.path}/catalog`} render={props => (<LinkPage {...props} header="Каталог" arrayOfLinks={goodsLinksArray}/>)}/>
                     {linksArray.map((item, i) => (
                         <Route key={i} exact path={`${match.path}/${item.type}/${item.link}`}
                             render={props => (<DataPage {...props} header={item.name}
                                                                    searchAction={getPersonalBySearch}
                                                                    getAllAction={getPersonal}
                                                                    deleteAction={deletePersonal}
+                                                                   collectionName={item.link}/>)}/>
+                    ))}
+                    {goodsLinksArray.map((item, i) => (
+                        <Route key={i} exact path={`${match.path}/${item.type}/${item.link}`}
+                            render={props => (<DataPage {...props} header={item.name}
+                                                                   getAllAction={getCatalogItems}
                                                                    collectionName={item.link}/>)}/>
                     ))}
                     {linksArray.map((item, i) => (

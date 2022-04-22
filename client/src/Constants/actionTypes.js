@@ -14,6 +14,12 @@ export const START_LOADING_AVATAR = 'START_LOADING_AVATAR';
 export const LOAD_AVATAR = 'LOAD_AVATAR';
 export const END_LOADING_AVATAR = 'END_LOADING_AVATAR';
 
+
+export const START_CATALOG_LOADING = 'START_CATALOG_LOADING';
+export const END_CATALOG_LOADING = 'END_CATALOG_LOADING';
+export const FETCH_ALL_CATALOG = 'FETCH_ALL_CATALOG';
+export const CATALOG_ERROR = 'CATALOG_ERROR';
+
 export const LOGIN = 'AUTH';
 export const LOGOUT = 'LOGOUT';
 export const AUTH = 'AUTH';

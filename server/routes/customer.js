@@ -8,7 +8,7 @@ const tokenCustomer = require('../models/tokens/customerToken');
 const auth = require('../middleware/auth');
 
 const customerControllers = require('../controllers/users');
-const { createUser: createCustomer, login, logout, getAccountInfo, updateAccountInfo,
+const { createCustomer, login, logout, getAccountInfo, updateAccountInfo,
         getListOfUsers, getUserById, getCustomerStats, searchAccount, deleteUserById,
         postAvatar, deleteAvatar, deleteAvatarById } = customerControllers;
 
@@ -20,7 +20,7 @@ const router = express.Router();
 const allowedUpdates = ['name', 'email', 'password', 'phone'];
 
 //users routes
-router.post('/customers', createCustomer(Customer, 'customer'));
+router.post('/customers', createCustomer());
 router.get('/customers', auth([Admin, Manager, StoreKeeper]), getListOfUsers(Customer));
 
 router.get('/customers/stats', auth([Admin, Manager]), getCustomerStats(Manager));

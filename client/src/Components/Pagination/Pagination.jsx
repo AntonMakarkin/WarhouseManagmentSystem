@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Pagination, PaginationItem } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 
-import useStyles from './styles';
+//import useStyles from './styles';
 
 const Paginate = ({ page, getAllItems, collection }) => {
     const { numberOfPages } = useSelector(state => state['personal']);
     const dispatch = useDispatch();
     const match = useRouteMatch();
 
-    const classes = useStyles();
+    //const classes = useStyles()
 
     useEffect(() => {
         if (page) {

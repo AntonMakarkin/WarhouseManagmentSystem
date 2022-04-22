@@ -50,6 +50,8 @@ export const deleteUser = (typeUser, id) => API.delete(`/${typeUser}/${id}`);
 
 export const uploadAvatar = (typeUser, id, avatar) => API.post(`/${typeUser}/${id}/avatar`, avatar);
 
+export const fetchCatalogItems = (typeCatalog, page) => API.get(`/${typeCatalog}?page=${page}`);
+
 export const signIn = (formData) => API.post('/admin/login', formData);
 export const logout = () => API.post('/admin/logout', {withCredentials: true});
 export const refresh = () => API.get('/admin/refresh', {withCredentials: true});

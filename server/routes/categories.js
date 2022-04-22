@@ -6,13 +6,13 @@ const StoreKeeper = require('../models/users/storeKeeper');
 const auth = require('../middleware/auth');
 
 const catalogControllers = require('../controllers/catalog');
-const { addInCatalog, getFromCatalog, deleteAllFromCatalog, searchItemsFromCatalog,
+const { addCategoryInCatalog, getFromCatalog, deleteAllFromCatalog, searchItemsFromCatalog,
         searchItemById, updateItemFromCatalogById: updateItemById, deleteItemById } = catalogControllers;
 
 const router = express.Router();
 
 //routes
-router.post('/categories', auth([Admin, Manager, StoreKeeper]), addInCatalog(Category));
+router.post('/categories', auth([Admin, Manager, StoreKeeper]), addCategoryInCatalog());
 router.get('/categories', getFromCatalog(Category, 'Категории'));
 router.delete('/categories', auth([Admin]), deleteAllFromCatalog(Category, 'Категории'));
 
