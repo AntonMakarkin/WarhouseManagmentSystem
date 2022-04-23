@@ -13,12 +13,13 @@ import DeliverLogo from '../../SvgIcons/CourierLogo'
 import ManagerLogo from '../../SvgIcons/ManagerLogo';
 import StoreKeeperLogo from '../../SvgIcons/StoreKeeperLogo';
 import CustomerLogo from '../../SvgIcons/CustomerLogo';
+import CategoriesLogo from '../../SvgIcons/CategoriesLogo';
+import BrandsLogo from '../../SvgIcons/BrandsLogo';
+import GoodsLogo from '../../SvgIcons/GoodsLogo';
 
 import { logout } from '../../Actions/user';
 
-import { getPersonal, getPersonalBySearch, createPersonal, updatePersonal, deletePersonal, getPersonalById } from '../../Actions/controllers';
-import { getCatalogItems } from '../../Actions/catalogControllers';
-
+import { getItems, getItemsBySearch, createItem, updateItem, deleteItem, getItemById } from '../../Actions/controllers';
 
 import Context from '../../Context/context';
 
@@ -30,6 +31,7 @@ import DataPage from '../Pages/DataPage/DataPage';
 import AddPage from '../Pages/AddPage/AddPage';
 import DetailsPage from '../Pages/DetailsPage/DetailsPage';
 import ChangeDetailsPage from '../Pages/ChangeDetailsPage/ChangeDetailsPage';
+
 
 import useStyles from './styles';
 
@@ -51,7 +53,9 @@ const MainPage = () => {
     {link: 'storekeepers', type: 'personal', name: 'Кладовщики', addName: 'кладовщика', logo: <StoreKeeperLogo width="50px" height="50px" fill={fill}/>},
     {link: 'customers', type: 'personal', name: 'Клиенты', addName: 'клиента', logo: <CustomerLogo width="50px" height="50px" fill={fill}/>}];
 
-    const goodsLinksArray = [{link: 'categories', type: 'catalog', name: 'Категории', addName: 'категорию', logo: <CustomerLogo width="50px" height="50px" fill={fill}/>}]
+    const catalogLinksArray = [{link: 'categories', type: 'catalog', name: 'Категории', addName: 'категорию', changeName: 'Изменить данные о категории', logo: <CategoriesLogo width="50px" height="50px" fill={fill}/>},
+                             {link: 'brands', type: 'catalog', name: 'Бренды', addName: 'бренд', changeName: 'Изменить данные о бренде', logo: <BrandsLogo width="50px" height="50px" fill={fill}/>},
+                             {link: 'goods', type: 'catalog', name: 'Товары', addName: 'товар', changeName: 'Изменить данные о товаре', logo: <GoodsLogo width="50px" height="50px" fill={fill}/>}]
 
     const pageArray = [{link: 'catalog', name: 'Каталог'}, {link: 'personal', name: 'Персонал'}];
 
@@ -89,25 +93,32 @@ const MainPage = () => {
                 <Switch>
                     <Route exact path={`${match.path}`} component={Home}/>
                     <Route exact path={`${match.path}/personal`} render={props => (<LinkPage {...props} header="Персонал" arrayOfLinks={linksArray}/>)}/>
-                    <Route exact path={`${match.path}/catalog`} render={props => (<LinkPage {...props} header="Каталог" arrayOfLinks={goodsLinksArray}/>)}/>
+                    <Route exact path={`${match.path}/catalog`} render={props => (<LinkPage {...props} header="Каталог" arrayOfLinks={catalogLinksArray}/>)}/>
                     {linksArray.map((item, i) => (
                         <Route key={i} exact path={`${match.path}/${item.type}/${item.link}`}
                             render={props => (<DataPage {...props} header={item.name}
-                                                                   searchAction={getPersonalBySearch}
-                                                                   getAllAction={getPersonal}
-                                                                   deleteAction={deletePersonal}
+                                                                   searchAction={getItemsBySearch}
+                                                                   getAllAction={getItems}
+                                                                   deleteAction={deleteItem}
                                                                    collectionName={item.link}/>)}/>
                     ))}
-                    {goodsLinksArray.map((item, i) => (
+                    {catalogLinksArray.map((item, i) => (
                         <Route key={i} exact path={`${match.path}/${item.type}/${item.link}`}
                             render={props => (<DataPage {...props} header={item.name}
-                                                                   getAllAction={getCatalogItems}
-                                                                   collectionName={item.link}/>)}/>
+                                                                   getAllAction={getItems}
+                                                                   collectionName={item.link}
+                                                                   deleteAction={deleteItem}/>)}/>
                     ))}
                     {linksArray.map((item, i) => (
                         <Route key={i} exact path={`${match.path}/${item.type}/${item.link}/add`}
                             render={props => (<AddPage {...props} header={item.addName}
-                                                                  createAction={createPersonal}
+                                                                  createAction={createItem}
+                                                                  collectionName={item.link}/>)}/>
+                    ))}
+                    {catalogLinksArray.map((item, i) => (
+                        <Route key={i} exact path={`${match.path}/${item.type}/${item.link}/add`}
+                            render={props => (<AddPage {...props} header={item.addName}
+                                                                  createAction={createItem}
                                                                   collectionName={item.link}/>)}/>
                     ))}
                     {linksArray.map((item, i) => (
@@ -115,13 +126,26 @@ const MainPage = () => {
                             render={props => (<DetailsPage {...props} header={employeeHeaderPage}
                                                                       collectionName={item.link}/>)}/>
                     ))}
+                    {catalogLinksArray.map((item, i) => (
+                        <Route key={i} exact path={`${match.path}/${item.type}/${item.link}/:id`}
+                            render={props => (<DetailsPage {...props} header={employeeHeaderPage}
+                                                                      collectionName={item.link}/>)}/>
+                    ))}
                     {linksArray.map((item, i) => (
                         <Route key={i} exact path={`${match.path}/${item.type}/${item.link}/changedata/:id`}
                             render={props => (<ChangeDetailsPage {...props} header={employeeChangeDataHeader}
-                                                                            updateAction={updatePersonal}
-                                                                            getItemById={getPersonalById}
+                                                                            updateAction={updateItem}
+                                                                            getItemById={getItemById}
                                                                             collectionName={item.link}
                                                                             collectionType='personal'/>)}/>
+                    ))}
+                    {catalogLinksArray.map((item, i) => (
+                        <Route key={i} exact path={`${match.path}/${item.type}/${item.link}/changedata/:id`}
+                            render={props => (<ChangeDetailsPage {...props} header={item.changeName}
+                                                                            updateAction={updateItem}
+                                                                            getItemById={getItemById}
+                                                                            collectionName={item.link}
+                                                                            collectionType='catalog'/>)}/>
                     ))}
                 </Switch>
             </Container>

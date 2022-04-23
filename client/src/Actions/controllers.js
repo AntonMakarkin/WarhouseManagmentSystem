@@ -3,7 +3,7 @@ import { START_LOADING, END_LOADING, FETCH_ALL, FETCH_BY_ID, CREATE, DELETE,
          END_LOADING_AVATAR, UPDATE } from "../Constants/actionTypes";
 import * as API from '../API/index';
 
-export const getPersonalById = (collection, id) => async (dispatch) => {
+export const getItemById = (collection, id) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
         const { data } = await API.fetchUserById(collection, id);
@@ -16,12 +16,12 @@ export const getPersonalById = (collection, id) => async (dispatch) => {
     }
 }
 
-export const getPersonal = (page, collection) => async (dispatch) => {
+export const getItems = (page, collection) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
-        const { data: { users, currentPage, numberOfPages } } = await API.fetchUsers(collection, page);
+        const { data } = await API.fetchUsers(collection, page);
 
-        dispatch({ type: FETCH_ALL, payload: { users, currentPage, numberOfPages } });
+        dispatch({ type: FETCH_ALL, payload: data });
         dispatch({ type: END_LOADING });
     } catch (err) {
         console.log(err);
@@ -29,7 +29,7 @@ export const getPersonal = (page, collection) => async (dispatch) => {
     }
 };
 
-export const getPersonalBySearch = (searchQuery, collection) => async (dispatch) => {
+export const getItemsBySearch = (searchQuery, collection) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
         const { data: { items } } = await API.fetchUsersBySearch(collection, searchQuery);
@@ -41,7 +41,7 @@ export const getPersonalBySearch = (searchQuery, collection) => async (dispatch)
     }
 };
 
-export const createPersonal = (post, history, collection) => async (dispatch) => {
+export const createItem = (post, history, collection) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
         console.log(post);
@@ -50,14 +50,14 @@ export const createPersonal = (post, history, collection) => async (dispatch) =>
 
         dispatch({ type: CREATE, payload: data });
 
-        history.push('/');
+        history.goBack();
         dispatch({ type: END_LOADING });
     } catch (err) {
         console.log(err.message);
     }
 }
 
-export const updatePersonal = (post, id, collection) => async (dispatch) => {
+export const updateItem = (post, id, collection) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
         console.log(id);
@@ -71,9 +71,9 @@ export const updatePersonal = (post, id, collection) => async (dispatch) => {
     }
 }
 
-export const deletePersonal = (collection, id) => async (dispatch) => {
+export const deleteItem = (collection, id) => async (dispatch) => {
     try {
-        await API.deleteUser(collection, id);
+        await API.deleteItem(collection, id);
 
         dispatch({ type: DELETE, payload: id })
     } catch (err) {
@@ -89,7 +89,6 @@ export const uploadPersonalAvatar = (avatar, collection, id) => async (dispatch)
         formDataAvatar.append('avatar', avatar);
 
         const { data } = await API.uploadAvatar(collection, id, formDataAvatar);
-        console.log(data);
 
         dispatch({ type: LOAD_AVATAR, payload: data });
         dispatch({ type: END_LOADING_AVATAR });

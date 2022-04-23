@@ -26,7 +26,7 @@ function useQuery() {
 
 const DataPage = ({ header, modal, modalHeader, getAllAction, searchAction, deleteAction, collectionName }) => {
     const { isAuth } = useSelector((state) => state.user);
-    const { isLoading, isError, errorMessage } = useSelector((state) => state.personal);
+    const { isLoading, isError, errorMessage } = useSelector((state) => state.data);
     const { darkMode } = useContext(Context);
     const [modalActive, setModalActive] = useState(false);
     const [itemId, setItemId] = useState(null);

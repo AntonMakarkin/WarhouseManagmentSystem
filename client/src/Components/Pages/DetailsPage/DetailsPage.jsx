@@ -5,7 +5,7 @@ import { Avatar, Container, Box, Typography, Button } from '@material-ui/core';
 
 import Context from '../../../Context/context';
 
-import { getPersonalById, uploadPersonalAvatar } from '../../../Actions/controllers';
+import { getItemById, uploadPersonalAvatar } from '../../../Actions/controllers';
 
 import Modal from '../../Modals/Modal';
 import Loader from '../../Loader/Loader';
@@ -16,8 +16,8 @@ import useStyles from './styles';
 
 const DetailsPage = ({ header, collectionName }) => {
     const { darkMode } = useContext(Context);
-    const personalData = useSelector((state) => state.personal.user);
-    const { isLoading, isLoadingAvatar, isError, errorMessage } = useSelector((state) => state.personal);
+    const personalData = useSelector((state) => state.data.item);
+    const { isLoading, isLoadingAvatar, isError, errorMessage } = useSelector((state) => state.data);
     const [modalActive, setModalActive] = useState(null);
     const [avatarFile, setAvatarFile] = useState(null);
     const [fileError, setFileError] = useState(false);
@@ -67,7 +67,7 @@ const DetailsPage = ({ header, collectionName }) => {
     }
 
     useEffect(() => {
-        dispatch(getPersonalById(collectionName, id));
+        dispatch(getItemById(collectionName, id));
     },[collectionName, id, dispatch]);
 
     if (isError) {

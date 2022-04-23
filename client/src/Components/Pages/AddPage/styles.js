@@ -17,6 +17,9 @@ const useStyles = makeStyles(() => ({
     },
     addPageInput: {
         marginBottom: '10px'
+    },
+    loadImgInputBox: {
+        padding: '12px'
     }
 }));
 

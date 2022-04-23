@@ -19,15 +19,16 @@ const ChangeDetailsPage = ({ header, updateAction, collectionType, collectionNam
     const dispatch = useDispatch();
     const classes = useStyles();
 
+    console.log(collectionName, collectionType)
 
     let postDataDefaultItemType = ''
 
-    if (collectionType === 'personal') {
+    /*if (collectionType === 'personal') {
         postDataDefaultItemType = 'user'
-    }
+    }*/
 
-    const postDataDefault = useSelector(state => state[collectionType]);
-    const postDataDefaultItem = postDataDefault[postDataDefaultItemType];
+    const postDataDefault = useSelector(state => state.data);
+    const postDataDefaultItem = postDataDefault;
     let newDataObjForSending = {}
 
     if (collectionType === 'personal') {
@@ -87,6 +88,22 @@ const ChangeDetailsPage = ({ header, updateAction, collectionType, collectionNam
                                    handleShowPassword={handleShowPassword}/>
                         </Grid>
                         <Button type="submit">Сохранить пароль</Button>
+                    </form>
+                </Container>
+            )
+        case "catalog":
+            return (
+                <Container className={classes.changeDetailsPageContainer}>
+                    <Typography className={classes.changeDetailsPageHeader}
+                                variant="h2"
+                                style={darkMode ? {color: '#fff'} : {color: '#000'}}>{header}</Typography>
+                    <form onSubmit={handleSubmit}>
+                        <Grid container spacing={3}>
+                                <Input name="name" label="Имя" value={postData.name || ''} handleChange={(e) => setPostData({ ...postData, name: e.target.value })}/>
+                                <Input name="email" label="Логин" value={postData.email || ''} handleChange={(e) => setPostData({ ...postData, email: e.target.value })}/>
+                                <Input name="phone" label="Телефон" value={postData.phone || ''} handleChange={(e) => setPostData({ ...postData, phone: e.target.value })}/>
+                        </Grid>
+                        <Button type="submit">Сохранить изменения</Button>
                     </form>
                 </Container>
             )

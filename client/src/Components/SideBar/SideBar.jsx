@@ -18,7 +18,7 @@ import Context from '../../Context/context';
 import useStyles from './styles';
 
 const SideBar = () => {
-    const data = useSelector(state => state.personal.users);
+    const data = useSelector(state => state.data.items);
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
     const { darkMode } = useContext(Context);
     const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const SideBar = () => {
     }
 
     useEffect(() => {
-        if (data.length) {
+        if (data?.length) {
             dispatch(clearData());
         }
         /*const token = localStorage.getItem('token');

@@ -6,11 +6,11 @@ const initialState = {
     isLoadingAvatar: false,
     isError: false,
     errorMessage: '', 
-    users: [],
-    user: []
+    items: [],
+    item: []
 }
 
-const courierReducer = (state = initialState, action) => {
+const dataReducer = (state = initialState, action) => {
     switch (action.type) {
         case START_LOADING:
             return { ...state, isLoading: true }
@@ -23,24 +23,24 @@ const courierReducer = (state = initialState, action) => {
         case FETCH_ALL:
             return {
                 ...state,
-                users: action.payload.users,
+                items: action.payload.items,
                 currentPage: action.payload.currentPage,
                 numberOfPages: action.payload.numberOfPages
             }
         case FETCH_BY_SEARCH:
-            return { ...state, users: action.payload.items }
+            return { ...state, items: action.payload.items }
         case FETCH_BY_ID:
-            return { ...state, user: action.payload.user }
+            return { ...state, item: action.payload.item }
         case LOAD_AVATAR:
-            return { ...state, user: action.payload.user }
+            return { ...state, item: action.payload.user }
         case CLEAR_STATE:
             return initialState
         case CREATE:
-            return { ...state, users: [...state.users, action.payload] }
+            return { ...state, items: [...state.items, action.payload] }
         case UPDATE:
-            return { ...state, users: state.users.map(user => (user._id === action.payload._id ? action.payload : user))}
+            return { ...state, items: state.items.map(item => (item._id === action.payload._id ? action.payload : item))}
         case DELETE:
-            return { ...state, users: state.users.filter(user => user._id !== action.payload)}
+            return { ...state, items: state.items.filter(item => item._id !== action.payload)}
         case ERROR:
             return { ...state, isError: true, errorMessage: action.payload }
         default:
@@ -48,4 +48,4 @@ const courierReducer = (state = initialState, action) => {
     }
 };
 
-export default courierReducer;
+export default dataReducer;

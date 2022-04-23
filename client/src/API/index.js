@@ -46,11 +46,12 @@ export const fetchUsersBySearch = (typeUser, searchQuery) => API.get(`/${typeUse
 export const fetchUserById = (typeUser, id) => API.get(`/${typeUser}/${id}`);
 export const createUser = (typeUser, newUser) => API.post(`/${typeUser}`, newUser);
 export const updateUser = (typeUser, updatedUser, id) => API.patch(`${typeUser}/${id}`, updatedUser);
-export const deleteUser = (typeUser, id) => API.delete(`/${typeUser}/${id}`);
+export const deleteItem = (typeUser, id) => API.delete(`/${typeUser}/${id}`);
 
 export const uploadAvatar = (typeUser, id, avatar) => API.post(`/${typeUser}/${id}/avatar`, avatar);
 
 export const fetchCatalogItems = (typeCatalog, page) => API.get(`/${typeCatalog}?page=${page}`);
+export const deleteCatalogItem = (typeCatalog, id) => API.delete(`/${typeCatalog}/${id}`);
 
 export const signIn = (formData) => API.post('/admin/login', formData);
 export const logout = () => API.post('/admin/logout', {withCredentials: true});

@@ -17,10 +17,30 @@ const addInGoods = () => {
 
 const getGoods = () => {
     return async (req, res) => {
-        const { brand, categories, newProduct } = req.query;
+        const { page } = req.query;
 
         try {
+            const LIMIT = 10;
+            const startIndex = (Number(page) - 1) * LIMIT; // get the starting index of every page
+
+            const total = await Goods.countDocuments({});
+            const items = await Goods.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
+
+            if (!items) {
+                throw new Error(`Информация о товарах отсутcтвует!`)
+            }
+
+            res.json({ items, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
+        } catch (err) {
+            res.status(404).json({ error: err.message });
+        }
+        //const { page , brand, categories, newProduct } = req.query;
+
+        /*try {
             let items;
+            let total;
+            const LIMIT = 8;
+            const startIndex = (Number(page) - 1) * LIMIT;
 
             if (newProduct) {
                 items = await Goods.find().sort({ createdAt: -1 }).limit(1);
@@ -28,12 +48,15 @@ const getGoods = () => {
                 items = await Goods.find({ category: { $in: [categories] } })
             } else if (brand) {
                 items = await Goods.find({ brand: { $in: [brand] } })
+            } else {
+                total = await Goods.countDocuments({});
+                items = await Goods.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex)
             }
 
             res.send(items);
         } catch (err) {
             res.status(404).json({ error: err.message });
-        }
+        }*/
     }
 }
 

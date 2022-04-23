@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 //import useStyles from './styles';
 
 const Paginate = ({ page, getAllItems, collection }) => {
-    const { numberOfPages } = useSelector(state => state['personal']);
+    const { numberOfPages } = useSelector(state => state['data']);
     const dispatch = useDispatch();
     const match = useRouteMatch();
 

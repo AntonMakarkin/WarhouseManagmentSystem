@@ -150,7 +150,7 @@ const getListOfUsers = (model) => {
             const total = await model.countDocuments({});
             const users = await model.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
 
-            res.json({ users, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
+            res.json({ items: users, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
         } catch (err) {
             res.status(404).json({ error: err.message });
         }
@@ -172,7 +172,7 @@ const getUserById = (model) => {
                 throw new Error('Пользователь с данным id не найден!');
             }
     
-            res.json({ user });
+            res.json({ item: user });
         } catch (err) {
             res.status(404).json({ error: err.message });
         }
@@ -273,7 +273,7 @@ const postAvatar = () => {
             const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
             req.user.avatar = buffer;
             await req.user.save();
-            res.json({ user: req.user }); 
+            res.json(req.user); 
         } catch (err) {
             res.status(404).json({ error: err.message });
         }
