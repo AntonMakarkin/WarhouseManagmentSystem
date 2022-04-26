@@ -7,7 +7,10 @@ const auth = require('../middleware/auth');
 
 const catalogControllers = require('../controllers/catalog');
 const { addCategoryInCatalog, getFromCatalog, deleteAllFromCatalog, searchItemsFromCatalog,
-        searchItemById, updateItemFromCatalogById: updateItemById, deleteItemById } = catalogControllers;
+        searchItemById, updateItemFromCatalogById: updateItemById, deleteItemById,
+        postItemCatalogImage } = catalogControllers;
+
+const upload = require('../service/upload')
 
 const router = express.Router();
 
@@ -18,8 +21,11 @@ router.delete('/categories', auth([Admin]), deleteAllFromCatalog(Category, 'Ка
 
 router.get('/categories/search', searchItemsFromCatalog(Category));
 
+router.post('/categories/:id/avatar', auth([Admin, Manager, StoreKeeper]), upload.single('avatar'), postItemCatalogImage(Category))
+
 router.get('/categories/:id', searchItemById(Category, 'Категория'));
 router.patch('/categories/:id', auth([Admin, Manager, StoreKeeper]), updateItemById(Category, 'Категория'));
 router.delete('/categories/:id', auth([Admin, Manager, StoreKeeper]), deleteItemById(Category, 'Категория'));
+
 
 module.exports = router;

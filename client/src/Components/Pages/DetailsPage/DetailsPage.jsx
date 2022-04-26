@@ -27,6 +27,7 @@ const DetailsPage = ({ header, collectionName }) => {
     const match = useRouteMatch();
     const { id } = useParams();
     const classes = useStyles();
+    let showInfoBlock
 
     const allowedFormats = ["image/png", "image/jpg"];
     const fileSize = 1048576;
@@ -76,31 +77,10 @@ const DetailsPage = ({ header, collectionName }) => {
         )
     }
 
-    return (
-        <Container className={classes.detailsPageContainer}>
-            <Typography className={classes.detailsPageHeader}
-                        variant="h2"
-                        style={darkMode ? {color: '#fff'} : {color: '#000'}}>{header}</Typography>
-            {isLoading? <Loader/> : 
-            <Container className={classes.detailsContainer} disableGutters maxWidth={false} style={darkMode ? {color: '#fff'} : {color: '#000'}}>
-                <Container className={classes.avatarContainer} disableGutters maxWidth={false}>
-                    <Avatar className={classes.detailsAvatar} variant="rounded" src={avatar} />
-                    <Box className={classes.uploadAvatarBlock}>
-                        <FileInput allowedFormats={allowedFormats} 
-                                fileSize={fileSize}
-                                setFile={setAvatarFile}
-                                setFileError={setFileError}
-                                setSendButtonDisabled={setSendButtonDisabled} />
-                        <Button className={classes.sendAvatarButton}
-                                disabled={sendButtonDisabled}
-                                variant="contained"
-                                onClick={uploadAvatar} 
-                                style={darkMode ? {color: '#fff', backgroundColor: 'rgb(26, 32, 46)'} : {color: '#000'}}>{isLoadingAvatar ? 'Отправляем' : 'Отправить'}</Button>
-                        <Typography className={classes.errorMessage}>{fileError ? fileErrorMessage : errorMessage}</Typography>
-                    </Box>
-                </Container>
-                <Container disableGutters maxWidth={false}>
-                    <Box className={classes.detailsBlock}>
+    if (collectionName === 'couriers' || 'managers' || 'storekeepers' || 'customers') {
+        showInfoBlock = (
+            <>
+                <Box className={classes.detailsBlock}>
                         <Typography className={classes.detailsDescription}>Имя:</Typography>
                         <Typography>{personalData.name}</Typography>
                     </Box>
@@ -123,7 +103,78 @@ const DetailsPage = ({ header, collectionName }) => {
                     <Box className={classes.detailsBlock} style={{ marginBottom: '30px' }}>
                         <Typography className={classes.detailsDescription}>Изменен:</Typography>
                         <Typography>{updatedTime}</Typography>
+                </Box>
+            </>
+        )
+    }
+
+    if (collectionName === 'categories') {
+        showInfoBlock = (
+            <>
+                <Box className={classes.detailsBlock}>
+                    <Typography className={classes.detailsDescription}>Название:</Typography>
+                    <Typography>{personalData.name}</Typography>
+                </Box>
+                <Box className={classes.detailsBlock}>
+                    <Typography className={classes.detailsDescription}>Ссылка:</Typography>
+                    <Typography>{personalData.link}</Typography>
+                </Box>
+                <Box className={classes.detailsBlock}>
+                    <Typography className={classes.detailsDescription}>Добавлен:</Typography>
+                    <Typography>{createdTime}</Typography>
+                </Box>
+                <Box className={classes.detailsBlock} style={{ marginBottom: '30px' }}>
+                    <Typography className={classes.detailsDescription}>Изменен:</Typography>
+                    <Typography>{updatedTime}</Typography>
+                </Box>
+            </>
+        )
+    }
+
+    if (collectionName === 'brands') {
+        showInfoBlock = (
+            <>
+                <Box className={classes.detailsBlock}>
+                    <Typography className={classes.detailsDescription}>Название:</Typography>
+                    <Typography>{personalData.name}</Typography>
+                </Box>
+                <Box className={classes.detailsBlock}>
+                    <Typography className={classes.detailsDescription}>Добавлен:</Typography>
+                    <Typography>{createdTime}</Typography>
+                </Box>
+                <Box className={classes.detailsBlock} style={{ marginBottom: '30px' }}>
+                    <Typography className={classes.detailsDescription}>Изменен:</Typography>
+                    <Typography>{updatedTime}</Typography>
+                </Box>
+            </>
+        )
+    }
+
+    return (
+        <Container className={classes.detailsPageContainer}>
+            <Typography className={classes.detailsPageHeader}
+                        variant="h2"
+                        style={darkMode ? {color: '#fff'} : {color: '#000'}}>{`Информация о ${header}`}</Typography>
+            {isLoading ? <Loader/> : 
+            <Container className={classes.detailsContainer} disableGutters maxWidth={false} style={darkMode ? {color: '#fff'} : {color: '#000'}}>
+                <Container className={classes.avatarContainer} disableGutters maxWidth={false}>
+                    <Avatar className={classes.detailsAvatar} variant="rounded" src={avatar} />
+                    <Box className={classes.uploadAvatarBlock}>
+                        <FileInput allowedFormats={allowedFormats} 
+                                fileSize={fileSize}
+                                setFile={setAvatarFile}
+                                setFileError={setFileError}
+                                setSendButtonDisabled={setSendButtonDisabled} />
+                        <Button className={classes.sendAvatarButton}
+                                disabled={sendButtonDisabled}
+                                variant="contained"
+                                onClick={uploadAvatar} 
+                                style={darkMode ? {color: '#fff', backgroundColor: 'rgb(26, 32, 46)'} : {color: '#000'}}>{isLoadingAvatar ? 'Отправляем' : 'Отправить'}</Button>
+                        <Typography className={classes.errorMessage}>{fileError ? fileErrorMessage : errorMessage}</Typography>
                     </Box>
+                </Container>
+                <Container disableGutters maxWidth={false}>
+                    {showInfoBlock}
                     <Box className={classes.actionButtons}>
                         <Button variant="contained"
                                 className={classes.actionButton}

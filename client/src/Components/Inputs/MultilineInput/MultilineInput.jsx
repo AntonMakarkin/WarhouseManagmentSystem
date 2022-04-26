@@ -1,14 +1,11 @@
-import { useContext } from 'react';
-import { TextField, Grid, InputAdornment, IconButton } from '@material-ui/core';
+import { useContext } from "react"
+import { TextField, Grid } from '@material-ui/core'
 
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-
-import Context from '../../Context/context';
+import Context from '../../../Context/context';
 
 import useStyles from './styles';
 
-const Input = ({ name, handleChange, label, autoFocus, type, value, handleShowPassword }) => {
+const MultilineInput = ({ name, handleChange, label, autoFocus, type, value, handleShowPassword }) => {
     const classes = useStyles();
     const { darkMode } = useContext(Context);
     let labelclass;
@@ -25,7 +22,7 @@ const Input = ({ name, handleChange, label, autoFocus, type, value, handleShowPa
         labelclass = classes.textfield__label;
         inputclass = classes.textfield__input;
     }
-    
+
     return (
         <Grid item md={12}>
             <TextField
@@ -36,28 +33,21 @@ const Input = ({ name, handleChange, label, autoFocus, type, value, handleShowPa
                 variant="outlined"
                 required
                 fullWidth
+                multiline
+                rows={4}
                 label={label}
                 autoFocus={autoFocus}
                 type={type}
                 InputLabelProps={{className: labelclass}}
-                InputProps={name === 'password' ? { 
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <IconButton onClick={handleShowPassword}>
-                                {type === 'password' ? <Visibility/> : <VisibilityOff/>}
-                            </IconButton>
-                        </InputAdornment>
-                    ),
+                InputProps={{
                     className: inputclass,
                     classes: {
                         notchedOutline: notchedOutline,
                     }
-                } : {className: inputclass, classes: {
-                    notchedOutline: notchedOutline
-                }}}
+                }}
             />
         </Grid>
     )
-};
+}
 
-export default Input;
+export default MultilineInput

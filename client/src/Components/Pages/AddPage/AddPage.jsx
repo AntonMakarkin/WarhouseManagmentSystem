@@ -1,13 +1,16 @@
 import { useState, useContext, useEffect } from 'react';
-import { Container, Typography, TextField, Button, Grid, Box } from '@material-ui/core';
+import { Container, Typography, TextField, Button, Grid, Box, InputLabel,
+         FormControl, Select } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import FileInput from '../../FileInput/FileInput';
 import decode from 'jwt-decode';
 
 import Input from '../../AuthPage/Input';
+import MultilineInput from '../../Inputs/MultilineInput/MultilineInput';
+import SelectInput from '../../Inputs/SelectInput/SelectInput';
 
 import { refresh } from '../../../Actions/user';
+import { getInfoForAddingGoods } from '../../../Actions/controllers';
 
 import Context from '../../../Context/context';
 
@@ -18,22 +21,22 @@ const initialState = { email: '', password: '' };
 const AddPage = ({ header, createAction, collectionName }) => {
     const { darkMode } = useContext(Context);
     const [postData, setPostData] = useState({ name: '', email: '', phone: '', password: ''});
-    const [img, setImg] = useState('');
-    const [fileError, setFileError] = useState(false);
-    const [sendButtonDisabled, setSendButtonDisabled] = useState(true);
-    const [categoryData, setCategoryData] = useState({ name: '', link: '', img})
+    const [categoryData, setCategoryData] = useState({ name: '', link: ''});
+    const [brandData, setBrandData] = useState({ name: '' })
+    const [goodsData, setGoodsData] = useState({ name: '', brand: '', category: '', description: '', quantity: '', price: ''})
     const [showPassword, setShowPassword] = useState(false);
     const dispatch = useDispatch();
     const classes = useStyles();
     const history = useHistory();
-
-    const allowedFormats = ["image/png", "image/jpg"];
-    const fileSize = 1048576;
-    const fileErrorMessage = 'Ошибка! Проверьте формат и вес';
-
-    console.log(collectionName)
-
     let form
+
+    console.log(goodsData);
+
+    useEffect(() => {
+        if (collectionName === 'goods') {
+            dispatch(getInfoForAddingGoods())
+        }
+    }, [dispatch, collectionName])
 
     const handleShowPassword = () => setShowPassword(!showPassword);
 
@@ -47,6 +50,18 @@ const AddPage = ({ header, createAction, collectionName }) => {
         e.preventDefault();
 
         dispatch(createAction({ ...categoryData }, history, collectionName))
+    }
+
+    const brandHandleSubmit = async (e) => {
+        e.preventDefault();
+
+        dispatch(createAction({ ...brandData }, history, collectionName))
+    }
+
+    const goodsHandleSubmit = async (e) => {
+        e.preventDefault();
+
+        dispatch(createAction({ ...goodsData }, history, collectionName))
     }
 
     const refreshToken = () => {
@@ -77,18 +92,43 @@ const AddPage = ({ header, createAction, collectionName }) => {
         form = (
             <form onSubmit={categoriesHandleSubmit}>
                 <Grid container spacing={3} style={{ marginBottom: '10px' }}>
-                    <Input name="name" value={postData.name} className={classes.addPageInput} label="Имя" handleChange={(e) => setPostData({ ...postData, name: e.target.value })}/>
-                    <Input name="email" value={postData.email} className={classes.addPageInput} label="Логин" handleChange={(e) => setPostData({ ...postData, email: e.target.value })}/>
-                    <Input name="phone" value={postData.phone} className={classes.addPageInput} label="Телефон" handleChange={(e) => setPostData({ ...postData, phone: e.target.value })}/>
-                    <Box className={classes.loadImgInputBox}>
-                        <FileInput allowedFormats={allowedFormats}
-                                   fileSize={fileSize}
-                                   setFile={setImg}
-                                   setFileError={setFileError}
-                                   setSendButtonDisabled={setSendButtonDisabled}/>
-                    </Box>
+                    <Input name="name" value={categoryData.name} className={classes.addPageInput} label="Название" handleChange={(e) => setCategoryData({ ...categoryData, name: e.target.value })}/>
+                    <Input name="link" value={categoryData.link} className={classes.addPageInput} label="Ссылка" handleChange={(e) => setCategoryData({ ...categoryData, link: e.target.value })}/>
                 </Grid>
-                <Button variant="contained" type="submit">Добавить</Button>
+                <Button variant="contained" 
+                        type="submit"
+                        style={darkMode ? {color: '#fff', backgroundColor: '#000'} : {color: '#000'}}>Добавить</Button>
+            </form>
+        )
+    }
+
+    if (collectionName === 'brands') {
+        form = (
+            <form onSubmit={brandHandleSubmit}>
+                <Grid container spacing={3} style={{ marginBottom: '10px' }}>
+                    <Input name="name" value={goodsData.name} className={classes.addPageInput} label="Название" handleChange={(e) => setBrandData({ ...brandData, name: e.target.value })}/>
+                </Grid>
+                <Button variant="contained" 
+                        type="submit" 
+                        style={darkMode ? {color: '#fff', backgroundColor: '#000'} : {color: '#000'}}>Добавить</Button>
+            </form>
+        )
+    }
+
+    if (collectionName === 'goods') {
+        form = (
+            <form onSubmit={goodsHandleSubmit}>
+                <Grid container spacing={3} style={{ marginBottom: '10px' }}>
+                    <SelectInput value={goodsData.brand || ''} label="Бренд" className={classes.addPageInput} handleChange={(e) => setGoodsData({ ...goodsData, brand: e.target.value })}/>
+                    <SelectInput value={goodsData.category || ''} label="Категория" className={classes.addPageInput} handleChange={(e) => setGoodsData({ ...goodsData, category: e.target.value })}/>
+                    <Input name="name" type="text" value={goodsData.name || ''} className={classes.addPageInput} label="Название" handleChange={(e) => setGoodsData({ ...goodsData, name: e.target.value })}/>
+                    <MultilineInput name="description" value={goodsData.description || ''} label="Описание" handleChange={(e) => setGoodsData({ ...goodsData, description: e.target.value })}/>
+                    <Input name="quantity" type="number" value={goodsData.quantity || ''} className={classes.addPageInput} label="Количество" handleChange={(e) => setGoodsData({ ...goodsData, quantity: Number(e.target.value)})}/>
+                    <Input name="price" type="number" value={goodsData.price || ''} className={classes.addPageInput} label="Цена" handleChange={(e) => setGoodsData({ ...goodsData, price: Number(e.target.value)})}/>
+                </Grid>
+                <Button variant="contained" 
+                        type="submit" 
+                        style={darkMode ? {color: '#fff', backgroundColor: '#000'} : {color: '#000'}}>Добавить</Button>
             </form>
         )
     }

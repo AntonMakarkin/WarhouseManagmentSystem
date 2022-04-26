@@ -20,6 +20,8 @@ export const END_CATALOG_LOADING = 'END_CATALOG_LOADING';
 export const FETCH_ALL_CATALOG = 'FETCH_ALL_CATALOG';
 export const CATALOG_ERROR = 'CATALOG_ERROR';
 
+export const FETCH_INFO_FOR_GOODS = 'FETCH_INFO_FOR_GOODS';
+
 export const LOGIN = 'AUTH';
 export const LOGOUT = 'LOGOUT';
 export const AUTH = 'AUTH';

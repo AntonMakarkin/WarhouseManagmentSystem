@@ -1,5 +1,5 @@
-import { START_LOADING, END_LOADING, FETCH_ALL, FETCH_BY_SEARCH, FETCH_BY_ID, CLEAR_STATE, 
-         CREATE, UPDATE, DELETE, ERROR, START_LOADING_AVATAR, LOAD_AVATAR, END_LOADING_AVATAR } from "../Constants/actionTypes";
+import { START_LOADING, END_LOADING, FETCH_ALL, FETCH_BY_SEARCH, FETCH_INFO_FOR_GOODS, FETCH_BY_ID, 
+        CLEAR_STATE, CREATE, UPDATE, DELETE, ERROR, START_LOADING_AVATAR, LOAD_AVATAR, END_LOADING_AVATAR } from "../Constants/actionTypes";
 
 const initialState = {
     isLoading: true,
@@ -7,7 +7,9 @@ const initialState = {
     isError: false,
     errorMessage: '', 
     items: [],
-    item: []
+    item: [],
+    brandsForAddingGoods: [],
+    categoriesForAddingGoods: [],
 }
 
 const dataReducer = (state = initialState, action) => {
@@ -27,12 +29,14 @@ const dataReducer = (state = initialState, action) => {
                 currentPage: action.payload.currentPage,
                 numberOfPages: action.payload.numberOfPages
             }
+        case FETCH_INFO_FOR_GOODS:
+            return { ...state, brandsForAddingGoods: action.payload.brands, categoriesForAddingGoods: action.payload.categories }
         case FETCH_BY_SEARCH:
             return { ...state, items: action.payload.items }
         case FETCH_BY_ID:
             return { ...state, item: action.payload.item }
         case LOAD_AVATAR:
-            return { ...state, item: action.payload.user }
+            return { ...state, item: action.payload.item }
         case CLEAR_STATE:
             return initialState
         case CREATE:

@@ -31,6 +31,9 @@ const useStyles = makeStyles(() => ({
         flexDirection: 'column',
         flexGrow: '1',
         overflow: 'auto'
+    },
+    dataItemsBlocksContainer: {
+        flex: '1 0 auto'
     }
 }));
 

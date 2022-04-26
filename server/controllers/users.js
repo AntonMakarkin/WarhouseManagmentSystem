@@ -299,7 +299,7 @@ const postAvatarById = (model) => {
             user.avatar = buffer;
             await user.save();
             //res.json({ message: 'Аватар добавлен' });
-            res.json({ user }) 
+            res.json({ item: user }) 
         } catch (err) {
             res.status(500).json({ error: err.message });
         }

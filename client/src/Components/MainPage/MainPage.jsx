@@ -53,9 +53,9 @@ const MainPage = () => {
     {link: 'storekeepers', type: 'personal', name: 'Кладовщики', addName: 'кладовщика', logo: <StoreKeeperLogo width="50px" height="50px" fill={fill}/>},
     {link: 'customers', type: 'personal', name: 'Клиенты', addName: 'клиента', logo: <CustomerLogo width="50px" height="50px" fill={fill}/>}];
 
-    const catalogLinksArray = [{link: 'categories', type: 'catalog', name: 'Категории', addName: 'категорию', changeName: 'Изменить данные о категории', logo: <CategoriesLogo width="50px" height="50px" fill={fill}/>},
-                             {link: 'brands', type: 'catalog', name: 'Бренды', addName: 'бренд', changeName: 'Изменить данные о бренде', logo: <BrandsLogo width="50px" height="50px" fill={fill}/>},
-                             {link: 'goods', type: 'catalog', name: 'Товары', addName: 'товар', changeName: 'Изменить данные о товаре', logo: <GoodsLogo width="50px" height="50px" fill={fill}/>}]
+    const catalogLinksArray = [{link: 'categories', type: 'catalog', name: 'Категории', addName: 'категорию', infoName: 'категории', changeName: 'Изменить данные о категории', logo: <CategoriesLogo width="50px" height="50px" fill={fill}/>},
+                             {link: 'brands', type: 'catalog', name: 'Бренды', addName: 'бренд', infoName: 'бренде', changeName: 'Изменить данные о бренде', logo: <BrandsLogo width="50px" height="50px" fill={fill}/>},
+                             {link: 'goods', type: 'catalog', name: 'Товары', addName: 'товар', infoName: 'товаре', changeName: 'Изменить данные о товаре', logo: <GoodsLogo width="50px" height="50px" fill={fill}/>}]
 
     const pageArray = [{link: 'catalog', name: 'Каталог'}, {link: 'personal', name: 'Персонал'}];
 
@@ -128,7 +128,7 @@ const MainPage = () => {
                     ))}
                     {catalogLinksArray.map((item, i) => (
                         <Route key={i} exact path={`${match.path}/${item.type}/${item.link}/:id`}
-                            render={props => (<DetailsPage {...props} header={employeeHeaderPage}
+                            render={props => (<DetailsPage {...props} header={item.infoName}
                                                                       collectionName={item.link}/>)}/>
                     ))}
                     {linksArray.map((item, i) => (

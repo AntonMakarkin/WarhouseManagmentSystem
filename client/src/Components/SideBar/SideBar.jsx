@@ -38,6 +38,7 @@ const SideBar = () => {
         if (data?.length) {
             dispatch(clearData());
         }
+        //console.log(location)
         /*const token = localStorage.getItem('token');
 
         if (token) {

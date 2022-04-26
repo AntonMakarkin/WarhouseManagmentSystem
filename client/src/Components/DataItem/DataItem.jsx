@@ -8,10 +8,12 @@ import Context from '../../Context/context';
 
 import useStyles from './styles';
 
-const DataItem = ({ item, setActive, setItemId }) => {
+const DataItem = ({ item, setActive, setItemId, collectionName }) => {
     const { darkMode } = useContext(Context);
     const history = useHistory();
     const match = useRouteMatch();
+    const classes = useStyles();
+    let avatarBlock
 
     let avatar = item?.avatar
 
@@ -31,13 +33,19 @@ const DataItem = ({ item, setActive, setItemId }) => {
         history.push(`${match.path}/${item._id}`)
     }
 
-    const classes = useStyles();
+    if (collectionName === 'couriers' || 'managers' || 'storekeepers' || 'customers' || 'categories') {
+        avatarBlock = (
+            <>
+                <Avatar className={classes.dataItemImg} src={avatar}/>
+            </>
+        )
+    }
     
     return (
         <Card className={classes.dataItem} 
               style={darkMode ? {backgroundColor: 'rgb(26, 32, 46)', color: '#fff'} : {backgroundColor: '#fff'}}>
             <Box className={classes.dataItemImgNameBlock}>
-                <Avatar className={classes.dataItemImg} src={avatar}/>
+                {avatarBlock}
                 <Typography>{item.name}</Typography>
             </Box>
             <Box className={classes.dataItemButtons}>

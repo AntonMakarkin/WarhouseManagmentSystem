@@ -27,8 +27,8 @@ const useStyles = makeStyles(() => ({
         overflow: 'auto'
     },
     detailsAvatar: {
-        width: '150px',
-        height: '150px',
+        width: '300px',
+        height: '300px',
         margin: '0 auto',
         marginBottom: '30px',
         border: '2px solid #fff',

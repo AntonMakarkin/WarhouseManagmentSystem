@@ -11,6 +11,7 @@ const brandRoute = require('./routes/brands');
 const categoryRoute = require('./routes/categories');
 const goodsRoute = require('./routes/catalog/goods');
 const tokensRoute = require('./routes/tokens');
+const infoRoute = require('./routes/getInfo');
 const dotenv = require('dotenv');
 
 const app = express();
@@ -33,6 +34,7 @@ app.use(managerRoute);
 app.use(brandRoute);
 app.use(categoryRoute);
 app.use(goodsRoute);
+app.use(infoRoute);
 
 
 app.get('/', (req, res) => {

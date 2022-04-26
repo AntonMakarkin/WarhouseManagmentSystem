@@ -1,6 +1,6 @@
 import { START_LOADING, END_LOADING, FETCH_ALL, FETCH_BY_ID, CREATE, DELETE, 
          FETCH_BY_SEARCH, CLEAR_STATE, ERROR, START_LOADING_AVATAR, LOAD_AVATAR,
-         END_LOADING_AVATAR, UPDATE } from "../Constants/actionTypes";
+         END_LOADING_AVATAR, FETCH_INFO_FOR_GOODS, UPDATE } from "../Constants/actionTypes";
 import * as API from '../API/index';
 
 export const getItemById = (collection, id) => async (dispatch) => {
@@ -13,6 +13,18 @@ export const getItemById = (collection, id) => async (dispatch) => {
     } catch (err) {
         console.log(err);
         dispatch({ type: ERROR, payload: 'Ошибка. Попробуйте обновить страницу или зайдите позже'})
+    }
+}
+
+export const getInfoForAddingGoods = () => async (dispatch) => {
+    try {
+        dispatch({ type: START_LOADING });
+        const { data } = await API.getInfoForAddingGoods();
+
+        dispatch({ type: FETCH_INFO_FOR_GOODS, payload: data });
+        dispatch({ type: END_LOADING })
+    } catch (err) {
+        console.log(err);
     }
 }
 
@@ -89,6 +101,7 @@ export const uploadPersonalAvatar = (avatar, collection, id) => async (dispatch)
         formDataAvatar.append('avatar', avatar);
 
         const { data } = await API.uploadAvatar(collection, id, formDataAvatar);
+        console.log(data);
 
         dispatch({ type: LOAD_AVATAR, payload: data });
         dispatch({ type: END_LOADING_AVATAR });

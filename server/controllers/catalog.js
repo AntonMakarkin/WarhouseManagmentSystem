@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Category = require('../models/catalog/categories');
+const Brand = require('../models/catalog/brands');
+const sharp = require('sharp')
 
 const addInCatalog = (model) => {
     return async (req, res) => {
@@ -53,6 +55,36 @@ const getFromCatalog = (model, modelName) => {
         }
     }
 };
+
+const getAllInfoForHomePage = async (req, res) => {
+    try {
+        const categories = await Category.find({});
+
+        res.json({ categories });
+    } catch (err) {
+        res.status(404).json({ error: err.message });
+    }
+}
+
+const getAllInfoForAdminPage = async (req, res) => {
+    try {
+        const brands = await Brand.find({});
+        const categories = await Category.find({})
+        let brandNames = [];
+        let categoryNames = [];
+
+        brands.forEach(brand => {
+            brandNames.push(brand.name);
+        });
+
+        categories.forEach(category => {
+            categoryNames.push(category.name)
+        })
+        res.json({ brands: brandNames, categories: categoryNames });
+    } catch (err) {
+        res.status(404).json({ error: err.message });
+    }
+}
 
 const deleteAllFromCatalog = (model, modelName) => {
     return async (req, res) => {
@@ -158,7 +190,35 @@ const deleteItemById = (model, modelName) => {
     }
 };
 
+const postItemCatalogImage = (model) => {
+    return async (req, res) => {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: 'Неккоректный id!'});
+        }
+
+        const item = await model.findById(id);
+
+        if (!item) {
+            return res.status(404).json({ error: 'Запись не найдена!' });
+        }
+
+        try {
+            const buffer = await sharp(req.file.buffer).png().toBuffer();
+            console.log(buffer)
+            item.avatar = buffer;
+            await item.save();
+            //res.json({ message: 'Аватар добавлен' });
+            res.json({item}) 
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    }
+}
+
 module.exports = {
     addInCatalog, addCategoryInCatalog, getFromCatalog, deleteAllFromCatalog, searchItemsFromCatalog, 
-    searchItemById, updateItemFromCatalogById, deleteItemById
+    searchItemById, updateItemFromCatalogById, deleteItemById, postItemCatalogImage, getAllInfoForHomePage,
+    getAllInfoForAdminPage
 }
