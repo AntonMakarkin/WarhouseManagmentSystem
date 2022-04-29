@@ -46,7 +46,7 @@ const dataReducer = (state = initialState, action) => {
         case DELETE:
             return { ...state, items: state.items.filter(item => item._id !== action.payload)}
         case ERROR:
-            return { ...state, isError: true, errorMessage: action.payload }
+            return { ...state, isLoading: false, isError: true, errorMessage: action.payload }
         default:
             return state
     }

@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
-import { Avatar, Container, Box, Typography, Button } from '@material-ui/core';
+import { Avatar, Container, Box, Typography, Button, TextField } from '@material-ui/core';
 
 import Context from '../../../Context/context';
 
@@ -34,6 +34,7 @@ const DetailsPage = ({ header, collectionName }) => {
     const fileErrorMessage = 'Ошибка! Проверьте формат и вес';
 
     let avatar = `data:image/jpg;base64,${personalData?.avatar}`;
+
     avatar = avatar.replace(/^(javascript\:)/,"");
 
     const months = ['Янв','Февр','Март','Апр','Май','Июнь','Июль','Авг','Сент','Окт','Нояб','Дек'];
@@ -139,6 +140,50 @@ const DetailsPage = ({ header, collectionName }) => {
                     <Typography>{personalData.name}</Typography>
                 </Box>
                 <Box className={classes.detailsBlock}>
+                    <Typography className={classes.detailsDescription}>Добавлен:</Typography>
+                    <Typography>{createdTime}</Typography>
+                </Box>
+                <Box className={classes.detailsBlock} style={{ marginBottom: '30px' }}>
+                    <Typography className={classes.detailsDescription}>Изменен:</Typography>
+                    <Typography>{updatedTime}</Typography>
+                </Box>
+            </>
+        )
+    }
+
+    if (collectionName === 'goods') {
+        showInfoBlock = (
+            <>
+                <Box className={classes.detailsBlock} style={{ marginBottom: '15px' }}>
+                    <Typography className={classes.detailsDescription}>Название:</Typography>
+                    <Typography>{personalData.name}</Typography>
+                </Box>
+                <Box className={classes.detailsBlock} style={{ marginBottom: '15px' }}>
+                    <Typography className={classes.detailsDescription}>Бренд:</Typography>
+                    <Typography>{personalData.brand}</Typography>
+                </Box>
+                <Box className={classes.detailsBlock} style={{ marginBottom: '15px' }}>
+                    <Typography className={classes.detailsDescription}>Категория:</Typography>
+                    <Typography>{personalData.category}</Typography>
+                </Box>
+                <Box className={classes.detailsBlock} style={{ marginBottom: '15px' }}>
+                    <Typography className={classes.detailsDescription}>Описание:</Typography>
+                    <TextField variant='outlined'
+                               readOnly={true}
+                               fullWidth
+                               multiline
+                               rows={4}
+                               value={personalData.description}/>
+                </Box>
+                <Box className={classes.detailsBlock} style={{ marginBottom: '15px' }}>
+                    <Typography className={classes.detailsDescription}>Кол-во на складе:</Typography>
+                    <Typography>{personalData.quantity}</Typography>
+                </Box>
+                <Box className={classes.detailsBlock} style={{ marginBottom: '15px' }}>
+                    <Typography className={classes.detailsDescription}>Цена:</Typography>
+                    <Typography>{personalData.price}₽</Typography>
+                </Box>
+                <Box className={classes.detailsBlock} style={{ marginBottom: '15px' }}>
                     <Typography className={classes.detailsDescription}>Добавлен:</Typography>
                     <Typography>{createdTime}</Typography>
                 </Box>

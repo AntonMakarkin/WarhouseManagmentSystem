@@ -7,6 +7,7 @@ export const getItemById = (collection, id) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
         const { data } = await API.fetchUserById(collection, id);
+        console.log(data)
 
         dispatch({ type: FETCH_BY_ID, payload: data });
         dispatch({ type: END_LOADING });
@@ -25,6 +26,7 @@ export const getInfoForAddingGoods = () => async (dispatch) => {
         dispatch({ type: END_LOADING })
     } catch (err) {
         console.log(err);
+        dispatch({ type: ERROR, payload: 'Ошибка. Попробуйте обновить страницу или зайдите позже'})
     }
 }
 
@@ -66,6 +68,7 @@ export const createItem = (post, history, collection) => async (dispatch) => {
         dispatch({ type: END_LOADING });
     } catch (err) {
         console.log(err.message);
+        dispatch({ type: ERROR, payload: 'Ошибка. Попробуйте еще раз и проверьте соединение'})
     }
 }
 

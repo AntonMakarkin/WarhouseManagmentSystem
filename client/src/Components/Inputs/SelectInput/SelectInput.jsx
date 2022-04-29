@@ -5,7 +5,7 @@ import Context from '../../../Context/context';
 
 import useStyles from './styles';
 
-const SelectInput = ({ name, handleChange, label, autoFocus, value }) => {
+const SelectInput = ({ name, handleChange, label, autoFocus, value, items }) => {
     const classes = useStyles();
     const { darkMode } = useContext(Context);
     let labelclass;
@@ -35,9 +35,9 @@ const SelectInput = ({ name, handleChange, label, autoFocus, value }) => {
                     label={label}
                     onChange={handleChange}
                     className={select}>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                        {items.map((item, i) => (
+                            <MenuItem key={i} value={item}>{item}</MenuItem>
+                        ))}
                 </Select>
             </FormControl>
         </Grid>

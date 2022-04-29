@@ -1,13 +1,16 @@
 import { useState, useContext, useEffect } from 'react';
 import { Container, Typography, TextField, Button, Grid, Box, InputLabel,
          FormControl, Select } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import decode from 'jwt-decode';
 
 import Input from '../../AuthPage/Input';
 import MultilineInput from '../../Inputs/MultilineInput/MultilineInput';
 import SelectInput from '../../Inputs/SelectInput/SelectInput';
+
+import Loader from '../../Loader/Loader';
+import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 
 import { refresh } from '../../../Actions/user';
 import { getInfoForAddingGoods } from '../../../Actions/controllers';
@@ -20,6 +23,7 @@ const initialState = { email: '', password: '' };
 
 const AddPage = ({ header, createAction, collectionName }) => {
     const { darkMode } = useContext(Context);
+    const { isLoading, isError, brandsForAddingGoods, categoriesForAddingGoods } = useSelector(state => state.data);
     const [postData, setPostData] = useState({ name: '', email: '', phone: '', password: ''});
     const [categoryData, setCategoryData] = useState({ name: '', link: ''});
     const [brandData, setBrandData] = useState({ name: '' })
@@ -29,8 +33,6 @@ const AddPage = ({ header, createAction, collectionName }) => {
     const classes = useStyles();
     const history = useHistory();
     let form
-
-    console.log(goodsData);
 
     useEffect(() => {
         if (collectionName === 'goods') {
@@ -119,8 +121,8 @@ const AddPage = ({ header, createAction, collectionName }) => {
         form = (
             <form onSubmit={goodsHandleSubmit}>
                 <Grid container spacing={3} style={{ marginBottom: '10px' }}>
-                    <SelectInput value={goodsData.brand || ''} label="Бренд" className={classes.addPageInput} handleChange={(e) => setGoodsData({ ...goodsData, brand: e.target.value })}/>
-                    <SelectInput value={goodsData.category || ''} label="Категория" className={classes.addPageInput} handleChange={(e) => setGoodsData({ ...goodsData, category: e.target.value })}/>
+                    <SelectInput value={goodsData.brand || ''} label="Бренд" items={brandsForAddingGoods} className={classes.addPageInput} handleChange={(e) => setGoodsData({ ...goodsData, brand: e.target.value })}/>
+                    <SelectInput value={goodsData.category || ''} label="Категория" items={categoriesForAddingGoods} className={classes.addPageInput} handleChange={(e) => setGoodsData({ ...goodsData, category: e.target.value })}/>
                     <Input name="name" type="text" value={goodsData.name || ''} className={classes.addPageInput} label="Название" handleChange={(e) => setGoodsData({ ...goodsData, name: e.target.value })}/>
                     <MultilineInput name="description" value={goodsData.description || ''} label="Описание" handleChange={(e) => setGoodsData({ ...goodsData, description: e.target.value })}/>
                     <Input name="quantity" type="number" value={goodsData.quantity || ''} className={classes.addPageInput} label="Количество" handleChange={(e) => setGoodsData({ ...goodsData, quantity: Number(e.target.value)})}/>
@@ -142,6 +144,17 @@ const AddPage = ({ header, createAction, collectionName }) => {
             if (decodedToken.exp * 1000 < new Date().getTime()) refreshToken();
         }
     })*/
+    if (isLoading) {
+        return (
+            <Loader/>
+        )
+    }
+
+    if (isError) {
+        return (
+            <ErrorMessage/>
+        )
+    }
 
         return (
             <Container className={classes.addPageContainer}>

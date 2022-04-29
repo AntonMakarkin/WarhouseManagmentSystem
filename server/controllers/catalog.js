@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Category = require('../models/catalog/categories');
+const Goods = require('../models/catalog/goods');
 const Brand = require('../models/catalog/brands');
 const sharp = require('sharp')
 
@@ -59,8 +60,9 @@ const getFromCatalog = (model, modelName) => {
 const getAllInfoForHomePage = async (req, res) => {
     try {
         const categories = await Category.find({});
+        const goods = await Goods.find().sort({ _id: -1 }).limit(8);
 
-        res.json({ categories });
+        res.json({ categories, goods });
     } catch (err) {
         res.status(404).json({ error: err.message });
     }
@@ -205,7 +207,7 @@ const postItemCatalogImage = (model) => {
         }
 
         try {
-            const buffer = await sharp(req.file.buffer).png().toBuffer();
+            const buffer = await sharp(req.file.buffer).webp().toBuffer();
             console.log(buffer)
             item.avatar = buffer;
             await item.save();

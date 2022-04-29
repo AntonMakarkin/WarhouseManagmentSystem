@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 
 const goodsSchema = new Schema({
     name: { type: String, required: true },
-    img: { type: Buffer },
+    avatar: { type: Buffer },
     brand: { type: String, required: true },
     description: { type: String, required: true },
     specification: { type: Array },
@@ -12,6 +12,13 @@ const goodsSchema = new Schema({
 }, {
     timestamps: true
 });
+
+goodsSchema.methods.toJSON = function () {
+    const item = this;
+    const itemObject = item.toObject();
+
+    return itemObject
+}
 
 const Goods = model('Goods', goodsSchema);
 

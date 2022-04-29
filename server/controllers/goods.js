@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const Goods = require('../models/catalog/goods');
+const sharp = require('sharp')
 
 const addInGoods = () => {
     return async (req, res) => {
-        const { title, img, brand, description, specification, category, price } = req.body;
-        const item = new Goods({ title, img, brand, description, specification, category, price });
+        const { name, brand, description, category, quantity, price } = req.body;
+        const item = new Goods({ name, brand, description, category, quantity, price });
 
         try {
             await item.save();
@@ -75,7 +76,7 @@ const getGoodsById = () => {
                 throw new Error(`Товар с данным id отсутствует!`);
             }
 
-            res.json(item);
+            res.json({ item });
         } catch (err) {
             res.status(404).json({ error: err.message });
         }
@@ -137,6 +138,33 @@ const deleteGoodsById = () => {
     }
 }
 
+const postGoodsImage = () => {
+    return async (req, res) => {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ error: 'Неккоректный id!'});
+        }
+    
+        const goodsItem = await Goods.findById(id);
+    
+        if (!goodsItem) {
+            return res.status(404).json({ error: 'Товар не найден!' });
+        }
+    
+        try {
+            const buffer = await sharp(req.file.buffer).webp().toBuffer();
+            goodsItem.avatar = buffer;
+            await goodsItem.save();
+            //res.json({ message: 'Аватар добавлен' });
+            res.json({ item: goodsItem }) 
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
+    }
+}
+
 module.exports = {
-    addInGoods, getGoods, getGoodsById, updateGoodsById, deleteGoodsById
+    addInGoods, getGoods, getGoodsById, updateGoodsById, deleteGoodsById,
+    postGoodsImage
 }

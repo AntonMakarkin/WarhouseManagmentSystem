@@ -1,13 +1,9 @@
 const { Schema, model } = require('mongoose');
 
 const orderSchema = new Schema({
-    userId: { type: String, required: true },
-    goods: [
-        {
-            goodsId: { type: String, required: true },
-            quantity: { type: Number, defailt: 1 }
-        }
-    ],
+    userId: { type: String },
+
+    goods: { type: Array, required: true },
     amount: { type: Number, required: true },
     address: { type: Object, required: true },
     status: { type: String, default: 'В обработке' } 
