@@ -12,6 +12,7 @@ const categoryRoute = require('./routes/categories');
 const goodsRoute = require('./routes/catalog/goods');
 const tokensRoute = require('./routes/tokens');
 const infoRoute = require('./routes/getInfo');
+const orderRoute = require('./routes/cartAndOrders/orders');
 const dotenv = require('dotenv');
 
 const app = express();
@@ -22,7 +23,7 @@ app.use(express.urlencoded({ limit: '30mb', extended: true }));
 app.use(cookieParser());
 app.use(cors({
     credentials: true,
-    origin: ['http://localhost:3000', 'http://localhost:3002']
+    origin: ['http://localhost:3000', 'http://localhost:3002', 'http://localhost:3003']
 }));
 
 app.use(adminRoute);
@@ -35,6 +36,7 @@ app.use(brandRoute);
 app.use(categoryRoute);
 app.use(goodsRoute);
 app.use(infoRoute);
+app.use(orderRoute);
 
 
 app.get('/', (req, res) => {
