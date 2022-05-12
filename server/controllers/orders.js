@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Order = require('../models/ordersAndInfo/order');
 const Goods = require('../models/catalog/goods');
+const Courier = require('../models/users/courier');
 
 const addOrder = () => {
     return async (req, res) => {
@@ -81,6 +82,30 @@ const getOrderById = () => {
     }
 };
 
+const getOrderByIdForStoreKeepeer = () => {
+    return async (req, res) => {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).send({ error: 'Неккоректный id'});
+        }
+
+        try {
+            let item = await Order.findById(id);
+    
+            if (!item) {
+                throw new Error('Заказ с данным id не найден!');
+            }
+
+            const couriers = await Courier.find({}, '-password -email -avatar -role -field')
+
+            res.json({ item, couriers });
+        } catch (err) {
+            res.status(404).json({ error: err.message });
+        }
+    }
+}
+
 const updateOrderById = () => {
     return async (req, res) => {
         const { id } = req.params;
@@ -113,20 +138,6 @@ const updateOrderById = () => {
                 goodFromStorage.quantity = remainGoodsOnStorage
                 await goodFromStorage.save();
             }
-            
-            /*item = item.toObject();
-
-            for (const good of item.goods) {
-                let goodFromStorage = await Goods.findById(good._id);
-                console.log(goodFromStorage)
-                goodFromStorage.toObject();
-                let goodFromStorageQuantity = goodFromStorage.quantity;
-                let remainQuantity = goodFromStorageQuantity - good.quantity
-                await Goods.findByIdAndUpdate(good._id, { quantity: remainQuantity });
-                //goodItem.quantity = goodItem.quantity - good.quantity;
-               //await goodItem.save();
-               //console.log(goodQuantity);
-            }*/
 
             res.json(item);
         } catch (err) {
@@ -137,5 +148,5 @@ const updateOrderById = () => {
 }
 
 module.exports = {
-    addOrder, getOrders, getOrderById, updateOrderById
+    addOrder, getOrders, getOrderById, getOrderByIdForStoreKeepeer, updateOrderById
 }

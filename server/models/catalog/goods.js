@@ -8,6 +8,7 @@ const goodsSchema = new Schema({
     specification: { type: Array },
     category: { type: String, required: true },
     quantity: { type: Number, default: 1 },
+    quantityOnStorage: { type: Number, default: 1 },
     price: { type: Number, required: true }
 }, {
     timestamps: true

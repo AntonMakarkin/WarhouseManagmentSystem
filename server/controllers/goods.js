@@ -5,7 +5,8 @@ const sharp = require('sharp')
 const addInGoods = () => {
     return async (req, res) => {
         const { name, brand, description, category, quantity, price } = req.body;
-        const item = new Goods({ name, brand, description, category, quantity, price });
+        const item = new Goods({ name, brand, description, category, quantity,
+              quantityOnStorage: quantity, price });
 
         try {
             await item.save();

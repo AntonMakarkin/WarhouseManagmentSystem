@@ -17,25 +17,25 @@ tokenStoreKeeperSchema.statics.generateTokens = async function (payload) {
 };
 
 tokenStoreKeeperSchema.statics.saveRefreshToken = async function (userId, refreshToken) {
-    const tokenData = await tokenAdmin.findOne({ user: userId });
+    const tokenData = await tokenStoreKeeper.findOne({ user: userId });
 
     if (tokenData) {
         tokenData.refreshToken = refreshToken;
         return tokenData.save();
     }
 
-    const token = await tokenAdmin.create({ user: userId, refreshToken });
+    const token = await tokenStoreKeeper.create({ user: userId, refreshToken });
 
     return token;
 };
 
 tokenStoreKeeperSchema.statics.removeRefreshToken = async function (refreshToken) {
-    const tokenData = await tokenAdmin.deleteOne({ refreshToken });
+    const tokenData = await tokenStoreKeeper.deleteOne({ refreshToken });
     return tokenData;
 };
 
 tokenStoreKeeperSchema.statics.findRefreshToken = async function (refreshToken) {
-    const tokenData = await tokenAdmin.findOne({ refreshToken });
+    const tokenData = await tokenStoreKeeper.findOne({ refreshToken });
     return tokenData;
 };
 

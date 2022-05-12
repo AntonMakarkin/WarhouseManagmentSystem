@@ -157,6 +157,17 @@ const getListOfUsers = (model) => {
     }
 };
 
+const getListOfNameUsers = (model) => {
+    return async (req, res) => {
+        try {
+            const users = await model.find({}, '-password -email -avatar -role -field');
+            res.json({ items: users });
+        } catch (err) {
+            res.status(404).json({ error: err.message });
+        }
+    }
+}
+
 const getUserById = (model) => {
     return async (req, res) => {
         const { id } = req.params;
@@ -344,6 +355,6 @@ const deleteAvatarById = (model) => {
 
 module.exports = {
     createUser, createCustomer, login, logout, getAccountInfo, searchAccount, updateAccountInfo, deleteAccountAvatar,
-    getListOfUsers, getUserById, getCustomerStats, updateUserById, deleteUserById, postAvatar, postAvatarById,
+    getListOfUsers, getListOfNameUsers, getUserById, getCustomerStats, updateUserById, deleteUserById, postAvatar, postAvatarById,
     deleteAvatar, deleteAvatarById 
 };

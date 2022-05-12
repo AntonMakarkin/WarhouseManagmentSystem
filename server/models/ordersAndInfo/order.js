@@ -27,7 +27,8 @@ const orderSchema = new Schema({
     goods: { type: Array, required: true },
     total: { type: Number, required: true },
     address: { type: Object, required: true },
-    status: { type: String, default: 'В_обработке' } 
+    status: { type: String, default: 'В_обработке' },
+    courier: { type: Object } 
 }, {
     timestamps: true
 });

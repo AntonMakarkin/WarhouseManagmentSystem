@@ -144,11 +144,11 @@ const AddPage = ({ header, createAction, collectionName }) => {
             if (decodedToken.exp * 1000 < new Date().getTime()) refreshToken();
         }
     })*/
-    if (isLoading) {
+    /*if (isLoading) {
         return (
             <Loader/>
         )
-    }
+    }*/
 
     if (isError) {
         return (
