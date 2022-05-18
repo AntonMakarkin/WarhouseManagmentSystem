@@ -39,6 +39,6 @@ tokenCourierSchema.statics.findRefreshToken = async function (refreshToken) {
     return tokenData;
 }
 
-const tokenCourier = model('TokenCourier', tokenCourierSchema);
+const tokenCourier = model('tokenCourier', tokenCourierSchema);
 
 module.exports = tokenCourier;

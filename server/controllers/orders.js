@@ -51,6 +51,44 @@ const getOrders = () => {
     }
 }
 
+const getOrdersByCourier = (orderStatus) => {
+    return async (req, res) => {
+        const { page } = req.query
+
+        try {
+            const LIMIT = 10;
+            const startIndex = (Number(page) - 1) * LIMIT; // get the starting index of every page
+
+            let id = req.user._id;
+            let convertedId = id.toString()
+            let hello = 'hello'
+            console.log(typeof convertedId)
+            console.log(convertedId)
+            const total = await Order.countDocuments({});
+            const orders = await Order.find({ status: orderStatus, "courier._id": convertedId }).sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
+
+            if (!orders) {
+                throw new Error(`Информация о заказах отсутcтвует!`)
+            }
+
+            let items = orders.map(item => {
+                let itemObject = item.toObject();
+
+                delete itemObject.goods
+                delete itemObject.phone
+                delete itemObject.address
+                delete itemObject.email
+
+                return itemObject
+            })
+
+            res.json({ items, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
+        } catch (err) {
+            res.status(404).json({ error: err.message });
+        }
+    }
+}
+
 const getOrderById = () => {
     return async (req, res) => {
         const { id } = req.params;
@@ -106,9 +144,10 @@ const getOrderByIdForStoreKeepeer = () => {
     }
 }
 
-const updateOrderById = () => {
+const updateOrderById = (personal) => {
     return async (req, res) => {
         const { id } = req.params;
+        console.log(id)
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ error: 'Неккоректный id!'});
@@ -121,7 +160,7 @@ const updateOrderById = () => {
         }
 
         const updates = Object.keys(req.body); //return array of properties
-        const allowedUpdates = ['goods', 'status', 'name', 'email', 'phone', 'total', 'address'];
+        const allowedUpdates = ['goods', 'status', 'name', 'email', 'phone', 'total', 'address', 'courier'];
         const isValidOperation = updates.every(update => allowedUpdates.includes(update));
 
         if (!isValidOperation) {
@@ -132,11 +171,22 @@ const updateOrderById = () => {
             updates.forEach((update) => item[update] = req.body[update]); //updating the item
             await item.save();
 
-            for (const good of item.goods) {
-                let goodFromStorage = await Goods.findById(good._id)
-                let remainGoodsOnStorage = goodFromStorage.quantity - good.quantity
-                goodFromStorage.quantity = remainGoodsOnStorage
-                await goodFromStorage.save();
+            if (personal === 'manager') {
+                for (const good of item.goods) {
+                    let goodFromStorage = await Goods.findById(good._id)
+                    let remainGoodsOnStorage = goodFromStorage.quantity - good.quantity
+                    goodFromStorage.quantity = remainGoodsOnStorage
+                    await goodFromStorage.save();
+                }
+            }
+
+            if (personal === 'storekeeper') {
+                for (const good of item.goods) {
+                    let goodFromStorage = await Goods.findById(good._id)
+                    let remainGoodsOnStorage = goodFromStorage.quantityOnStorage - good.quantity
+                    goodFromStorage.quantityOnStorage = remainGoodsOnStorage
+                    await goodFromStorage.save();
+                }
             }
 
             res.json(item);
@@ -148,5 +198,5 @@ const updateOrderById = () => {
 }
 
 module.exports = {
-    addOrder, getOrders, getOrderById, getOrderByIdForStoreKeepeer, updateOrderById
+    addOrder, getOrders, getOrdersByCourier, getOrderById, getOrderByIdForStoreKeepeer, updateOrderById
 }
