@@ -51,9 +51,9 @@ const getOrders = () => {
     }
 }
 
-const getOrdersByCourier = (orderStatus) => {
+const getOrdersByCourier = () => {
     return async (req, res) => {
-        const { page } = req.query
+        const { page, orderStatus } = req.query
 
         try {
             const LIMIT = 10;
@@ -61,9 +61,6 @@ const getOrdersByCourier = (orderStatus) => {
 
             let id = req.user._id;
             let convertedId = id.toString()
-            let hello = 'hello'
-            console.log(typeof convertedId)
-            console.log(convertedId)
             const total = await Order.countDocuments({});
             const orders = await Order.find({ status: orderStatus, "courier._id": convertedId }).sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
 
@@ -144,6 +141,31 @@ const getOrderByIdForStoreKeepeer = () => {
     }
 }
 
+const getOrderByIdForCourier = () => {
+    return async (req, res) => {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).send({ error: 'Неккоректный id'});
+        }
+
+        let courierId = req.user._id;
+        let convertedCourierId = courierId.toString();
+
+        try {
+            let item = await Order.find({ _id: id, "courier._id": convertedCourierId }, '-courier')
+
+            if (!item) {
+                throw new Error('Заказ с данным id не найден!');
+            }
+
+            res.json(item[0]);
+        } catch (err) {
+            res.status(404).json({ error: err.message });
+        }
+    }
+}
+
 const updateOrderById = (personal) => {
     return async (req, res) => {
         const { id } = req.params;
@@ -198,5 +220,6 @@ const updateOrderById = (personal) => {
 }
 
 module.exports = {
-    addOrder, getOrders, getOrdersByCourier, getOrderById, getOrderByIdForStoreKeepeer, updateOrderById
+    addOrder, getOrders, getOrdersByCourier, getOrderById, getOrderByIdForStoreKeepeer, 
+    getOrderByIdForCourier, updateOrderById
 }
